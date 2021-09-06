@@ -1,0 +1,267 @@
+﻿<form action="#" id="create-form" class="form-horizontal" novalidate="novalidate">
+    <input class="form-control" type="hidden" name="RoleId" value="137" /> 
+    <div class="form-body">
+        <div class="form-group">
+            <div class="float-left" style="width: 45%">
+                <div class="col-md-12">
+                    <div class="form-group">
+                        <label class="control-label col-md-4">
+                            <span class="required" aria-required="true">* </span>账号 
+                        </label>
+                        <div class="col-md-8">
+                            <input type="text" name="Account" data-required="1" class="form-control">
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-12">
+                    <div class="form-group">
+                        <label class="control-label col-md-4">
+                            姓名
+                        </label>
+                        <div class="col-md-8">
+                            <input type="text" name="RealName" data-required="1" class="form-control">
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-12">
+                    <div class="form-group">
+                        <label class="control-label col-md-4">
+                            <span class="required" aria-required="true">* </span>密码
+                        </label>
+                        <div class="col-md-8">
+                            <input type="password" name="PassWord" data-required="1" class="form-control">
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-12">
+                    <div class="form-group">
+                        <label class="control-label col-md-4">
+                            <span class="required" aria-required="true">* </span>确认密码
+                        </label>
+                        <div class="col-md-8">
+                            <input type="password" name="PassWord2" data-required="1" class="form-control">
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-12">
+                    <div class="form-group">
+                        <label class="control-label col-md-4">
+                            <span class="required" aria-required="true">* </span>状态 
+                        </label>
+                        <div class="col-md-8">
+                            <select name="Status" class="form-control">
+                                <option value="NotActivate">未激活</option>
+                                <option value="Normal" selected="selected">正常</option>
+                                <option value="Stop">停用</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-12">
+                    <div class="form-group">
+                        <label class="control-label col-md-4">
+                            手机号码 <span class="required" aria-required="true">
+                                 </span>
+                        </label>
+                        <div class="col-md-8">
+                            <input type="text" name="Telephone" data-required="1" class="form-control">
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-12">
+                    <div class="form-group">
+                        <label class="control-label col-md-4">
+                            身份证号 <span class="required" aria-required="true">
+                                 </span>
+                        </label>
+                        <div class="col-md-8">
+                            <input type="text" name="IDNumber" data-required="1" class="form-control">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="float-left" style="width: 45%">
+                <div class="float-left" style="margin-left: 170px;">
+                    <div class="portlet light profile-sidebar-portlet" style="padding-top: 0 !important;">
+                        <div class="text-align-center">
+                            <img src="/Areas/Adm/Images/head.jpg"  style="width:180px;height:180px;" class="img-responsive" alt="" id="imgPicture">
+                        </div>
+                        <div class="profile-userbuttons">
+                            <input type="hidden" name="Photo" class="form-control" value="">
+                            <button type="button" class="btn btn-circle green-haze btn-sm" id="btnPicture"><i class="fa fa-image"></i>上传头像</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div style="width: 90%">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label class="control-label col-md-4">
+                            年龄 <span class="required" aria-required="true">
+                                 </span>
+                        </label>
+                        <div class="col-md-8">
+                            <input type="text" name="Age" data-required="1" class="form-control">
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label class="control-label col-md-4">
+                            所在城市 <span class="required" aria-required="true">
+                                 </span>
+                        </label>
+                        <div class="col-md-4">
+                            <select class="form-control" id="create_Province" name="Province"></select>
+                        </div>
+                        <div class="col-md-4">
+                            <select class="form-control" id="create_City" name="City"></select>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label class="control-label col-md-4">
+                            性别 <span class="required" aria-required="true">
+                               </span>
+                        </label>
+                        <div class="col-md-8">
+                            <div class="icheck-inline">
+                                <label>
+                                    <input type="radio" name="Sex" class="icheck form-control" value="男"> 男
+                                </label>
+                                <label>
+                                    <input type="radio" name="Sex" class="icheck form-control" value="女"> 女
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label class="control-label col-md-4">
+                            班级 <span class="required" aria-required="true">
+                                 </span>
+                        </label>
+                        <div class="col-md-8">
+                            <input type="text" name="ClassIds" data-required="1" class="form-control">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>
+
+<script>
+    //初始化
+    $(function () {
+        Metronic.init();
+
+        //初始化插件
+        $("#create-form .icheck").iCheck({
+            checkboxClass: 'icheckbox_minimal-grey',
+            radioClass: 'iradio_minimal-grey'
+        });
+        $(document).area("create_Province", "create_City");//初始化省市联动 
+        $("#create-form select").select2();
+        $("#create-form input[name='ClassIds']").select2({
+            placeholder: "-请选择-",
+            allowClear: true,
+            formatSelection: function (item) { return item.Name; },
+            formatResult: function (item) { return item.Name; },
+            closeOnSelect: true,
+            multiple: true,
+            ajax: {
+                url: getUrl("Class", "Pager"),
+                dataType: "json",
+                type: 'post',
+                data: function (term, page) {
+                    return {
+                        PageSize: 999,
+                        SortBy: "Id",
+                        SortOrder: "asc"
+                    };
+                },
+                results: function (data, page) {
+                    var items = data.Rows;
+                    var more = (page * 30) < data.TotalRecords;
+                    $(items).each(function (i, item) {
+                        item.id = item.Id.toString();
+                        item.Name = item.Name;
+                    });
+                    if (page == 1) {
+                        items.unshift({ id: "", Name: "-请选择-" });
+                    }
+                    return { results: items, more: more };
+                }
+            }
+        });
+        var editor = KindEditor.editor({
+            uploadJson: '/Areas/Base/Scripts/kindeditor-4.1.10/asp.net/upload_json.ashx',
+            fileManagerJson: '/Areas/Base/Scripts/kindeditor-4.1.10/asp.net/file_manager_json.ashx',
+            allowFileManager: true
+        });
+        KindEditor('#btnPicture').click(function () {
+            editor.loadPlugin('image', function () {
+                editor.plugin.imageDialog({
+                    imageUrl: KindEditor('input[name="Photo"]').val(),
+                    clickFn: function (url, title, width, height, border, align) {
+                        KindEditor('input[name="Photo"]').val(url);
+                        editor.hideDialog();
+                        $("#imgPicture").attr("src", url);
+                        $("input[name='Photo']").val(url);
+                    }
+                });
+            });
+        });
+
+        //表单验证
+        $('#create-form').formValidation({
+            verbose: false,
+            fields: {
+                "Account": {
+                    validators: {
+                        notEmpty: {
+                            message: '账户不能为空.'
+                        },
+                        stringLength: {
+                            min: 5,
+                            max: 20,
+                            message: '账户应该在5-20个字符之间.'
+                        },
+                        regexp: {
+                            regexp: /^[a-zA-Z0-9_\.]+$/,
+                            message: '用户名只能由字母、数字、点和下划线组成.'
+                        },
+                        remote: {
+                            type: 'Post',
+                            url: getUrl("User", "ValidName"),
+                            message: '账号重复，请更换',
+                            data: function (d) { return { name: $("input[name='Account']").val(), siteId: appInfo.site.Id } },
+                            delay: 700
+                        }
+                    }
+                },
+                "PassWord": {
+                    validators: {
+                        notEmpty: {
+                            message: '密码不能为空.'
+                        }
+                    }
+                },
+                "PassWord2": {
+                    validators: {
+                        notEmpty: {
+                            message: '请再次输入密码.'
+                        },
+                        identical: {
+                            field: 'PassWord',
+                            message: '前后密码输入不一致.'
+                        }
+                    }
+                }
+            }
+        });
+    });
+</script>

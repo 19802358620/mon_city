@@ -1,0 +1,161 @@
+﻿<div class="main">
+    <div class="container">
+        <div class="row margin-bottom-40">
+            <div class="col-md-12 col-sm-12">
+                <div class="content-page">
+                    <div class="col-md-4 col-sm-4" id="projectTreeBox">
+                        <div class="loading" style="line-height: 300px;height: 300px;text-align:center">
+                            <img src="/Areas/Adm/Images/loading_5.gif" />
+                        </div>
+                        <ul class="list-unstyled projectTree" style="display: none; margin-top: 10px;">
+                        </ul>
+                    </div>
+                    <div class="col-md-8 col-sm-8">
+                        <ul class="nav nav-tabs" id="projectSubjectTabBox" style="margin-top: 10px;"></ul>
+                        <div class="portlet-body" id="projectSubjectConBox">
+                            <div class="tab-pane fade" id="tab-1">
+                                <div class="col-md-6 col-sm-6" id="projectDetailBox" style="margin-top: 10px;">
+                                    <div class="loading" style="line-height: 300px;height: 300px;text-align:center;display: none">
+                                        <img src="/Areas/Adm/Images/loading_5.gif" />
+                                    </div>
+                                    <form id="create-form" class="form-horizontal" novalidate="novalidate">
+                                        <input type="hidden" class="form-control" name="Id">
+                                        <input type="hidden" class="form-control" name="DetectionId">
+                                        <input type="hidden" class="form-control" name="UserId">
+                                        <div class="form-body">
+                                            <div class="form-group">
+                                                <div class="col-md-12">
+                                                    <div class="form-group">
+                                                        <label class="control-label col-md-5">
+                                                            <span class="required" aria-required="true">* </span> 查看答案设置
+                                                        </label>
+                                                        <div class="col-md-7">
+                                                            <select name="ViewAnswerMode" class="form-control">
+                                                                <option value="NotAllowed">不允许查看</option>
+                                                                <option value="Tested" selected="selected">考完后查看</option>
+                                                            </select>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="form-actions">
+                                            <div class="row">
+                                                <div class="col-md-offset-5 col-md-7">
+                                                    <button type="button" class="btn blue" onclick="btnSave()">
+                                                        <i class="fa fa-save"></i>
+                                                        保存
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div> 
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+@section head_style{
+    <link href="/Areas/Base/Scripts/Metronicv/assets/global/plugins/select2/select2.css" rel="stylesheet" />
+    <link href="/Areas/Base/Scripts/Metronicv/assets/global/css/plugins.css" rel="stylesheet" type="text/css">
+    <link href="/Areas/Base/Scripts/Metronicv/assets/global/plugins/icheck/skins/all.css" rel="stylesheet" />
+    <link href="/Areas/Base/Scripts/kindeditor-4.1.10/themes/default/default.css" rel="stylesheet" />
+    <link href="/Areas/Base/Content/plugin.extend.css" rel="stylesheet" />
+}
+@section body_js{
+    <script src="/Areas/Base/Scripts/Metronicv/assets/global/plugins/select2/select2.js"></script>
+    <script src="/Areas/Base/Scripts/Metronicv/assets/global/plugins/select2/select2_locale_zh-CN.js"></script>
+    <script src="/Areas/Base/Scripts/Metronicv/assets/global/plugins/icheck/icheck.min.js"></script>
+    <script src="/Areas/Base/Scripts/formvalidation/dist/js/formValidation.js"></script>
+    <script src="/Areas/Base/Scripts/formvalidation/dist/js/framework/bootstrap.js"></script>
+    <script src="/Areas/Base/Scripts/formvalidation/dist/js/language/zh_CN.js"></script>
+    <script src="/Areas/Base/Scripts/kindeditor-4.1.10/kindeditor.js"></script>
+    <script src="/Areas/Base/Scripts/kindeditor-4.1.10/lang/zh_CN.js"></script>
+    <script src="/Areas/Base/Scripts/customer/plugin.extend.js"></script>
+    <script>
+        //初始化
+        $(function () {
+            frontLayout({
+                title: "思考练习设置",
+                menuName: "ProjectGuidanceSetting"
+            });
+
+            //插件
+            $("#create-form select").select2();
+
+            //项目列表
+            loadProjectTree({
+                box: "#projectTreeBox",
+                mode: 3,
+                selectNode: function (nodeData) {
+                    if (nodeData.Type != "task") {
+                        return;
+                    }
+
+                    //加载树
+                    $.ajax({
+                        type: "POST",
+                        dataType: "json",
+                        url: getUrl("Detection", "Tree", { area: "Adm", projectId: nodeData.id }),
+                        beforeSend: function () {
+                        },
+                        success: function (data) {
+                            //初始化tab
+                            $("#projectSubjectTabBox").html("");
+                            $(data).each(function(i, node) {
+                                $("#projectSubjectTabBox").append('<li><a href="#tab-1" detectionId="{id}" data-toggle="tab">{text}</a></li>'.format(node));
+                            });
+
+                            //tab切换
+                            $('#projectSubjectTabBox a[data-toggle="tab"]').on('shown.bs.tab', function (e) {
+                                var detectionId = $(e.target).attr("detectionId");
+                                $("#projectSubjectTabBox").attr("detectionId", detectionId);
+                                $(window).trigger("resize");
+
+                                $.ajax({
+                                    type: "POST",
+                                    dataType: "json",
+                                    url: getUrl("DetectionSetting", "Detail", { area: "Adm", detectionId: detectionId, userId:appInfo.loginUser.Id  }),
+                                    beforeSend: function () {
+                                        $("#projectDetailBox .loading").show();
+                                        $("#projectDetailBox form").hide();
+                                        $("#create-form [name='ViewAnswerMode']").select2("val", "Tested");
+                                        $("#create-form [name='DetectionId']").val(detectionId);
+                                        $("#create-form [name='UserId']").val(appInfo.loginUser.Id );
+                                    },
+                                    success: function (data) {
+                                        $("#projectDetailBox .loading").hide();
+                                        $("#projectDetailBox form").show();
+                                        if (data) {
+                                            $("#create-form *").bindData(data);
+                                        }
+                                    }
+                                });
+                            }); 
+                            $("#projectSubjectTabBox li a:first").tab('show');
+                        }
+                    });
+
+                }
+            });
+        });
+
+        //保存
+        function btnSave() {
+            var model = $("#create-form").serialize();
+            $.ajax({
+                type: "post",
+                dataType: "json",
+                data: model,
+                url: getUrl("DetectionSetting", "Create", { area: "Adm" }),
+                success: function (data) {
+                    $dialogShow(data);
+                }
+            });
+        }
+    </script>
+}

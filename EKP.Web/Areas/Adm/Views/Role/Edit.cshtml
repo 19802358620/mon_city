@@ -1,0 +1,73 @@
+﻿<form action="#" id="edit-form" class="form-horizontal" novalidate="novalidate">
+    <input type="text" class="form-control hide" name="edit.Id">
+    <input type="text" class="form-control hide" name="edit.Grade">
+    <div class="form-body">
+        <div class="col-md-12">
+            <div class="form-group">
+                <label class="col-md-2 control-label"><span class="required"> * </span>角色名</label>
+                <div class="col-md-10">
+                    <input type="text" class="form-control" name="edit.Name">
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-12">
+            <div class="form-group">
+                <label class="col-md-2 control-label">描述</label>
+                <div class="col-md-10">
+                    <textarea class="form-control" name="edit.Description" rows="3"></textarea>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>
+
+<script>
+    //初始化
+    $(function () {
+        //初始化插件
+        $("#edit-form input[name='SiteId']").select2({
+            placeholder: "-请选择-",
+            allowClear: true,
+            formatSelection: function (item) { return item.Name; },
+            formatResult: function (item) { return item.Name; },
+            ajax: {
+                url: getUrl("Site", "Pager"),
+                dataType: "json",
+                type: 'post',
+                data: function (term, page) {
+                    return {
+                        Page: page, PageSize: 30, sortBy: 'Name', sortOrder: 'asc', Name: term,
+                        SiteId: appInfo.site.Id
+                    };
+                },
+                results: function (data, page) {
+                    var items = data.Rows;
+                    var more = (page * 30) < data.TotalRecords;
+                    $(items).each(function (i, item) {
+                        item.id = item.Id.toString();
+                        item.Name = item.Name;
+                    });
+                    if (page == 1) {
+                        items.unshift({ id: "", Name: "-请选择-" });
+                    }
+                    return { results: items, more: more };
+                }
+            }
+        });
+
+        //表单验证
+        $('#edit-form').formValidation({
+            verbose: false,
+            fields: {
+                "edit.Name": {
+                    validators: {
+                        notEmpty: {
+                            message: '角色名不能为空.'
+                        }
+                    }
+                }
+            }
+        });
+    });
+</script>

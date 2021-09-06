@@ -1,0 +1,161 @@
+﻿﻿@{ Layout = null; }
+<link href="~/Areas/Base/Scripts/bootstrap/datetimepicker/css/bootstrap-datetimepicker.css" rel="stylesheet" />
+<link href="~/Areas/Base/Scripts/bootstrap/datetimepicker/css/bootstrap-datetimepicker.min.css" rel="stylesheet" />
+<script src="~/Areas/Base/Scripts/bootstrap/datetimepicker/js/bootstrap-datetimepicker.js"></script>
+<script src="~/Areas/Base/Scripts/bootstrap/datetimepicker/js/bootstrap-datetimepicker.min.js"></script>
+<script src="~/Areas/Base/Scripts/bootstrap/datetimepicker/js/locales/bootstrap-datetimepicker.zh-CN.js"></script>
+<style>
+    .form-control {
+        /*height:20px;*/
+    }
+
+</style>
+<form id="edit-form" class="form-horizontal" novalidate="novalidate">
+    <input type="text" class="form-control hide" name="Id">
+    <div class="form-body">
+        <div class="form-group">
+            <div class="float-left" style="width: 45%">
+                <div class="col-md-12">
+                    <div class="form-group">
+                        <label class="control-label col-md-4">
+                            <span class="required" aria-required="true">* </span>资源名称
+                        </label>
+                        <div class="col-md-8">
+                            <input type="text" name="edit.Name" class="form-control">
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-12">
+                    <div class="form-group">
+                        <label class="control-label col-md-4">
+                            <span class="required" aria-required="true"> </span>链接
+                        </label>
+                        <div class="col-md-8">
+                            <input id="MyURL" type="text" name="edit.MyURL" class="form-control">
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-12">
+                    <div class="form-group">
+                        <label class="control-label col-md-4">
+                            <span class="required" aria-required="true"></span>链接名称
+                        </label>
+                        <div class="col-md-8">
+                            <input type="text" name="edit.MyURLName" class="form-control">
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+            <div class="float-left" style="width: 45%">
+                <div class="col-md-12">
+                    <div class="form-group">
+                        <label class="control-label col-md-4">
+                            <span class="required" aria-required="true">* </span>资源类型
+                        </label>
+                        <div class="col-md-8">
+                            <select name="edit.Type" class="form-control">
+                                <option value="课件">课件</option>
+                                <option value="教学大纲" selected="selected">教学大纲</option>
+                                <option value="讲义">讲义</option>
+                                <option value="其他">其他</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-12">
+                    <div class="form-group">
+                        <label class="control-label col-md-4">
+                            <span class="required" aria-required="true"></span>附件
+                        </label>
+                        <div class="col-md-8">
+                            <input id="Attachment" type="text" name="edit.Attachment" data-required="1" class="form-control">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-12">
+                    <div class="form-group">
+                        <label class="control-label col-md-4">
+                            <span class="required" aria-required="true"></span>附件名称
+                        </label>
+                        <div class="col-md-8">
+                            <input type="text" name="edit.AttachmentName" class="form-control">
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="float-left" style="width: 90%">
+
+                <div class="col-md-12">
+                    <div class="form-group">
+                        <label class="col-md-2 control-label">描述</label>
+                        <div class="col-md-10">
+                            <textarea class="form-control" name="edit.Description" rows="3"></textarea>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+
+</form>
+
+<script>
+    //初始化
+    $(function () {
+        //初始化插件
+        KeHelper.create('.kindeditor');
+
+        //初始化插件
+
+        //表单验证
+        $('#edit-form').formValidation({
+            verbose: false,
+            fields: {
+                "Edit.Name": {
+                    validators: {
+                        notEmpty: {
+                            message: '资源名称不能为空.'
+                        }
+                    }
+                }
+            }
+        });
+    });
+
+    var editor = KindEditor.editor({
+        uploadJson: '/Areas/Base/Scripts/kindeditor-4.1.10/asp.net/upload_json.ashx',
+        fileManagerJson: '/Areas/Base/Scripts/kindeditor-4.1.10/asp.net/file_manager_json.ashx',
+        allowFileManager: true
+    });
+
+    KindEditor('#Attachment').click(function () {
+        editor.loadPlugin('insertfile', function () {
+            editor.plugin.fileDialog({
+                fileUrl: KindEditor('input[name="edit.Attachment"]').val(),
+                clickFn: function (url, title) {
+                    KindEditor('input[name="edit.Attachment"]').val(url);
+                    KindEditor('input[name="edit.AttachmentName"]').val(title);
+                    $("input[name='edit.Attachment']").val(url);
+                    $("input[name='edit.AttachmentName]'").val(title);
+                    $.ajax({
+                        type: "POST",
+                        url: "/Resource/Edit",
+                        data: { url: url, title: title },
+                        success: function (data) {
+                            editor.hideDialog();
+                            $("input[name='edit.AttachmentName]'").val(title);
+                            //$("#grid").datagrid('reload');
+                        }
+                    });
+                }
+            });
+        });
+    });
+
+</script>
+

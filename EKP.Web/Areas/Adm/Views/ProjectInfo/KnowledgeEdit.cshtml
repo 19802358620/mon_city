@@ -1,0 +1,41 @@
+﻿<form action="#" id="editKnowledge-form" class="form-horizontal">
+    <input type="hidden" class="form-control" name="Id"/>
+    <input type="hidden" class="form-control" name="Type" value="Picture"/>
+    <input type="hidden" class="form-control" name="ProjectId"/>
+    <div class="form-body">
+        <div class="col-md-12">
+            <div class="form-group">
+                <label class="col-md-2 control-label">图片名称</label>
+                <div class="col-md-10" style="margin-bottom:10px;">
+                    <div class="input-group">
+                        <input type="text" name="Name" class="form-control" style="width:464px;" />
+                    </div>
+                </div>
+                <br />
+                <label class="col-md-2 control-label">图片</label>
+                <div class="col-md-10 keImage pictureBox">
+                    <img class="bg-img" style="max-width: 600px; margin-bottom: 5px; width: 250px; height: 250px;" />
+                    <div class="input-group">
+                        <div class="">
+                            <input type="text" name="Picture" class="form-control" readonly="readonly">
+                        </div>
+                        <span class="input-group-btn">
+                            <button type="button" class="btn blue"><i class="fa fa-photo"></i> 浏览</button>
+                        </span>
+                    </div>
+                    <div class="text-align-left">
+                        <label class="help-block">推荐尺寸：250 * 250</label>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>
+
+<script>
+    //初始化
+    $(function () {
+        //初始化插件
+        KeHelper.createImage('.keImage');
+    });
+</script>

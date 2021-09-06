@@ -1,0 +1,164 @@
+﻿<div class="main">
+    <div class="container">
+        <div class="row margin-bottom-40">
+            <div class="col-md-12 col-sm-12">
+                <div class="content-page">
+                    <div class="row">
+                        <div class="col-md-12 col-sm-12" id="knowledgeBox">
+                            <div class="loading" style="line-height: 300px;height: 300px;text-align:center;display: none">
+                                <img src="/Areas/Adm/Images/loading_5.gif" />
+                            </div>
+                            <div class="content-page">
+                                <div class="row mix-grid">
+                                    <div class="col-md-3 mix hide" d-id="{Id}" style="display: none">
+                                        <div class="mix-inner" title="{Name}">
+                                            <div class="img-box">
+                                                <div class="con">{Name}</div>
+                                            </div>
+                                            <div class="label">
+                                                <div class="label-text">
+                                                    <a class="btn btn-sm" target="_blank" onclick="goStudent(this, '{Id}')">
+                                                        <i class="fa fa-link"></i> 进入班级
+                                                    </a>
+                                                </div>
+                                                <div class="label-bg"></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+@section head_style{
+    <style>
+    .mix .img-box {
+        text-align: center;
+        overflow: hidden;
+    }
+
+    .mix .mix-inner {
+        border: 3px solid #F2F2F2;
+    }
+
+    .mix.active .mix-inner {
+        border: 3px solid #0da3e2;
+    }
+
+    .mix.used .img-box:after {
+        content: "正在使用";
+        position: absolute;
+        top: 0;
+        left: 0;
+        display: block;
+        padding: 3px 7px;
+        color: #373c42;
+        border: 0px solid #DDDDDD;
+        font-weight: 900;
+        border: 1px solid #e2c0c0;
+        background: #DDDDDD;
+    }
+
+    .mix .con {
+        height: 210px;
+        line-height: 210px;
+        position: relative;
+        background: #e9f9ff;
+    }
+
+    .mix .label {
+        position: absolute;
+        width: 100%;
+        height: 40px;
+        bottom: -43px;
+    }
+
+    .mix .label-bg {
+        background: #0da3e2;
+        width: 100%;
+        height: 100%;
+        position: absolute;
+        top: 0;
+        left: 0;
+    }
+
+    .mix .label-text {
+        color: #fff;
+        position: relative;
+        z-index: 500;
+        padding: 5px 8px;
+    }
+
+    .mix .label-text a {
+        color: #fff;
+    }
+</style>
+}
+@section body_js{
+    <script src="/Areas/Base/Scripts/Metronicv/assets/global/plugins/jquery-mixitup/jquery.mixitup.min.js"></script>
+    <script>
+        var menuName = "Student";
+
+        //初始化
+        $(function () {
+            frontLayout({
+                title: "学生管理",
+                menuName: menuName
+            });
+
+            //班级列表
+            $.ajax({
+                type: "POST",
+                dataType: "json",
+                url: getUrl("Class", "TeacherClassPager", { area: "Adm" }),
+                data: { Page: 1, PageSize: 9999, SortBy: "CreateTime", SortOrder: "asc", UserId: appInfo.loginUser.Id },
+                beforeSend: function () {
+                    $("#knowledgeBox .loading").show();
+                    $("#knowledgeBox .content-page").hide();
+                },
+                success: function (data) {
+                    $("#knowledgeBox .loading").hide();
+                    $("#knowledgeBox .content-page").show();
+
+                    $("#knowledgeBox .mix").not(":first").remove();
+                    $(data.Rows).each(function (i, row) {
+                        var mix = $($("#knowledgeBox .mix:first").prop("outerHTML").format(row));
+                        $("#knowledgeBox .mix-grid").append($(mix).removeClass("hide").show());
+                    });
+
+                    //插件
+                    $("#knowledgeBox .mix-grid").mixitup({
+                        targetSelector: '.mix',
+                        effects: ['fade'],
+                        easing: 'snap',
+                        onMixEnd: (function () {
+                            $('#knowledgeBox .mix').hover(
+                                function () {
+                                    $(this).find('.label').stop().animate({ bottom: 0 }, 200, 'easeOutQuad');
+                                    $(this).find('img').stop().animate({ top: -30 }, 500, 'easeOutQuad');
+                                },
+                                function () {
+                                    $(this).find('.label').stop().animate({ bottom: -43 }, 200, 'easeInQuad');
+                                    $(this).find('img').stop().animate({ top: 0 }, 300, 'easeOutQuad');
+                                }
+                            );
+                            $('#knowledgeBox .mix img').click(function () {
+                                $(opts.box).find('.mix').removeClass("active");
+                                $(this).closest(".mix").addClass("active");
+                            });
+                        })()
+                    });
+                }
+            });
+        });
+
+        //进入班级
+        function goStudent(btn, classId) {
+            $(btn).attr("href", getUrl('Home', 'Student', { ClassId: classId, menuName: menuName }));
+        }
+    </script>
+}

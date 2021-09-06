@@ -1,0 +1,249 @@
+﻿<div class="edit-class">
+    <div class="ex-right" style="width: 870px;">
+        <form id="subject-create-form">
+            <input type="hidden" name="DetectionId" />
+            <h2 id="subjectTypeBox">
+                题型：
+                <a class="current" href="javascript:;" type="single">单选题</a>
+                <a href="javascript:;" type="multi">多选题</a>
+                <a href="javascript:;" type="bit">判断题</a>
+                <a href="javascript:;" type="fill">填空题</a>
+                <a href="javascript:;" type="shortAnswer">简答题</a>
+            </h2>
+            <div class="ex-detail">
+                <ul>
+                    <li class="ex-question"><i>*</i>题目：</li>
+                    <li><textarea name="Name" class="kindeditor"></textarea></li>
+                </ul>
+                <ul id="selectFormBox" style="display:none">
+                    <li class="ex-question">选项：</li>
+                    <li>
+                        <div id="Options_box"></div>
+                        <input type="hidden" name="Options" />
+                    </li>
+                    <li class="clearfix hide"></li>
+                    <li class="ex-question hide">选项列数：</li>
+                    <li class="hide">
+                        <select name="OptionsColumns">
+                            <option value="1" selected="selected">1列</option>
+                            <option value="2">2列</option>
+                            <option value="4">4列</option>
+                        </select>
+                    </li>
+                </ul>
+                <ul id="answerSingle" style="display:none">
+                    <li class="ex-question">答案：</li>
+                    <li class="answerBox"></li>
+                </ul>
+                <ul id="answerMulti" style="display:none">
+                    <li class="ex-question">答案：</li>
+                    <li class="answerBox"></li>
+                </ul>
+                <ul id="answerBit" style="display:none">
+                    <li class="ex-question">答案：</li>
+                    <li>
+                        <label><input type="radio" name="Answer" value="1" /><span>正确</span></label>
+                        &nbsp;&nbsp;
+                        <label><input type="radio" name="Answer" value="0" /><span>错误</span></label>
+                    </li>
+                </ul>
+                <ul id="answerFill" style="display:none">
+                    <li class="ex-question">答案：</li>
+                    <li><textarea name="Answer" class="width700 height100"></textarea></li>
+                </ul>
+                <ul id="answerShortAnswer" style="display:none">
+                    <li class="ex-question">答案：</li>
+                    <li><textarea name="Answer" class="kindeditor"></textarea></li>
+                </ul>
+                <ul>
+                    <li class="ex-question">解析：</li>
+                    <li><textarea name="Analysis" class="kindeditor"></textarea></li>
+                </ul>
+            </div>
+        </form>
+    </div>
+</div>
+<style>
+    .select2-container {
+        margin-top: -40px;
+    }
+</style>
+<script>
+    var currentType = "";
+    $('.select2-container').css({"margin-top": "-40px"});
+    $('.tree').css({ "margin-top": "-5px", "margin-left": "-4px" });
+
+    //初始化
+    $(function () {
+        //题型切换
+        $("#subjectTypeBox a").click(function () {
+            var link = $(this);
+            $("#subjectTypeBox a").removeClass("current");
+            $(link).addClass("current");
+
+            currentType = $(link).attr("type");
+            showSubjectHtml(currentType);
+        });
+        $("#subjectTypeBox a:first").trigger("click");
+
+        //添加第一个选项
+        addColumn();
+
+        //插件
+        KindEditor.basePath = '/Areas/Base/Scripts/kindeditor-4.1.10/';
+        KindEditor.create('.kindeditor', {
+            minWidth: 200,
+            width: '700',
+            height: '150',
+            cssPath: '/Areas/Base/Scripts/kindeditor-4.1.10/plugins/code/prettify.css',
+            uploadJson: '/Areas/Base/Scripts/kindeditor-4.1.10/asp.net/upload_json.ashx',
+            fileManagerJson: '/Areas/Base/Scripts/kindeditor-4.1.10/asp.net/file_manager_json.ashx',
+            allowFileManager: true,
+            resizeType: 1,
+            pasteType: 1,
+            items: [
+                'source', '|', 'undo', 'redo', '|', 'preview', 'print', 'template', 'code', 'cut', 'copy', 'paste',
+                'plainpaste', 'wordpaste', '|', 'justifyleft', 'justifycenter', 'justifyright',
+                'justifyfull', 'insertorderedlist', 'insertunorderedlist', 'indent', 'outdent', 'subscript',
+                'superscript', 'clearhtml', 'quickformat', 'selectall', '|', 'fullscreen', '/',
+                'formatblock', 'fontname', 'fontsize', '|', 'forecolor', 'hilitecolor', 'bold',
+                'italic', 'underline', 'strikethrough', 'lineheight', 'removeformat', '|', 'image', 'multiimage',
+                'flash', 'media', 'insertfile', 'table', 'hr', 'emoticons', 'baidumap', 'pagebreak',
+                'anchor', 'link', 'unlink', '|', 'sbinput'
+            ]
+        });
+        $("#subject-create-form *[name='MajorFieldId']").select2({
+            placeholder: "-请选择-",
+            allowClear: true,
+            formatSelection: function (item) {
+                if (item.Sign == "teacher") {
+                    $(".tearch-info").removeClass("hidden");
+                } else {
+                    $(".tearch-info").addClass("hidden");
+                }
+                return item.Name;
+            },
+            formatResult: function (item) { return item.Name; },
+            ajax: {
+                url: getUrl("/Manager/DictValue/Pager"),
+                dataType: "json",
+                type: 'post',
+                data: function (term, page) {
+                    return {
+                        Page: page, PageSize: 30, sortBy: 'Id', sortOrder: 'asc', Key: "MajorField", IsLeaf: "1", Value: term
+                    };
+                },
+                results: function (data, page) {
+                    var items = data.Rows;
+                    var more = (page * 30) < data.TotalRecords;
+                    $(items).each(function (i, item) {
+                        item.id = item.Id.toString();
+                        item.Name = item.Value;
+                    });
+                    if (page == 1) {
+                        items.unshift({ id: "", Name: "-请选择-" });
+                    }
+                    return { results: items, more: more };
+                }
+            }
+        });
+        $("#subject-create-form *[name='KeyTechnologyIds']").select2({
+            placeholder: "-可选择多个关键技术-",
+            tags: true,
+            allowClear: true,
+            formatSelection: function (item) {
+                if (item.Sign == "teacher") {
+                    $(".tearch-info").removeClass("hidden");
+                } else {
+                    $(".tearch-info").addClass("hidden");
+                }
+                return item.Name;
+            },
+            formatResult: function (item) { return item.Name; },
+            ajax: {
+                url: getUrl("/Manager/DictValue/Pager"),
+                dataType: "json",
+                type: 'post',
+                data: function (term, page) {
+                    return {
+                        Page: page, PageSize: 30, sortBy: 'Id', sortOrder: 'asc', Key: "KeyTechnology", Value: term
+                    };
+                },
+                results: function (data, page) {
+                    var items = data.Rows;
+                    var more = (page * 30) < data.TotalRecords;
+                    $(items).each(function (i, item) {
+                        item.id = item.Id.toString();
+                        item.Name = item.Value;
+                    });
+                    return { results: items, more: more };
+                }
+            }
+        });
+    });
+
+    //保存
+    function saveSubjectCreate(callBack) {
+        if (!$('#subject-create-form').formValidation("validate").data("formValidation").isValid()) return;
+
+        //同步Kindeditor内容
+        for (var i in KindEditor.instances) {
+            if (KindEditor.instances.hasOwnProperty(i)) {
+                KindEditor.instances[i].sync();
+            }
+        }
+
+        var model = {};
+        model.DetectionId = $("#subject-create-form *[name='DetectionId']").val();
+        model.Name = $("#subject-create-form *[name='Name']").val();
+        model.Analysis = $("#subject-create-form *[name='Analysis']").val();
+        model.Type = currentType;
+        if (currentType == "single") {
+            model.Answer = $("#answerSingle *[name='Answer']:checked").val();
+            model.Options = [];
+            $("#Options_box .Options_box_item").each(function (i, item) {
+                model.Options.push($(item).find(".option_value").html());
+            });
+            model.Options = JSON.stringify(model.Options);
+            model.OptionsColumns = $("#selectFormBox *[name='OptionsColumns']").val();
+        }
+        else if (currentType == "multi") {
+            model.Answer = "";
+            model.Options = [];
+            $("#Options_box .Options_box_item").each(function (i, item) {
+                model.Options.push($(item).find(".option_value").html());
+            });
+            model.Options = JSON.stringify(model.Options);
+            model.OptionsColumns = $("#selectFormBox *[name='OptionsColumns']").val();
+            $("#answerMulti *[name='Answer']:checked").each(function (i, answer) {
+                model.Answer += $(answer).val()
+            });
+        }
+        else if (currentType == "bit") {
+            model.Answer = $("#answerBit *[name='Answer']:checked").val();
+        }
+        else if (currentType == "fill") {
+            model.Answer = $("#answerFill *[name='Answer']").val();
+        }
+        else if (currentType == "shortAnswer") {
+            model.Answer = $("#answerShortAnswer *[name='Answer']").val();
+        }
+
+        $.ajax({
+            type: "post",
+            dataType: "json",
+            data: model,
+            url: getUrl("Subject", "Create", { area: "Adm" }),
+            success: function(data) {
+                $dialogShow(data);
+                if (data.Type == "Success") {
+                    setTimeout(function() {
+                        if (callBack) {
+                            callBack(data);
+                        }
+                    }, 500);
+                }
+            }
+        });
+    }
+</script>

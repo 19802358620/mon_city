@@ -1,0 +1,190 @@
+﻿/*************左侧菜单***************/
+.cst-nav {
+    width:200px;
+    height: 600px;
+    overflow:auto;
+    z-index: 10;
+    position:fixed;
+    float:left;
+}
+.cst-nav .panel-body{
+    padding:0px;
+}
+.cst-nav .panel-group {
+    margin-bottom:0;
+}
+.cst-nav ul.lt{
+    list-style:none;
+    padding:0;
+    margin:0;
+}
+.cst-nav-tab{
+    width:20px;
+    float:left;
+    position:fixed;
+}
+.cst-nav-tab .tbtn{
+    width:20px;
+    background:#E0E0E0;
+    margin-bottom:5px;
+    padding-top:5px;
+    padding-bottom:5px;
+    text-align:center;
+    font-size:12px;
+    border-left:3px solid #D02090;
+    cursor:pointer;
+    color:#D02090;
+}
+.cst-nav-tab .tbtn:hover, .cst-nav-tab .tbtn-active{
+    background:#EE82EE;
+    color:white;
+}
+.cst-nav-body{
+    margin-left:20px;
+}
+.lt_tooldrag div{
+    padding-left:10px;
+    height:100%;
+    overflow-y:auto;
+    cursor:pointer;
+    padding-top:3px;
+    padding-bottom:3px;
+}
+.lt_tooldrag div:hover{
+    background:#EEE9E9;
+}
+.lt_tooldrag img{
+    width:30px;
+    height:30px;
+    border:1px solid #EEE9E9;
+    display:block;
+    float:left;
+}
+.lt_tooldrag span{
+    height:30px;
+    line-height:30px;
+    display:block;
+    padding-left:10px;
+    float:left;
+}
+
+.cst-accordion .panel-default{
+    border-left:0;
+    border-right:0;
+}
+.cst-accordion .panel-heading{
+    padding-top:5px;
+    padding-bottom:5px;
+    border:0px;
+}
+.cst-accordion .panel-default{
+    margin-top:0 !important;
+}
+ul.cstl_form{
+    list-style:none;
+    margin:0;
+    padding:0;
+    padding-left:5px;
+    padding-right:5px;
+    padding-top:5px;
+}
+ul.cstl_form .toptab{
+    font-size:12px;
+    padding-bottom:2px;
+    font-weight:900;
+    position:relative;
+    left:-5px;
+}
+ul.cstl_form .pn{
+    font-size:12px;
+    padding-bottom:2px;
+    color:#CD3278;
+    font-weight:900;
+}
+ul.cstl_form .pv{
+    margin-bottom:5px;
+}
+ul.cstl_form .pv .input{
+    outline:none;
+    height:20px;
+    line-height:20px;
+    width:100%;
+}
+ul.cstl_form .split{
+    margin-top:10px;
+    margin-bottom:10px;
+    border-top:1px dotted #CDB5CD;
+}
+
+/*************右侧内容***************/
+.page-body{
+    position:relative;
+    width:100%;
+    height:600px !important;
+}
+.cst{
+    position: absolute;
+    height: 600px;
+    width:100%;
+}
+.cst-body {
+    position:relative;
+    height: 100%;
+    padding: 0 !important;
+    margin-bottom: 0 !important;
+    margin-left: 200px;
+    overflow:auto;
+}
+.cst-body .control, .cst-body .control-will{
+    border: 1px solid white;
+    padding-top:10px;
+    padding-bottom:10px;
+    margin-bottom:15px;
+    margin-left:0;
+    margin-right:0;
+    position:relative;
+}
+.cst-body .control-btn{
+    text-decoration : none;
+    margin-right:5px;
+}
+.cst-body .control-toolbar{
+    top:0;
+    right:0;
+    position:absolute;
+    display:none;
+}
+.cst-body .control-toolbar a{
+    font-size:12px;
+}
+.cst-body .control-will{
+    border:1px dashed #DA70D6;
+}
+.cst-body .edit-hover, .cst-body .edit-active{
+    border: 1px solid #EE7AE9 !important;
+    cursor:pointer;
+}
+.drap-waiting{
+    border: 1px dashed #DA70D6 !important;
+}
+.cst-body .ui-sortable-placeholder{
+    visibility:visible !important;
+    border:1px dashed #EE7AE9 !important;
+}
+.form-horizontal .control-label{
+    width:130px;
+    float:left;
+    padding-right:15px; 
+}
+
+/*************插件组***************/
+.control-container{
+    border: 1px solid white;
+    height:1000px;
+}
+.control-form{
+    min-height:203px;
+}
+.control-column{
+    border-bottom:1px solid #eee !important;
+}

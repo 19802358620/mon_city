@@ -1,0 +1,119 @@
+﻿<div class="portlet light">
+    <div class="portlet-body">
+        <div class="row">
+            <div class="btn-group col-md-12 ">
+                <ul class="nav nav-pills col-md-8 no-margin-bottom" id="site-grid-toolbar">
+                    <li>
+                        <button class="btn blue" onclick="open_create_site()">
+                            <i class="fa fa-plus"></i>
+                            新增
+                        </button>
+                    </li>
+                    <li>
+                        <button class="btn blue toolbar-data" disabled="disabled" onclick="open_edit_site()">
+                            <i class="fa fa-pencil"></i>
+                            编辑
+                        </button>
+                    </li>
+                    <li>
+                        <button class="btn blue toolbar-datas" disabled="disabled" onclick="delete_site()">
+                            <i class="fa fa-trash"></i>
+                            删除
+                        </button>
+                    </li>
+                </ul>
+            </div>
+            <div class="col-md-12">
+                <div class="table-scrollable col-md-12">
+                    <table id="site-grid"></table>
+                    <table id="site-gridPager"></table>
+                </div>
+            </div>
+        </div>
+        <div class="clearfix"></div>
+    </div>
+</div>
+@section body_js{
+<script>
+        var menuName = "Adm.Site.Pager";
+
+        //初始化
+        $(function () {
+            Metronic.init();
+            Layout.init();
+            admLayout({ menuName: menuName });
+
+            //列表
+            $("#site-grid").jqGrid({
+                url: getUrl("site", "Pager"),
+                pager: "#site-gridPager",
+                toolbar: "#site-grid-toolbar",
+                postData: { ParentId: appInfo.site.Id },
+                sortname: "CreateTime",
+                sortorder: "asc",
+                colModel: [
+                    { name: 'Id', label: 'Id', key: true, hidden: true },
+                    {
+                        name: 'Name',
+                        label: '站点名',
+                        formatter: function (value, i, row) {
+                            row.href = getUrl("Home", "Index", { siteDomain: row.Domain });
+                            return "<a target=\"_blank\" href='{href}'>{Name}</a>".format(row);
+                        }
+                    },
+                    { name: 'Domain', label: '二级目录' },
+                    { name: 'TypeShowValue', index:"T_DictValue.ShowValue", label: '站点类型' },
+                    { name: 'CreateTime', label: '创建时间', formatter: 'date', formatoptions: { newformat: 'Y-m-d' } }
+                ],
+                onSelectRow: function (rowId) {
+                    $("#site-grid").jqGrid('getGridParam', 'updateToolbar')(this);
+                },
+                onSelectAll: function () {
+                    $("#site-grid").jqGrid('getGridParam', 'updateToolbar')(this);
+                },
+                loadComplete: function () {
+                    $("#site-grid").jqGrid('getGridParam', 'updateToolbar')(this);
+                    $("#site-grid").jqGrid('getGridParam', 'loadCompleteExt')(this);
+                }
+            });
+        });
+
+        //打开添加页面
+        function open_create_site() {
+            window.location.href = getUrl("Site", "Create", { menu: menuName, returnUrl: $getPath() });
+        }
+
+        //打开编辑页面
+        function open_edit_site() {
+            var id = $("#site-grid").jqGrid('getGridParam', 'selrow');
+            window.location.href = getUrl("Site", "Edit", { menu: menuName, returnUrl: $getPath(), id: id });
+        }
+
+        //删除
+        function delete_site() {
+            $dialogShow({
+                Type: "confirm",
+                Title: "删除",
+                Content: "确定要删除所选条目吗？",
+                SureFn: function (modal) {
+                    $(modal).on('hidden.bs.modal', function () {
+                        var ids = $("#site-grid").jqGrid('getGridParam', 'selarrrow');
+                        $.ajax({
+                            async: true,
+                            type: "post",
+                            dataType: "json",
+                            data: { ids: ids },
+                            url: getUrl("Site", "Delete"),
+                            success: function (data) {
+                                $dialogShow(data);
+                                if (data.Type == "Success") {
+                                    $("#site-grid").trigger('reloadGrid');
+                                }
+                            }
+                        });
+                    }).modal("hide");
+                }
+            });
+        }
+</script>
+}

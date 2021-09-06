@@ -1,0 +1,304 @@
+﻿
+<link href="~/Areas/Base/Scripts/bootstrap/datetimepicker/css/bootstrap-datetimepicker.css" rel="stylesheet" />
+<link href="~/Areas/Base/Scripts/bootstrap/datetimepicker/css/bootstrap-datetimepicker.min.css" rel="stylesheet" />
+<script src="~/Areas/Base/Scripts/bootstrap/datetimepicker/js/bootstrap-datetimepicker.js"></script>
+<script src="~/Areas/Base/Scripts/bootstrap/datetimepicker/js/bootstrap-datetimepicker.min.js"></script>
+<script src="~/Areas/Base/Scripts/bootstrap/datetimepicker/js/locales/bootstrap-datetimepicker.zh-CN.js"></script>
+﻿
+﻿@{ Layout = null; }
+
+<form action="#" id="edit-form" class="form-horizontal" novalidate="novalidate">
+    <input class="form-control" type="hidden" name="RoleId" value="138" />
+    <div class="form-body">
+        <div class="form-group">
+            <div class="float-left" style="width: 45%">
+
+                <input type="text" class="form-control hide" name="Id">
+
+
+                <div class="col-md-12">
+                    <div class="form-group">
+                        <label class="control-label col-md-4">
+                            <span class="required" aria-required="true">* </span>作业名称
+                        </label>
+                        <div class="col-md-8">
+                            <input type="text" name="edit.Name" data-required="1" class="form-control">
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-12">
+                    <div class="form-group" style="margin-bottom:5px;margin-top:0px;">
+                        <label class="control-label col-md-4">
+                            <span class="required" aria-required="true">* </span>开始时间
+                        </label>
+                        <div class="input-group date form_datetime col-md-8" data-date-format="dd MM yyyy - HH:ii p" data-link-field="dtp_input1" style="margin-left:25px; width:249px;padding-left: 15px;">
+                            <input id="StartDateTime" name="edit.StartDateTime" class="form-control" size="16" type="text" value="" data-ng-options="formatter : function(data, row, index) {return data.replace('T',' ')}">
+                            <span class="input-group-addon"><span class="glyphicon glyphicon-th"></span></span>
+                        </div>
+                        <input type="hidden" id="dtp_input1" value="" /><br />
+                    </div>
+                </div>
+
+                <div class="col-md-12">
+                    <div class="form-group" style="margin-bottom:5px;margin-top:0px;">
+                        <label class="control-label col-md-4">
+                            <span class="required" aria-required="true">* </span>结束时间
+                        </label>
+                        <div class="input-group date form_datetime col-md-8" data-date-format="dd MM yyyy - HH:ii p" data-link-field="dtp_input1" style="margin-left:25px; width:249px;padding-left: 15px;">
+                            <input name="edit.EndDateTime" class="form-control" size="16" type="text" value="" data-ng-options="formatter : function(data, row, index) {return data.replace('T',' ')}">
+                            <span class="input-group-addon"><span class="glyphicon glyphicon-th"></span></span>
+                        </div>
+                        <input type="hidden" id="dtp_input1" value="" /><br />
+                    </div>
+                </div>
+                <div class="col-md-12">
+                    <div class="form-group">
+                        <label class="control-label col-md-4">
+                            <span class="required" aria-required="true">* </span>状态
+                        </label>
+                        <div class="col-md-8">
+                            <select name="Status" class="form-control">
+                                <option value="未发布">未发布</option>
+                                <option value="已发布" selected="selected">已发布</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-12">
+                    <div class="form-group">
+                        <label class="control-label col-md-4">
+                            <span class="required" aria-required="true">* </span>分数等级
+                        </label>
+                        <div class="col-md-8">
+                            <select name="ScoreDegree" class="form-control">
+                                <option value="百分制" selected="selected">百分制</option>
+                                <option value="五级制">五级制</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="float-left" style="width: 45%">
+
+                <div class="col-md-12">
+                    <div class="form-group">
+                        <label class="control-label col-md-4">
+                            <span class="required" aria-required="true"></span>链接
+                        </label>
+                        <div class="col-md-8">
+                            <input type="text" name="Link" data-required="1" class="form-control">
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-12">
+                    <div class="form-group">
+                        <label class="control-label col-md-4">
+                            链接说明
+                        </label>
+                        <div class="col-md-8">
+                            <input type="text" name="LinkName" data-required="1" class="form-control">
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-12">
+                    <div class="form-group">
+                        <label class="control-label col-md-4">
+                            <span class="required" aria-required="true"></span>要求附件
+                        </label>
+                        <div class="col-md-8">
+                            <input id="AttachmentID" type="text" name="Attachment" class="form-control">
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-12">
+                    <div class="form-group">
+                        <label class="control-label col-md-4">
+                            <span class="required" aria-required="true"> </span>要求附件名称
+                        </label>
+                        <div class="col-md-8">
+                            <input type="text" name="AttachmentName" class="form-control">
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-12" style="display:none;">
+                    <div class="form-group">
+                        <label class="control-label col-md-4">
+                            发往班级 <span class="required" aria-required="true">
+                            </span>
+                        </label>
+                        <div class="col-md-8">
+                            <input type="text" name="ClassId" data-required="1" class="form-control" readonly>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="float-left" style="width: 90%">
+
+                <div class="form-group">
+                    <label class="control-label col-md-2">
+                        <span class="required" aria-required="true"></span>要求
+                    </label>
+                    <div class="col-md-10">
+                        <input class="kindeditor form-control" name="edit.Request" style="height:100px;width:200px;" />
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+</form>
+
+<script>
+    //初始化
+    $(function () {
+        //初始化插件
+        KeHelper.create('.kindeditor');
+
+        $("#edit-form input[name='ClassId']").select2({
+            placeholder: "-请选择-",
+            allowClear: true,
+            formatSelection: function (item) { return item.Name; },
+            formatResult: function (item) { return item.Name; },
+            closeOnSelect: true,
+            multiple: true,
+            ajax: {
+                url: getUrl("Class", "Pager", { area: "Adm" }),
+                dataType: "json",
+                type: 'post',
+                data: function (term, page) {
+                    return {
+                        PageSize: 999,
+                        SortBy: "Id",
+                        SortOrder: "asc"
+                    };
+                },
+                results: function (data, page) {
+                    var items = data.Rows;
+                    var more = (page * 30) < data.TotalRecords;
+                    $(items).each(function (i, item) {
+                        item.id = item.Id.toString();
+                        item.Name = item.Name;
+                    });
+                    if (page == 1) {
+                        items.unshift({ id: "", Name: "-请选择-" });
+                    }
+                    return { results: items, more: more };
+                }
+            }
+        });
+
+
+
+        $("#edit-form input[name='UserId']").select2({
+            placeholder: "-请选择-",
+            allowClear: true,
+            formatSelection: function (item) { return item.Name; },
+            formatResult: function (item) { return item.Name; },
+            ajax: {
+                url: getUrl("User", "TeacherPager"),
+                postData: { RoleId: 137 },
+                dataType: "json",
+                type: 'post',
+                data: function (term, page) {
+                    return {
+                        PageSize: 999,
+                        SortBy: "Id",
+                        SortOrder: "asc"
+                    };
+                },
+                results: function (data, page) {
+                    var items = data.Rows;
+                    var more = (page * 30) < data.TotalRecords;
+                    $(items).each(function (i, item) {
+                        item.id = item.Id.toString();
+                        item.Name = item.RealName;
+                    });
+                    if (page == 1) {
+                        items.unshift({ id: "", Name: "-请选择-" });
+                    }
+                    return { results: items, more: more };
+                }
+            }
+        });
+
+        //表单验证
+        $('#edit-form').formValidation({
+            verbose: false,
+            fields: {
+                "create.Name": {
+                    validators: {
+                        notEmpty: {
+                            message: '角色名不能为空.'
+                        }
+                    }
+                }
+            }
+        });
+    });
+
+    // 年月日 时分秒
+    $('.form_datetime').datetimepicker({
+        language: 'zh-CN',
+        weekStart: 1,
+        todayBtn: 1,
+        autoclose: 1,
+        todayHighlight: 1,
+        startView: 2,
+        minuteStep: 1,//分钟间隔为1
+        maxView: 4, //最高显示到年份
+        minView: 0, //最低显示到日
+        forceParse: 0,
+        format: 'yyyy-mm-dd hh:ii:ss'
+    });
+
+
+    var editor = KindEditor.editor({
+        uploadJson: '/Areas/Base/Scripts/kindeditor-4.1.10/asp.net/upload_json.ashx',
+        fileManagerJson: '/Areas/Base/Scripts/kindeditor-4.1.10/asp.net/file_manager_json.ashx',
+        allowFileManager: true
+    });
+    KindEditor('#AttachmentID').click(function () {
+        editor.loadPlugin('insertfile', function () {
+            editor.plugin.fileDialog({
+                fileUrl: KindEditor('input[name="Attachment"]').val(),
+                clickFn: function (url, title) {
+                    KindEditor('input[name="Attachment"]').val(url);
+                    $("input[name='Attachment']").val(url);
+                    $.ajax({
+                        type: "POST",
+                        url: "/Homework/Create",
+                        data: { url: url,title:title },
+                        success: function (data) {
+                            editor.hideDialog();
+                            $("input[name='AttachmentName']").val(title);
+                        }
+                    });
+                }
+            });
+        });
+    });
+
+    KindEditor('#AnswerAttachmentID').click(function () {
+        editor.loadPlugin('insertfile', function () {
+            editor.plugin.fileDialog({
+                fileUrl: KindEditor('input[name="AnswerAttachment"]').val(),
+                clickFn: function (url, title) {
+                    KindEditor('input[name="AnswerAttachment"]').val(url);
+                    $("input[name='AnswerAttachment']").val(url);
+                    $.ajax({
+                        type: "POST",
+                        url: "/Homework/Create",
+                        data: { url: url },
+                        success: function (data) {
+                            editor.hideDialog();
+                            //$("#grid").datagrid('reload');
+                        }
+                    });
+                }
+            });
+        });
+    });
+</script>

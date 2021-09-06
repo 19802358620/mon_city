@@ -1,0 +1,309 @@
+﻿@using EKP.Base;
+@{
+    Layout = null;
+}
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+    @AppTemplate.Path("head.html", "Shared_Layout")
+</head>
+<body class="son_page">
+    <div class="clr">
+        <!--顶部内容开始-->
+        <div class="header header03 fl">
+            <div class="LoginBox">
+                <div class="fl"><img alt="" id="img_logo" /></div>
+                <div class="login_nav fr">
+                    <a href="javascript:;" class="fl" onclick="goUrl(this,'Home','Index')">平台首页</a>
+                    <div class="fl sonloginPlate">
+                        <a href="javascript:;" class="login_pic" onclick="goUrl(this,'User','Login')">登录</a>
+                        <a href="javascript:;" onclick="goUrl(this,'User','Register')">注册</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!--顶部内容结束-->
+        <!--第一步主体内容开始-->
+        <div class="content clr hidden" id="step1">
+            <!--注册步骤提示-->
+            <div class="step_box">
+                <ul class="step_list">
+                    <li class="current"><em>1</em><span>验证信息</span></li>
+                    <li><em>2</em><span>修改密码</span></li>
+                    <li><em>3</em><span>修改成功</span></li>
+                </ul>
+            </div>
+            <!--内容-->
+            <div class="boxshadowPlate">
+                <h1 class="register_h1"><span id="cur_phone" onclick="getPwd('phone')">手机找回</span>|<span id="cur_email" onclick="getPwd('email')">邮箱找回</span></h1>
+                <!--表单部分-->
+                <div class="portlet-body form">
+                    <form class="form-horizontal" id="forgot_pwd">
+                        <input type="text" name="RegisterType" id="registertype" value="phone" style="position:absolute;top:-999px;" />
+                        <div class="form-body ">
+                            <div class="form-group hidden" id="phone">
+                                <label class="control-label col-md-4"><span class="required">* </span>手机号</label>
+                                <div class="col-md-4">
+                                    <input type="text" class="form-control" name="Phone" placeholder="请输入注册手机号" />
+                                </div>
+                            </div>
+                            <div class="form-group hidden" id="email">
+                                <label class="control-label col-md-4"><span class="required">* </span>邮箱地址</label>
+                                <div class="col-md-4">
+                                    <input type="text" class="form-control" name="Email" placeholder="请输入注册邮箱地址" />
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-md-4 control-label"><span class="required">* </span>验证码</label>
+                                <div class="col-md-4">
+                                    <div class="pr">
+                                        <input class="form-control" type="text" name="ValidCode" placeholder="请输入验证码" />
+                                        <span class="input-group-btn"><button class="btn blue" type="button" onclick="sendCode(this)"> 获取验证码</button></span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="row">
+                                <div class="col-md-offset-5 col-md-7">
+                                    <a href="javascript:;" class="btn default button-previous disabled" style="display: none;">
+                                        <i class="m-icon-swapleft"></i> Back
+                                    </a>
+                                    <a href="javascript:;" class="btn blue button-next w150" onclick="Step('2')">
+                                        下一步 <i class="m-icon-swapright m-icon-white"></i>
+                                    </a>
+                                    <a href="javascript:;" class="btn green button-submit" style="display: none;">
+                                        Submit <i class="m-icon-swapright m-icon-white"></i>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <!--第一步主体内容结束-->
+        <!--第二步主体内容开始-->
+        <div class="content clr hidden" id="step2">
+            <!--注册步骤提示-->
+            <div class="step_box">
+                <ul class="step_list">
+                    <li><em>1</em><span>填写邮箱信息</span></li>
+                    <li class="current"><em>2</em><span>修改密码</span></li>
+                    <li><em>3</em><span>修改成功</span></li>
+                </ul>
+            </div>
+            <!--内容-->
+            <div class="boxshadowPlate">
+                <!--表单部分-->
+                <div class="portlet-body form">
+                    <form class="form-horizontal" id="reset_pwd">
+                        <input type="text" style="position:absolute;top:-999px;" />
+                        <input type="password" style="position:absolute;top:-999px;" />
+                        <div class="form-body ">
+                            <div class="form-group">
+                                <label class="control-label col-md-4">注册账号</label>
+                                <div class="col-md-4">
+                                    <input type="text" class="form-control" name="Account" placeholder="请填写注册账号" />
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="control-label col-md-4">新密码</label>
+                                <div class="col-md-4">
+                                    <input type="password" class="form-control" name="Password" placeholder="请填写新密码" />
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="control-label col-md-4">确认新密码</label>
+                                <div class="col-md-4">
+                                    <input type="password" class="form-control" name="Password2" placeholder="请确认新密码" />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group ">
+                            <div class="row ml40">
+                                <div class="col-md-offset-4 col-md-7">
+                                    <a href="javascript:;" class="btn default button-previous w150" onclick="Step('1')">
+                                        <i class="m-icon-swapleft"></i> 上一步
+                                    </a>
+                                    <a href="javascript:;" class="btn blue button-next w150" onclick="Step('3')">
+                                        下一步 <i class="m-icon-swapright m-icon-white"></i>
+                                    </a>
+                                    <a href="javascript:;" class="btn green button-submit" style="display: none;">
+                                        Submit <i class="m-icon-swapright m-icon-white"></i>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <!--第二步主体内容结束-->
+        <!--第三步主体内容开始-->
+        <div class="content clr hidden" id="step3">
+            <!--注册步骤提示-->
+            <div class="step_box">
+                <ul class="step_list">
+                    <li><em>1</em><span>填写邮箱信息</span></li>
+                    <li><em>2</em><span>修改密码</span></li>
+                    <li class="current"><em>3</em><span>修改成功</span></li>
+                </ul>
+            </div>
+            <!--内容-->
+            <div class="boxshadowPlate">
+                <!--表单部分-->
+                <div class="portlet-body form mt40">
+                    <form class="form-horizontal">
+                        <div class="form-body tc"><img src="/Areas/Front/templates/Shared/t1/images/ok_xg.png" /></div>
+                        <div class="form-group pb50">
+                            <div class="row mt30 ml40">
+                                <div class="col-md-offset-4 col-md-7">
+                                    <a href="javascript:;" class="btn default w150" onclick="goUrl(this,'Home','Index')">平台首页</a>
+                                    <a href="javascript:;" class="btn blue w150" onclick="goUrl(this,'User','Login')">立即登录</a>
+                                </div>
+                            </div>
+
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <!--第三步主体内容结束-->
+
+        @AppTemplate.Path("bodybottom.html", "Shared_Layout")
+    </div>
+    <script>
+        $(function () {
+            frontView({
+                title: "找回密码"
+            });
+
+            //验证方式切换
+            if (!gloQs.p||gloQs.p == "phone") {
+                $("#phone").removeClass("hidden");
+                $("#cur_phone").addClass("current");
+                $("#registertype").val("phone");
+            }
+            if (gloQs.p == "email") {
+                $("#email").removeClass("hidden");
+                $("#cur_email").addClass("current");
+                $("#registertype").val("email");
+            }
+
+            if (!gloQs.step) {
+                $("#step1").removeClass("hidden");
+            } else {
+                $("#step" + gloQs.step).removeClass("hidden");
+            }
+        });
+
+        function getPwd(p) {
+            window.location.href = getUrl("User", "ForgotPwd", { p: p });
+        }
+
+        function sendCode(item) {
+            if (gloQs.p == 'phone') {
+                if ($("input[name='Phone']").val() == "") {
+                    layer.msg("手机号不能为空", { icon: 2 });
+                    return false;
+                }
+                var pattern = /^1([358][0-9]|4[579]|66|7[0135678]|9[89])[0-9]{8}$/;
+                if (!pattern.test($("input[name='Phone']").val())) {
+                    $("#register-form-error").removeClass("hidden");
+                    layer.msg("手机号格式有误", { icon: 2 });
+                    return false;
+                }
+            }
+            if (gloQs.p == 'email') {
+                var reg = new RegExp("^[a-z0-9]+([._\\-]*[a-z0-9])*@@([a-z0-9]+[-a-z0-9]*[a-z0-9]+.){1,63}[a-z0-9]+$");
+
+                if ($("input[name='Email']").val() == "") {
+                    layer.msg("邮箱不能为空", { icon: 2 });
+                    return false;
+                } else if (!reg.test($("input[name='Email']").val())) {
+                    layer.msg("邮箱格式有误", { icon: 2 });
+                    return false;
+                }
+            }
+            $.ajax({
+                async: true,
+                type: "post",
+                dataType: "json",
+                data: $("#forgot_pwd").serialize(),
+                url: getUrl("User", "ForgotPwdSendCode"),
+                success: function (data) {
+                    if (data.Type == "Success")
+                        countDown(60, item);
+                    else {
+                        layer.msg(data.Content, { icon: 2 });
+                        return false;
+                    }
+                }
+            });
+        }
+
+        function countDown(timer, item) {
+            if (timer >= 1) {
+                if (timer == 60) {
+                    $(item).removeClass("blue");
+                    $(item).addClass("gry");
+                    $(item).text("60s");
+                    $(item).attr("disabled", "disabled");
+                }
+                timer -= 1;
+                setTimeout(function () {
+                    countDown(timer, item);
+                    $(item).text(timer + "s");
+                    if (timer == 0) {
+                        $(item).removeAttr("disabled");
+                        $(item).removeClass("gry");
+                        $(item).addClass("blue");
+                        $(item).text("获取验证码");
+                    }
+                }, 1000);
+            }
+        }
+
+        function Step(num) {
+            if (num == 1) {
+                window.location.href = getUrl("User", "ForgotPwd", { p: gloQs.p, step: num});
+            }
+            if (num == 2) {
+                $.ajax({
+                    async: true,
+                    type: "post",
+                    dataType: "json",
+                    data: { code: $("input[name='ValidCode']").val() },
+                    url: getUrl("User", "ForgotValidCode"),
+                    success: function (data) {
+                        if (data.Type == "Success")
+                            window.location.href = getUrl("User", "ForgotPwd", { p: gloQs.p, step: num, code: $("input[name='ValidCode']").val() });
+                        else {
+                            layer.msg(data.Content, { icon: 2 });
+                            return false;
+                        }
+                    }
+                });
+            }
+            if (num == 3) {
+                $.ajax({
+                    async: true,
+                    type: "post",
+                    dataType: "json",
+                    data: $("#reset_pwd").serialize(),
+                    url: getUrl("User", "SettingPwd", { token: gloQs.code}),
+                    success: function (data) {
+                        if (data.Type == "Success")
+                            window.location.href = getUrl("User", "ForgotPwd", { p: gloQs.p, step: num });
+                        else {
+                            layer.msg(data.Content, { icon: 2 });
+                            return false;
+                        }
+                    }
+                });
+            }
+        }
+    </script>
+</body>
+</html>

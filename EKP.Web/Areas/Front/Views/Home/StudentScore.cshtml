@@ -1,0 +1,275 @@
+﻿<div class="container">
+    <div class="scoreStatistics-top"></div>
+</div>
+<div class="main">
+    <div class="container">
+        <div class="row margin-bottom-40">
+            <div class="col-md-12 col-sm-12">
+                <div class="content-page">
+                    <div class="col-md-4 col-sm-4" id="projectTreeBox">
+                        <div class="loading" style="line-height: 300px;height: 300px;text-align:center">
+                            <img src="/Areas/Adm/Images/loading_5.gif" />
+                        </div>
+                        <ul class="list-unstyled projectTree" style="display: none">
+                        </ul>
+                    </div>
+                    <div class="col-md-8 col-sm-8" id="projectStudentBox" style="display: none">
+                        <div class="content-page">
+                            <div class="portlet light">
+                                <div class="portlet-body row">
+                                    <div class="form-group col-md-12" id="studentSearch">
+                                        <div class="col-md-12  padding-left-0">
+                                            <div class="col-md-5" style="text-align:left;">
+                                                <div class="search-label">班级</div>
+                                                <div class="col-md-9">
+                                                    <input type="text" class="form-control input input-left" name="ClassId">
+                                                </div>
+                                            </div>
+                                            <div class="col-md-5" style="text-align:left">
+                                                <div class="search-label">关键字</div>
+                                                <div class="col-md-9">
+                                                    <input type="text" class="form-control input input-left" name="KeyWord" placeholder="账号、姓名">
+                                                </div>
+                                            </div>
+                                            <div class="col-md-2">
+                                                <a href="javascript:;" class="btn btn blue" onclick="btnStudentSearch()">
+                                                    <i class="fa fa-search"></i> 检索
+                                                </a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="btn-group col-md-12" id="grid-toolbar">
+                                        <ul class="no-margin-bottom">
+                                            <li>
+                                                <a class="btn blue" target="_blank" onclick="goUrl(this,'Home','ScoreStatistics', { projectId: currentProjectId })">
+                                                    <i class="fa fa-bar-chart"></i>
+                                                    成绩统计
+                                                </a>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                    <div class="table-responsive col-md-12 margin-top-10">
+                                        <table class="table table-bordered" id="stuentPagerBox">
+                                            <thead>
+                                                <tr>
+                                                    <th>
+                                                        账号
+                                                    </th>
+                                                    <th>
+                                                        姓名
+                                                    </th>
+                                                    <th>
+                                                        性别
+                                                    </th>
+                                                    <th>
+                                                        班级
+                                                    </th>
+                                                    <th>
+                                                        操作
+                                                    </th>
+                                                </tr>
+                                            </thead>
+                                            <tbody style="display: none" class="list">
+                                                <tr style="display: none" class="listTemplate" _id="{Id}">
+                                                    <td>
+                                                        {Account}
+                                                    </td>
+                                                    <td>
+                                                        {RealName}
+                                                    </td>
+
+                                                    <td>
+                                                        {Sex}
+                                                    </td>
+                                                    <td>
+                                                        {ShowClasses}
+                                                    </td>
+                                                    <td>
+                                                        <a class="btn btn-xs blue btn_score" target="_blank" style="color: #fff" onclick="openMarkScore(this, {Id})">
+                                                            <i class="fa fa-edit"></i>
+                                                            练习批改
+                                                        </a>
+                                                        <a class="btn btn-xs blue btn_submit" target="_blank" style="color: #fff" onclick="openSeeScore(this, {Id})">
+                                                            <i class="fa fa-eye-slash"></i>
+                                                            查看成绩
+                                                        </a>
+                                                        <a class="btn btn-xs blue btn_submit" target="_blank" style="color: #fff" onclick="deleteScore({Id})">
+                                                            <i class="fa fa-trash"></i>
+                                                            删除
+                                                        </a>
+                                                    </td>
+                                                </tr>
+                                            </tbody>
+                                            <tbody class="loading">
+                                                <tr>
+                                                    <td colspan="5" style="text-align: center">
+                                                        <img src="/Areas/Adm/Images/loading_5.gif" />
+                                                    </td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                        <div class="mt20" id="pageStudentDiv"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+@section head_style{
+    <link href="~/Areas/Base/Scripts/Metronicv/assets/global/plugins/select2/select2.css" rel="stylesheet" />
+    <link href="~/Areas/Base/Scripts/Metronicv/assets/global/css/plugins.css" rel="stylesheet" type="text/css" />
+}
+@section body_js{
+    <script src="~/Areas/Base/Scripts/kindeditor-4.1.10/kindeditor.js"></script>
+    <script src="~/Areas/Base/Scripts/kindeditor-4.1.10/lang/zh_CN.js"></script>
+    <script src="~/Areas/Base/Scripts/Metronicv/assets/global/plugins/select2/select2.js"></script>
+    <script src="~/Areas/Base/Scripts/Metronicv/assets/global/plugins/select2/select2_locale_zh-CN.js"></script>
+    <script src="~/Areas/Base/Scripts/customer/plugin.extend.js"></script>
+    <script type="text/javascript">
+        var currentProjectId = null;
+
+        //初始化
+        $(function() {
+            frontLayout({
+                title: "学生成绩",
+                menuName: "StudentScore"
+            });
+
+            //插件
+            $("#studentSearch input[name='ClassId']").select2({
+                placeholder: "-请选择-",
+                allowClear: true,
+                formatSelection: function(item) { return item.Name; },
+                formatResult: function(item) { return item.Name; },
+                ajax: {
+                    url: getUrl("Class", "Pager", { area: "Adm" }),
+                    dataType: "json",
+                    type: 'post',
+                    data: function(term, page) {
+                        return {
+                            PageSize: 999,
+                            SortBy: "Id",
+                            SortOrder: "asc",
+                            ClassIds: appInfo.loginUser.UserInfo.ClassIds
+                        };
+                    },
+                    results: function(data, page) {
+                        var items = data.Rows;
+                        var more = (page * 30) < data.TotalRecords;
+                        $(items).each(function(i, item) {
+                            item.id = item.Id.toString();
+                            item.Name = item.Name;
+                        });
+                        if (page == 1) {
+                            items.unshift({ id: "", Name: "-请选择-" });
+                        }
+                        return { results: items, more: more };
+                    }
+                }
+            });
+
+            //项目列表
+            loadProjectTree({
+                box: "#projectTreeBox",
+                mode: 3,
+                selectNode: function(nodeData) {
+                    initStudents(nodeData);
+                }
+            });
+        });
+
+        //列表
+        function initStudents(nodeData) {
+            currentProjectId = nodeData.id;
+            $("#projectStudentBox").show();
+            $("#pageStudentDiv").jqPager({
+                url: getUrl("DetectionHand", "AnswerUserPager", { area: "Adm" }),
+                pageNo: 1,
+                pageSize: 10,
+                pagerTempalte: "t2",
+                sortBy: "CreateTime",
+                sortOrder: "desc",
+                postData: { ProjectId: nodeData.id, ClassIds: appInfo.loginUser.UserInfo.ClassIds },
+                loadBefore: function() {
+                    $("#stuentPagerBox .list").hide();
+                    $("#stuentPagerBox .loading").show();
+                },
+                loadComplete: function(data) {
+                    $("#stuentPagerBox .list").show();
+                    $("#stuentPagerBox .loading").hide();
+
+                    var rows = data.Rows;
+                    var template = $("#stuentPagerBox .listTemplate").prop("outerHTML");
+                    $("#stuentPagerBox .listTemplate").not(":first").remove();
+
+                    $(rows).each(function(i, row) {
+                        row.Index = i + 1;
+                        row.CreateTime = $formatDate(row.CreateTime, "yyyy年MM月dd日");
+                        $("#stuentPagerBox .listTemplate:last").after($(template.format(row)));
+                    });
+                    $("#stuentPagerBox .listTemplate").not(":first").show();
+
+                    //点击事件
+                    $("#stuentPagerBox .listTemplate").click(function() {
+                        var lt = $(this);
+                        $("#stuentPagerBox .listTemplate").removeClass("current");
+                        $(lt).addClass("current");
+                    });
+                }
+            });
+        }
+
+        //打开练习批改
+        function openMarkScore(btn, id) {
+            $(btn).attr("href", getUrl("Home", "MarkScore", {
+                userId: id,
+                projectId: currentProjectId
+            }));
+        }
+
+        //打开查看成绩
+        function openSeeScore(btn, id) {
+            $(btn).attr("href", getUrl("Home", "SeeScore", {
+                userId: id,
+                projectId: currentProjectId
+            }));
+        }
+
+        //删除学生作答
+        function deleteScore(id) {
+            layer.confirm("确定要删除记录？", {
+                btn: ['确认', '取消']
+            }, function () {
+                $.ajax({
+                    async: true,
+                    type: "post",
+                    dataType: "json",
+                    data: { userId: id, projectId: currentProjectId },
+                    url: getUrl("DetectionHand", "DeleleUserAnswer", { area: "Adm" }),
+                    success: function (data) {
+                        $dialogShow(data);
+                        if (data.Type == "Success") {
+                            $("#pageStudentDiv").jqPager("gotoPage");
+                        }
+                    }
+                });
+                layer.closeAll();
+            });
+
+
+        }
+
+        //查询
+        function btnStudentSearch() {
+            var queryParams = $("#pageStudentDiv").jqPager("getPostData");
+            $($("#studentSearch .form-control").serializeArray()).each(function (i, obj) {
+                queryParams[obj.name] = obj.value;
+            });
+            $("#pageStudentDiv").jqPager("gotoPage");
+        }
+    </script>
+}

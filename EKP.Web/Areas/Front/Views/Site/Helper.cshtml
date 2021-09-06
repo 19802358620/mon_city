@@ -1,0 +1,36 @@
+﻿<div class="locat-box">
+    <div class="locat">
+        您的位置：<a onclick="goUrl(this, 'Home', 'Index')">首页</a>  &gt; <a class="current" href="">帮助中心</a>
+    </div>
+</div>
+<div class="content clr">
+    <div class="boxshadowPlate">
+        <div class="plr70 pb50">
+            <div class="newinfo-box"  id="siteHeapler">
+                <div class="loadding text-align-center" style="line-height:200px;"><img src="/Areas/Front/templates/global/images/loading_5.gif" /></div>
+                <div class="con" style="display:none">
+                    {Helper}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+@section head_style{
+    
+}
+@section  body_js{
+    <script>
+        //初始化
+        $(function () {
+            //母版页
+            frontLayout({
+                title: "帮助中心",
+                menuName: "helper"
+            });
+
+            $("#siteHeapler .loadding").hide();
+            $("#siteHeapler").replaceFormat(appInfo.site);
+            $("#siteHeapler .con").fadeIn(500);
+        });
+    </script>
+}

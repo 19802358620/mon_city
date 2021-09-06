@@ -1,0 +1,426 @@
+﻿<div class="container">
+    <div class="student-top"></div>
+</div>
+<div class="main">
+    <div class="container" style="padding-right: 30px;">
+        <div class="portlet light">
+            <div class="portlet-body row">
+                <div class="form-group col-md-12" id="studentSearch">
+                    <div class="col-md-12  padding-left-0">
+                        <div class="col-md-4" style="text-align:left;">
+                            <div class="search-label">班级</div>
+                            <div class="col-md-9">
+                                <input type="text" class="form-control input input-left" name="ClassId">
+                            </div>
+                        </div>
+                        <div class="col-md-4" style="text-align:left;margin-left:-50px;">
+                            <div class="search-label">关键字</div>
+                            <div class="col-md-9">
+                                <input type="text" class="form-control input input-left" name="KeyWord" placeholder="账号、姓名">
+                            </div>
+                        </div>
+                        <div class="col-md-1" style="margin-left:-50px;">
+                            <a href="javascript:;" class="btn btn blue" onclick="btnStudentSearch()">
+                                <i class="fa fa-search"></i> 检索
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                <div class="btn-group col-md-12" id="grid-toolbar">
+                    <ul class="nav nav-pills col-md-8 no-margin-bottom">
+                        <li>
+                            <button class="btn blue" onclick="open_create()">
+                                <i class="fa fa-plus"></i>
+                                新增
+                            </button>
+                        </li>
+                        <li>
+                            <button class="btn blue" onclick="open_edit()">
+                                <i class="fa fa-pencil"></i>
+                                编辑
+                            </button>
+                        </li>
+                        <li>
+                            <button class="btn blue" onclick="del()">
+                                <i class="fa fa-trash"></i>
+                                删除
+                            </button>
+                        </li>
+                        <li class="search-split">
+                            |
+                        </li>
+                        <li>
+                            <button class="btn blue" onclick="openImportExcel()">
+                                <i class="fa fa-external-link"></i>
+                                导入
+                            </button>
+                        </li>
+                    </ul>
+                </div>
+                <div class="table-responsive col-md-12 margin-top-10">
+                    <table class="table table-bordered" id="stuentPagerBox">
+                        <thead>
+                            <tr>
+                                <th>
+                                    #
+                                </th>
+                                <th>
+                                    账号
+                                </th>
+                                <th>
+                                    姓名
+                                </th>
+                                <th>
+                                    电话
+                                </th>
+                                <th>
+                                    账号状态
+                                </th>
+                                <th>
+                                    性别
+                                </th>
+                                <th>
+                                    班级
+                                </th>
+                                <th>
+                                    创建时间
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody style="display: none" class="list">
+                            <tr style="display: none" class="listTemplate" _id="{Id}">
+                                <td>
+                                    {Index}
+                                </td>
+                                <td>
+                                    {Account}
+                                </td>
+                                <td>
+                                    {RealName}
+                                </td>
+                                <td>
+                                    {Telephone}
+                                </td>
+                                <td>
+                                    {ShowStatus}
+                                </td>
+                                <td>
+                                    {Sex}
+                                </td>
+                                <td>
+                                    {ShowClasses}
+                                </td>
+                                <td>
+                                    {CreateTime}
+                                </td>
+                            </tr>
+                        </tbody>
+                        <tbody class="loading">
+                            <tr>
+                                <td colspan="8" style="text-align: center">
+                                    <img src="/Areas/Adm/Images/loading_5.gif" />
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <div class="mt20" id="pageStudentDiv"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+@section head_style{
+    <link href="/Areas/Base/Scripts/Metronicv/assets/global/plugins/select2/select2.css" rel="stylesheet" />
+    <link href="/Areas/Base/Scripts/Metronicv/assets/global/css/plugins.css" rel="stylesheet" type="text/css">
+    <link href="/Areas/Base/Scripts/Metronicv/assets/global/plugins/icheck/skins/all.css" rel="stylesheet" />
+    <link href="/Areas/Base/Scripts/kindeditor-4.1.10/themes/default/default.css" rel="stylesheet" />
+    <link href="/Areas/Base/Content/plugin.extend.css" rel="stylesheet" />
+    <style>
+        #stuentPagerBox .listTemplate.current {
+            background: #FF83FA;
+            color: #fff;
+        }
+    </style>
+}
+@section body_js{
+    <script src="/Areas/Base/Scripts/Metronicv/assets/global/plugins/select2/select2.js"></script>
+    <script src="/Areas/Base/Scripts/Metronicv/assets/global/plugins/select2/select2_locale_zh-CN.js"></script>
+    <script src="/Areas/Base/Scripts/Metronicv/assets/global/plugins/icheck/icheck.min.js"></script>
+    <script src="/Areas/Base/Scripts/formvalidation/dist/js/formValidation.js"></script>
+    <script src="/Areas/Base/Scripts/formvalidation/dist/js/framework/bootstrap.js"></script>
+    <script src="/Areas/Base/Scripts/formvalidation/dist/js/language/zh_CN.js"></script>
+    <script src="/Areas/Base/Scripts/kindeditor-4.1.10/kindeditor.js"></script>
+    <script src="/Areas/Base/Scripts/kindeditor-4.1.10/lang/zh_CN.js"></script>
+    <script src="/Areas/Base/Scripts/customer/plugin.extend.js"></script>
+    <script>
+        //初始化
+        $(function() {
+            //母版页
+            frontLayout({
+                title: "学生管理",
+                menuName: "Student"
+            });
+
+            //插件
+            $("#studentSearch input[name='ClassId']").select2({
+                placeholder: "-请选择-",
+                allowClear: true,
+                formatSelection: function(item) { return item.Name; },
+                formatResult: function(item) { return item.Name; },
+                ajax: {
+                    url: getUrl("Class", "Pager"),
+                    dataType: "json",
+                    type: 'post',
+                    data: function(term, page) {
+                        return {
+                            PageSize: 999,
+                            SortBy: "Id",
+                            SortOrder: "asc",
+                            ClassIds: appInfo.loginUser.UserInfo.ClassIds
+                        };
+                    },
+                    results: function(data, page) {
+                        var items = data.Rows;
+                        var more = (page * 30) < data.TotalRecords;
+                        $(items).each(function(i, item) {
+                            item.id = item.Id.toString();
+                            item.Name = item.Name;
+                        });
+                        if (page == 1) {
+                            items.unshift({ id: "", Name: "-请选择-" });
+                        }
+                        return { results: items, more: more };
+                    }
+                }
+            });
+            
+            //分页
+            $("#pageStudentDiv").jqPager({
+                url: getUrl("User", "Pager", { area: "Adm" }),
+                pageNo: 1,
+                pageSize: 10,
+                pagerTempalte: "t2",
+                sortBy: "CreateTime",
+                sortOrder: "desc",
+                postData: { RoleId: 138, CreateBy: appInfo.loginUser.Id, ClassIds: appInfo.loginUser.UserInfo.ClassIds },
+                loadBefore: function() {
+                    $("#stuentPagerBox .list").hide();
+                    $("#stuentPagerBox .loading").show();
+                },
+                loadComplete: function(data) {
+                    $("#stuentPagerBox .list").show();
+                    $("#stuentPagerBox .loading").hide();
+
+                    var rows = data.Rows;
+                    var template = $("#stuentPagerBox .listTemplate").prop("outerHTML");
+                    $("#stuentPagerBox .listTemplate").not(":first").remove();
+
+                    $(rows).each(function(i, row) {
+                        row.Index = i + 1;
+                        row.CreateTime = $formatDate(row.CreateTime, "yyyy年MM月dd日");
+                        $("#stuentPagerBox .listTemplate:last").after($(template.format(row)));
+                    });
+                    $("#stuentPagerBox .listTemplate").not(":first").show();
+
+                    //点击事件
+                    $("#stuentPagerBox .listTemplate").click(function() {
+                        var lt = $(this);
+                        $("#stuentPagerBox .listTemplate").removeClass("current");
+                        $(lt).addClass("current");
+                    });
+                }
+            });
+        });
+
+        //打开添加窗口
+        function open_create() {
+            $.ajax({
+                url: getUrl("Home", "StudentCreate"),
+                dataType: 'html',
+                type: 'get',
+                beforeSend: function() {
+
+                    layer.load(0, { shade: false });
+                },
+                success: function(html) {
+                    layer.closeAll("loading");
+                    layer.confirm(html, {
+                        title: '<i class="fa fa-plus"></i> 新增学生',
+                        area: ['900px', '550px'],
+                        btn: ['<i class="fa fa-save"></i>&nbsp;保存', '<i class="fa fa-times"></i>&nbsp;取消']
+                    }, function(v, box) {
+                        create();
+                    });
+                }
+            });
+        }
+
+        //添加
+        function create() {
+            if (!$('#create-form').formValidation("validate").data("formValidation").isValid()) return;
+            $.ajax({
+                async: true,
+                type: "post",
+                dataType: "json",
+                data: $('#create-form').serialize(),
+                url: getUrl("User", "Create", { area: "Adm" }),
+                success: function(data) {
+                    $dialogShow(data);
+                    if (data.Type == "Success") {
+                        $("#pageStudentDiv").jqPager("gotoPage");
+                    }
+                }
+            });
+        }
+
+        //打开编辑窗口
+        function open_edit() {
+            var id = $("#stuentPagerBox .listTemplate.current").attr('_id');
+            if (!id) {
+                layer.alert("请选择记录后再操作！", { icon: 5 });
+                return;
+            }
+            $.ajax({
+                type: "POST",
+                dataType: "json",
+                data: { id: id },
+                url: getUrl("User", "Detail", {area:"Adm"}),
+                beforeSend: function() {
+                    layer.load(0, { shade: false });
+                },
+                success: function(data) {
+                    $.ajax({
+                        url: getUrl("Home", "StudentEdit"),
+                        dataType: 'html',
+                        type: 'get',
+                        success: function (html) {
+                            layer.closeAll("loading");
+                            layer.confirm(html, {
+                                title: '<i class="fa fa-pencil"></i> 编辑用户',
+                                area: ['900px', '550px'],
+                                btn: ['<i class="fa fa-save"></i>&nbsp;保存', '<i class="fa fa-times"></i>&nbsp;取消'],
+                            }, function (v, box) {
+                                edit();
+                            });
+                            data.PassWord2 = data.PassWord;
+                            $("#edit-form .form-control").bindData(data);
+                            $("#edit_Province").trigger("change");
+                            $("#edit_City").val(data.City);
+                            $("#edit_City").trigger("change");
+                            $("#edit_Area").val(data.Area);
+                            if (data.Photo) {
+                                $("#imgPicture").attr("src", data.Photo);
+                            }
+                            if (data.Classes) {
+                                var classData = [];
+                                $(data.Classes).each(function (i, d) {
+                                    classData.push({ id: d.Id, Name: d.Name });
+                                }); 
+                                $("#edit-form input[name='ClassIds']").select2("data", classData[0]);
+                            }
+                        }
+                    });
+                }
+            });
+        }
+
+        //编辑
+        function edit() {
+            if (!$('#edit-form').formValidation("validate").data("formValidation").isValid()) return;
+            $.ajax({
+                async: true,
+                type: "post",
+                dataType: "json",
+                data: $('#edit-form').serialize(),
+                url: getUrl("User", "Edit", { area: "Adm" }),
+                success: function (data) {
+                    $dialogShow(data);
+                    if (data.Type == "Success") {
+                        $("#pageStudentDiv").jqPager("gotoPage");
+                    }
+                }
+            });
+        }
+
+        //删除
+        function del() {
+            layer.confirm("确定要删除记录？", {
+                btn: ['确认', '取消']
+            }, function () {
+                var id = $("#stuentPagerBox .listTemplate.current").attr('_id');
+                if (!id) {
+                    layer.alert("请选择记录后再操作！", { icon: 5 });
+                    return;
+                }
+
+                var ids = [id];
+                $.ajax({
+                    async: true,
+                    type: "post",
+                    dataType: "json",
+                    data: { ids: ids },
+                    url: getUrl("User", "Delete", { area: "Adm" }),
+                    success: function (data) {
+                        $dialogShow(data);
+                        if (data.Type == "Success") {
+                            $("#pageStudentDiv").jqPager("gotoPage");
+                        }
+                    }
+                });
+                layer.closeAll();
+            });
+
+
+        }
+
+        //查询
+        function btnStudentSearch() {
+            var queryParams = $("#pageStudentDiv").jqPager("getPostData");
+            $($("#studentSearch .form-control").serializeArray()).each(function(i, obj) {
+                queryParams[obj.name] = obj.value;
+            });
+            $("#pageStudentDiv").jqPager("gotoPage");
+        }
+
+        //打开导入excel
+        function openImportExcel() {
+            $.ajax({
+                url: getUrl("User", "StudentImportExcel",  {area:"Adm"}),
+                dataType: 'html',
+                type: 'get',
+                beforeSend: function () {
+                    layer.load(0, { shade: false });
+                },
+                success: function (html) {
+                    layer.closeAll("loading");
+                    layer.confirm(html, {
+                        title: '<i class="fa fa-external-link"></i> 导入用户',
+                        area: ["700px"],
+                        btn: ['<i class="fa fa-external-link"></i>&nbsp;导入', '<i class="fa fa-times"></i>&nbsp;取消']
+                    }, function (v, box) {
+                        importExcel();
+                    });
+                }
+            });
+
+        }
+
+        //导入excel
+        function importExcel() {
+            var url = $("#importExcel-form [name='Excel']").val();
+            $.ajax({
+                type: "POST",
+                url: getUrl("User", "StudentImportExcel",  {area:"Adm"}),
+                dataType: "json",
+                data: { url: url },
+                success: function (data) {
+                    $dialogShow(data);
+                    if (data.Type == "Success") {
+                        $("#pageStudentDiv").jqPager("gotoPage");
+                        editor.hideDialog();
+                    }
+                }
+            });
+        }
+    </script>
+}

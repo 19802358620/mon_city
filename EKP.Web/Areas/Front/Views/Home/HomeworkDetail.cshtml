@@ -1,0 +1,55 @@
+﻿
+<link href="~/Areas/Base/Scripts/bootstrap/datetimepicker/css/bootstrap-datetimepicker.css" rel="stylesheet" />
+<link href="~/Areas/Base/Scripts/bootstrap/datetimepicker/css/bootstrap-datetimepicker.min.css" rel="stylesheet" />
+<script src="~/Areas/Base/Scripts/bootstrap/datetimepicker/js/bootstrap-datetimepicker.js"></script>
+<script src="~/Areas/Base/Scripts/bootstrap/datetimepicker/js/bootstrap-datetimepicker.min.js"></script>
+<script src="~/Areas/Base/Scripts/bootstrap/datetimepicker/js/locales/bootstrap-datetimepicker.zh-CN.js"></script>
+﻿
+﻿@{ Layout = null; }
+<style>
+    a{
+        color:blue;
+        border:none;
+    }
+</style>
+<form action="#" id="homeworkdetail-form" class="form-horizontal" novalidate="novalidate" style="margin-top:-20px;">
+   
+    <div class="form-body">
+        <div class="form-group">
+            <div class="container" style="width:100%">
+                <div class="row">                    
+                    <div class="col-md-12">
+                        <h4>作业名称：<span id="Name" name="Name" data-required="1"></span></h4>
+                    </div>
+                </div>
+                <div class="row" id="divLink">                    
+                    <div class="col-md-12">
+                        <h4>链接说明：<a id="LinkName" name="LinkName" data-required="1"></a></h4>
+                    </div>
+                </div>
+                <div class="row">                    
+                    <div class="col-md-12">
+                        <h4>要求附件：<a id="AttachmentName" name="AttachmentName" data-required="1"></a></h4>
+                    </div>
+                </div>              
+                <div class="row">
+                    <div class="col-md-12"><h4>要求：</h4></div>
+                </div>
+                <div class="row">                   
+                    <div class="col-md-12">
+                        <div id="request"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>
+
+<script>
+    //初始化
+    $(function () {
+
+        //初始化插件
+        KeHelper.create('.kindeditor');
+    });
+</script>

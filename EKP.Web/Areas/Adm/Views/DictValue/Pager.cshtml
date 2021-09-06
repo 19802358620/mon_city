@@ -1,0 +1,287 @@
+﻿<div class="portlet light">
+    <div class="portlet-body">
+        <div class="row">
+            <div class="form-group col-md-12 padding-bottom-10" id="dictValue-search">
+                <div class="col-md-12  padding-left-0">
+                    <div class="col-md-4" style="text-align:left">
+                        <div class="search-label">关键字</div>
+                        <div class="col-md-9">
+                            <input type="text" class="form-control input input-left" name="KeyWord" placeholder="数据名称、显示名称">
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="search-label">是否启用</div>
+                        <div class="col-md-6">
+                            <input type="text" class="form-control input input-left" name="IsWork"/>
+                        </div>
+                    </div>
+                    <div class="col-md-4 padding-left-0">
+                        <a href="javascript:;" class="btn btn blue" onclick="search_dictValue()">
+                            <i class="fa fa-search"></i> 检索
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-12">
+                <ul class="nav nav-pills col-md-4 no-margin-bottom" id="dictValue-grid-toolbar">
+                    <li>
+                        <button class="btn green" onclick="open_create_dictValue()">
+                            <i class="fa fa-plus"></i>
+                            新增
+                        </button>
+                    </li>
+                    <li>
+                        <button class="btn blue toolbar-data" disabled="disabled" onclick="open_edit_dictValue()">
+                            <i class="fa fa-pencil"></i>
+                            编辑
+                        </button>
+                    </li>
+                    <li>
+                        <button class="btn red toolbar-datas" disabled="disabled" onclick="delete_dictValue()">
+                            <i class="fa fa-trash"></i>
+                            删除
+                        </button>
+                    </li>
+                </ul>
+
+            </div>
+            <div class="col-md-12">
+                <div class="table-scrollable col-md-12">
+                    <table id="dictValue-grid"></table>
+                    <table id="dictValue-gridPager"></table>
+                </div>
+            </div>
+        </div>
+        <div class="clearfix">
+        </div>
+    </div>
+</div>
+@section  body_js{
+    <script>
+        var dictKey = getDictKey(gloQs.key);
+
+        //初始化
+        $(function () {
+            Metronic.init();
+            Layout.init();
+            admLayout({ menuName: "Adm.DictValue.Pager.{0}".format(gloQs.key) });
+
+            //初始化插件
+            $("#dictValue-search *[name='IsWork']").select2({
+                placeholder: "-请选择-",
+                allowClear: true,
+                formatSelection: function (item) { return item.Name; },
+                formatResult: function (item) { return item.Name; },
+                data: {
+                    results: [
+                        { "id": "", "Name": "-请选择-" },
+                        { "id": "yes", "Name": "已启用" },
+                        { "id": "no", "Name": "已停用" },
+                    ]
+                }
+            }).on("select2-selected", function (e) {
+                //search_dictValue();
+            });
+
+            //默认选择已启用
+            $("#dictValue-search *[name='IsWork']").select2('val', 'yes');
+
+            //列表
+            $("#dictValue-grid").jqGrid({
+                url: getUrl("dictValue", "Pager"),
+                pager: "#dictValue-gridPager",
+                toolbar: "#dictValue-grid-toolbar",
+                sortname: "Id",
+                sortorder: "asc",
+                postData: { KeyId: dictKey.Id, IsWork: $("#dictValue-search *[name='IsWork']").val() },
+                colModel: [
+                    { name: 'Id', label: 'Id', key: true, hidden: true },
+                    { name: 'Value', label: "数据名称", width: 450 },
+                    { name: 'ShowValue', label: "数据显示文本", width: 450 },
+                    {
+                        name: 'IsWork', label: '是否启用', width: 450, formatter: function (value) {
+                            if (value == "yes") return "<span class=\"label label-sm label-success\">已启用</span>";
+                            else if (value == "no") return "<span class=\"label label-sm label-danger\">已停用</span>";
+                            return "";
+                        }
+                    },
+                    { name: 'Remark', label: '备注', width: 1200 }
+                ],
+                onSelectRow: function (rowId) {
+                    $("#dictValue-grid").jqGrid('getGridParam', 'updateToolbar')("#dictValue-grid");
+                },
+                onSelectAll: function () {
+                    $("#dictValue-grid").jqGrid('getGridParam', 'updateToolbar')("#dictValue-grid");
+                },
+                loadComplete: function () {
+                    $("#dictValue-grid").jqGrid('getGridParam', 'updateToolbar')("#dictValue-grid");
+                }
+            });
+        });
+
+        //打开添加页面
+        function open_create_dictValue() {
+            $.ajax({
+                url: getUrl("dictValue", "Create"),
+                dataType: 'html',
+                type: 'get',
+                beforeSend: function () {
+                    layer.load(0, { shade: false });
+                },
+                success: function (html) {
+                    layer.closeAll("loading");
+                    layer.confirm(html, {
+                        title: '<i class="fa fa-plus"></i> 新增',
+                        area: ['50%', '300'],
+                        btn: ['<i class="fa fa-save"></i>&nbsp;保存', '<i class="fa fa-times"></i>&nbsp;取消']
+                    }, function (v, box) {
+                        create_dictValue();
+                    });
+                }
+            });
+        }
+
+        //打开编辑页面
+        function open_edit_dictValue() {
+            var id = $("#dictValue-grid").jqGrid('getGridParam', 'selrow');
+
+            $.ajax({
+                async: false,
+                type: "POST",
+                dataType: "json",
+                data: { id: id },
+                url: getUrl("dictValue", "Detail"),
+                beforeSend: function () {
+                    layer.load(0, { shade: false });
+                },
+                success: function (data) {
+                    layer.closeAll("loading");
+                    $.ajax({
+                        url: getUrl("dictValue", "Edit"),
+                        dataType: 'html',
+                        type: 'get',
+                        success: function (html) {
+                            layer.confirm(html, {
+                                title: '<i class="fa fa-pencil"></i> 编辑',
+                                area: ['50%', '300'],
+                                btn: ['<i class="fa fa-save"></i>&nbsp;保存', '<i class="fa fa-times"></i>&nbsp;取消'],
+                            }, function (v, box) {
+                                edit_dictValue();
+                            });
+
+                            $("#dictValue-edit-form .form-control").bindData(data);
+                        }
+                    });
+                }
+            });
+        }
+
+        //添加
+        function create_dictValue() {
+            if (!$('#dictValue-create-form').formValidation("validate").data("formValidation").isValid()) return;
+
+            var key = $getQueryString("key");
+            var dictKey = getDictKey(key);
+            //同步Kindeditor内容
+            for (var i in KindEditor.instances) {
+                if (KindEditor.instances.hasOwnProperty(i)) {
+                    KindEditor.instances[i].sync();
+                }
+            }
+            $("#dictValue-create-form input[name='dictValue.create.KeyId']").val(dictKey.Id);
+            $.ajax({
+                async: true,
+                type: "post",
+                dataType: "json",
+                data: $('#dictValue-create-form').serialize(),
+                url: getUrl("dictValue", "Create"),
+                success: function (data) {
+                    $dialogShow(data);
+                    if (data.Type == "Success") {
+                        $("#dictValue-grid").trigger('reloadGrid');
+                        $("#dictValue-modal").modal("hide");
+                    }
+                }
+            });
+        }
+
+        //编辑
+        function edit_dictValue() {
+            if (!$('#dictValue-edit-form').formValidation("validate").data("formValidation").isValid()) return;
+            //同步Kindeditor内容
+            for (var i in KindEditor.instances) {
+                if (KindEditor.instances.hasOwnProperty(i)) {
+                    KindEditor.instances[i].sync();
+                }
+            }
+            $.ajax({
+                async: true,
+                type: "post",
+                dataType: "json",
+                data: $('#dictValue-edit-form').serialize(),
+                url: getUrl("dictValue", "Edit"),
+                success: function (data) {
+                    $dialogShow(data);
+                    if (data.Type == "Success") {
+                        $("#dictValue-grid").trigger('reloadGrid');
+                        $("#dictValue-modal").modal("hide");
+                    }
+                }
+            });
+        }
+
+        //删除
+        function delete_dictValue() {
+            $dialogShow({
+                Type: "confirm",
+                Title: "删除",
+                Content: "确定要删除所选条目吗？",
+                SureFn: function (modal) {
+                    $(modal).on('hidden.bs.modal', function () {
+                        var ids = $("#dictValue-grid").jqGrid('getGridParam', 'selarrrow');
+                        $.ajax({
+                            async: true,
+                            type: "post",
+                            dataType: "json",
+                            data: { ids: ids },
+                            url: getUrl("dictValue", "Delete"),
+                            success: function (data) {
+                                $dialogShow(data);
+                                if (data.Type == "Success") {
+                                    $("#dictValue-grid").trigger('reloadGrid');
+                                }
+                            }
+                        });
+                    }).modal("hide");
+                }
+            });
+        }
+
+        //查询
+        function search_dictValue() {
+            var key = $getQueryString("key");
+            var dictKey = getDictKey(key);
+            var queryParams = { KeyId: dictKey.Id };
+            $($("#dictValue-search .form-control").serializeArray()).each(function (i, obj) {
+                queryParams[obj.name] = obj.value;
+            });
+            $("#dictValue-grid").jqGrid("setGridParam", { postData: queryParams, page: 1 }).trigger("reloadGrid");
+        }
+
+        //获取键
+        function getDictKey(keyName) {
+            var k = null;
+            $.ajax({
+                async: false,
+                type: "post",
+                dataType: "json",
+                data: { key: keyName },
+                url: getUrl("DictKey", "Detail"),
+                success: function (data) {
+                    k = data;
+                }
+            });
+            return k;
+        }
+    </script>
+}

@@ -1,0 +1,488 @@
+﻿<div class="container">
+    <div class="scoreStatistics-top"></div>
+</div>
+<div class="main">
+    <div class="container" style="padding-right: 30px;">
+        <div class="row margin-bottom-40">
+            <div class="col-md-12 col-sm-12">
+                <div class="content-page">
+                    <div class="portlet light">
+                        <ul class="nav nav-tabs" id="scoreStatisticsTabBox">
+                            <li>
+                                <a href="#tab-1" data-toggle="tab">个人成绩</a>
+                            </li>
+                            <li>
+                                <a href="#tab-2" data-toggle="tab">班级成绩</a>
+                            </li>
+                            <li>
+                                <a href="#tab-3" data-toggle="tab">完成情况统计</a>
+                            </li>
+                        </ul>
+                        <div id="scoreStatisticsConBox" class="tab-content" style="padding: 0">
+                            <div class="tab-pane fade" id="tab-1">
+                                <div class="form-group col-md-12 margin-top-10" id="scoreStatisticsSearch">
+                                    <div class="col-md-12  padding-left-0">
+                                        <div class="col-md-4" style="text-align:left;">
+                                            <div class="search-label">班级</div>
+                                            <div class="col-md-9">
+                                                <input type="text" class="form-control input input-left" name="ClassId">
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4" style="text-align:left;margin-left:-50px;">
+                                            <div class="search-label">关键字</div>
+                                            <div class="col-md-9">
+                                                <input type="text" class="form-control input input-left" name="KeyWord" placeholder="账号、姓名">
+                                            </div>
+                                        </div>
+                                        <div class="col-md-1" style="margin-left:-50px;">
+                                            <a href="javascript:;" class="btn btn blue" onclick="btnscoreStatisticsSearch()">
+                                                <i class="fa fa-search"></i> 检索
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="table-responsive col-md-12 margin-top-10">
+                                    <table class="table table-bordered" id="stuentPagerBox">
+                                        <thead>
+                                            <tr>
+                                                <th>
+                                                    账号
+                                                </th>
+                                                <th>
+                                                    姓名
+                                                </th>
+                                                <th>
+                                                    班级
+                                                </th>
+                                                <th>
+                                                    得分
+                                                </th>
+                                                <th>
+                                                    操作
+                                                </th>
+                                            </tr>
+                                        </thead>
+                                        <tbody style="display: none" class="list">
+                                            <tr style="display: none" class="listTemplate" _id="{Id}">
+                                                <td>
+                                                    {CreateByAccount}
+                                                </td>
+                                                <td>
+                                                    {CreateByRealName}
+                                                </td>
+                                                <td>
+                                                    {ShowCreateByClasses}
+                                                </td>
+                                                <td>
+                                                    {Score}
+                                                </td>
+                                                <td>
+                                                    <a class="btn btn-xs blue" target="_blank" style="color: #fff" onclick="openSeeScore(this, {CreateBy})">
+                                                        <i class="fa fa-eye-slash"></i>
+                                                        查看详情
+                                                    </a>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                        <tbody class="loading">
+                                            <tr>
+                                                <td colspan="5" style="text-align: center">
+                                                    <img src="/Areas/Adm/Images/loading_5.gif" />
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                    <div class="mt20" id="pageStudentDiv"></div>
+                                </div>
+                                <div class="clearfix"></div>
+                            </div>
+                            <div class="tab-pane fade" id="tab-2">
+                                <div class="table-responsive margin-top-10">
+                                    <table class="table table-bordered" id="classPagerBox">
+                                        <thead>
+                                            <tr>
+                                                <th>
+                                                    班级
+                                                </th>
+                                                <th>
+                                                    平均分
+                                                </th>
+                                                <th>
+                                                    最高分
+                                                </th>
+                                                <th>
+                                                    最低分
+                                                </th>
+                                                <th>
+                                                    高分率
+                                                </th>
+                                                <th>
+                                                    低分率
+                                                </th>
+                                                <th>
+                                                    优秀率
+                                                </th>
+                                                <th>
+                                                    及格率
+                                                </th>
+                                                <th>
+                                                    满分
+                                                </th>
+                                                <th>
+                                                    提交比例
+                                                </th>
+                                            </tr>
+                                        </thead>
+                                        <tbody style="display: none" class="list">
+                                            <tr style="display: none" class="listTemplate" _id="{Id}">
+                                                <td>
+                                                    {ClassName}
+                                                </td>
+                                                <td>
+                                                    {AverageScore}
+                                                </td>
+                                                <td>
+                                                    {MaxScore}
+                                                </td>
+                                                <td>
+                                                    {MinScore}
+                                                </td>
+                                                <td>
+                                                    {HighScoreRate}
+                                                </td>
+                                                <td>
+                                                    {LowScoreRate}
+                                                </td>
+                                                 <td>
+                                                    {ExcellenceRate}
+                                                </td>
+                                                <td>
+                                                    {PassRate}
+                                                </td>
+                                                <td>
+                                                    {TotalScore}
+                                                </td>
+                                                 <td>
+                                                    {SubmitRate}
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                        <tbody class="loading">
+                                            <tr>
+                                                <td colspan="10" style="text-align: center">
+                                                    <img src="/Areas/Adm/Images/loading_5.gif" />
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                    <div class="mt20" id="pageClassDiv"></div>
+                                </div>
+                            </div>
+                            <div class="tab-pane fade" id="tab-3">
+                                <div class="form-group col-md-12 margin-top-10" id="compareClassScoreSearch">
+                                    <div class="col-md-12  padding-left-0">
+                                        <div class="col-md-4" style="text-align:left;">
+                                            <div class="search-label">班级</div>
+                                            <div class="col-md-9">
+                                                <input type="text" class="form-control input input-left" name="ClassId">
+                                            </div>
+                                        </div>
+                                        <div class="col-md-1" style="margin-left:-50px;">
+                                            <a href="javascript:;" class="btn btn blue" onclick="btnCompareClassScoreSearch()">
+                                                <i class="fa fa-search"></i> 检索
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="table-responsive col-md-12  margin-top-10">
+                                    <table class="table table-bordered" id="compareClassScoreBox">
+                                        <thead>
+                                            <tr>
+                                                <th>
+                                                    题目
+                                                </th>
+                                                <th>
+                                                    完成率
+                                                </th>
+                                                <th>
+                                                    正确率
+                                                </th>
+                                            </tr>
+                                        </thead>
+                                        <tbody style="display: none" class="list">
+                                            <tr style="display: none" class="listTemplate">
+                                                <td>
+                                                    {SubjectName}
+                                                </td>
+                                                <td>
+                                                    {CompletyRate}
+                                                </td>
+                                                <td>
+                                                    {CorrectRate}
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                        <tbody class="loading">
+                                            <tr>
+                                                <td colspan="10" style="text-align: center">
+                                                    <img src="/Areas/Adm/Images/loading_5.gif" />
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                    <div class="mt20" id="pagecompareClassScore"></div>
+                                </div>
+                                <div class="clearfix"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+@section head_style{
+    <link href="~/Areas/Base/Scripts/Metronicv/assets/global/plugins/select2/select2.css" rel="stylesheet" />
+    <link href="~/Areas/Base/Scripts/Metronicv/assets/global/css/plugins.css" rel="stylesheet" type="text/css" />
+}
+@section body_js{
+    <script src="~/Areas/Base/Scripts/kindeditor-4.1.10/kindeditor.js"></script>
+    <script src="~/Areas/Base/Scripts/kindeditor-4.1.10/lang/zh_CN.js"></script>
+    <script src="~/Areas/Base/Scripts/Metronicv/assets/global/plugins/select2/select2.js"></script>
+    <script src="~/Areas/Base/Scripts/Metronicv/assets/global/plugins/select2/select2_locale_zh-CN.js"></script>
+    <script src="~/Areas/Base/Scripts/customer/plugin.extend.js"></script>
+    <script type="text/javascript">
+        var classIds = appInfo.loginUser.UserInfo.ClassIds;
+
+        //初始化
+        $(function () {
+            frontLayout({
+                title: "成绩统计",
+                menuName: "ScoreStatistics"
+            });
+
+            //插件
+            $('#scoreStatisticsTabBox a[data-toggle="tab"]').on('shown.bs.tab', function (e) {
+                if ($(e.target).attr("href") == "#tab-1" && !$(e.target).hasClass("loaded")) {
+                    initTab1();
+                }
+                else if ($(e.target).attr("href") == "#tab-2" && !$(e.target).hasClass("loaded")) {
+                    initTab2();
+                }
+                else if ($(e.target).attr("href") == "#tab-3" && !$(e.target).hasClass("loaded")) {
+                    initTab3();
+                }
+                $(e.target).addClass("loaded");
+            });
+            $("#scoreStatisticsTabBox li a:first").tab('show');
+        });
+
+        //个人成绩
+        function initTab1() {
+            //插件
+            $("#scoreStatisticsSearch input[name='ClassId']").select2({
+                placeholder: "-请选择-",
+                allowClear: true,
+                formatSelection: function(item) { return item.Name; },
+                formatResult: function(item) { return item.Name; },
+                ajax: {
+                    url: getUrl("Class", "Pager"),
+                    dataType: "json",
+                    type: 'post',
+                    data: function(term, page) {
+                        return {
+                            PageSize: 999,
+                            SortBy: "Id",
+                            SortOrder: "asc",
+                            ClassIds: appInfo.loginUser.UserInfo.ClassIds
+                        };
+                    },
+                    results: function(data, page) {
+                        var items = data.Rows;
+                        var more = (page * 30) < data.TotalRecords;
+                        $(items).each(function(i, item) {
+                            item.id = item.Id.toString();
+                            item.Name = item.Name;
+                        });
+                        if (page == 1) {
+                            items.unshift({ id: "", Name: "-请选择-" });
+                        }
+                        return { results: items, more: more };
+                    }
+                }
+            });
+
+            $("#pageStudentDiv").jqPager({
+                url: getUrl("DetectionHand", "StuedntScorePager", { area: "Adm" }),
+                pageNo: 1,
+                pageSize: 10,
+                pagerTempalte: "t2",
+                sortBy: "T_User.Account",
+                sortOrder: "asc",
+                postData: { ProjectId: gloQs.projectId, Status: "Examed", CreateByClassIds: classIds },
+                loadBefore: function () {
+                    $("#stuentPagerBox .list").hide();
+                    $("#stuentPagerBox .loading").show();
+                },
+                loadComplete: function (data) {
+                    $("#stuentPagerBox .list").show();
+                    $("#stuentPagerBox .loading").hide();
+
+                    var rows = data.Rows;
+                    var template = $("#stuentPagerBox .listTemplate").prop("outerHTML");
+                    $("#stuentPagerBox .listTemplate").not(":first").remove();
+
+                    $(rows).each(function (i, row) {
+                        row.Index = i + 1;
+                        $("#stuentPagerBox .listTemplate:last").after($(template.format(row)));
+                    });
+                    $("#stuentPagerBox .listTemplate").not(":first").show();
+
+                    //点击事件
+                    $("#stuentPagerBox .listTemplate").click(function () {
+                        var lt = $(this);
+                        $("#stuentPagerBox .listTemplate").removeClass("current");
+                        $(lt).addClass("current");
+                    });
+                }
+            });
+        }
+
+        //个人成绩.查询
+        function btnscoreStatisticsSearch() {
+            var queryParams = $("#pageStudentDiv").jqPager("getPostData");
+            $($("#scoreStatisticsSearch .form-control").serializeArray()).each(function(i, obj) {
+                queryParams[obj.name] = obj.value;
+            });
+            $("#pageStudentDiv").jqPager("gotoPage");
+        }
+
+        //班级成绩
+        function initTab2() {
+            $("#pageClassDiv").jqPager({
+                url: getUrl("DetectionHand", "ClassScorePager", { area: "Adm" }),
+                pageNo: 1,
+                pageSize: 10,
+                pagerTempalte: "t2",
+                sortBy: "T_Class.Id",
+                sortOrder: "asc",
+                postData: { ProjectId: gloQs.projectId, Status: "Examed", ClassIds: classIds },
+                loadBefore: function () {
+                    $("#classPagerBox .list").hide();
+                    $("#classPagerBox .loading").show();
+                },
+                loadComplete: function (data) {
+                    $("#classPagerBox .list").show();
+                    $("#classPagerBox .loading").hide();
+
+                    var rows = data.Rows;
+                    var template = $("#classPagerBox .listTemplate").prop("outerHTML");
+                    $("#classPagerBox .listTemplate").not(":first").remove();
+
+                    $(rows).each(function (i, row) {
+                        row.Index = i + 1;
+                        $("#classPagerBox .listTemplate:last").after($(template.format(row)));
+                    });
+                    $("#classPagerBox .listTemplate").not(":first").show();
+
+                    //点击事件
+                    $("#classPagerBox .listTemplate").click(function () {
+                        var lt = $(this);
+                        $("#classPagerBox .listTemplate").removeClass("current");
+                        $(lt).addClass("current");
+                    });
+                }
+            });
+        }
+
+        //完成情况
+        function initTab3() {
+            //插件
+            $("#compareClassScoreSearch input[name='ClassId']").select2({
+                placeholder: "-请选择-",
+                allowClear: true,
+                formatSelection: function(item) { return item.Name; },
+                formatResult: function(item) { return item.Name; },
+                ajax: {
+                    url: getUrl("Class", "Pager"),
+                    dataType: "json",
+                    type: 'post',
+                    data: function(term, page) {
+                        return {
+                            PageSize: 999,
+                            SortBy: "Id",
+                            SortOrder: "asc",
+                            ClassIds: appInfo.loginUser.UserInfo.ClassIds
+                        };
+                    },
+                    results: function(data, page) {
+                        var items = data.Rows;
+                        var more = (page * 30) < data.TotalRecords;
+                        $(items).each(function(i, item) {
+                            item.id = item.Id.toString();
+                            item.Name = item.Name;
+                        });
+                        if (page == 1) {
+                            items.unshift({ id: "", Name: "-请选择-" });
+                        }
+                        return { results: items, more: more };
+                    }
+                }
+            });
+
+            $("#pagecompareClassScore").jqPager({
+                url: getUrl("DetectionHand", "CompareClassScore", { area: "Adm" }),
+                pageNo: 1,
+                pageSize: 10,
+                pagerTempalte: "t2",
+                sortBy: "SubjectId",
+                sortOrder: "asc",
+                postData: { ProjectId: gloQs.projectId, userId: appInfo.loginUser.Id },
+                loadBefore: function () {
+                    $("#compareClassScoreBox .list").hide();
+                    $("#compareClassScoreBox .loading").show();
+                },
+                loadComplete: function (data) {
+                    $("#compareClassScoreBox .list").show();
+                    $("#compareClassScoreBox .loading").hide();
+
+                    var rows = data.Rows;
+                    var template = $("#compareClassScoreBox .listTemplate").prop("outerHTML");
+                    $("#compareClassScoreBox .listTemplate").not(":first").remove();
+        
+                    $(rows).each(function (i, row) {
+                        row.Index = i + 1;
+                        row.CompletyRate = row.CompletyRate && numToPercent(row.CompletyRate);
+                        row.CorrectRate = row.CorrectRate && numToPercent(row.CorrectRate);
+                        $("#compareClassScoreBox .listTemplate:last").after($(template.format(row)));
+                    });
+                    $("#compareClassScoreBox .listTemplate").not(":first").show();
+
+                    //点击事件
+                    $("#compareClassScoreBox .listTemplate").click(function () {
+                        var lt = $(this);
+                        $("#compareClassScoreBox .listTemplate").removeClass("current");
+                        $(lt).addClass("current");
+                    });
+                }
+            });
+        }
+
+        //完成情况.查询
+        function btnCompareClassScoreSearch() {
+            var queryParams = $("#pagecompareClassScore").jqPager("getPostData");
+            $($("#compareClassScoreSearch .form-control").serializeArray()).each(function(i, obj) {
+                queryParams[obj.name] = obj.value;
+            });
+            $("#pagecompareClassScore").jqPager("gotoPage");
+        }
+
+        //打开查看成绩
+        function openSeeScore(btn, id) {
+            $(btn).attr("href", getUrl("Home", "SeeScore", {
+                userId: id,
+                projectId: gloQs.projectId
+            }));
+        }
+    </script>
+}

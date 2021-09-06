@@ -1,0 +1,48 @@
+记录时间：2019-10-22 23:32:54 线程ID:[12] 日志级别：ERROR 记录日志类：EKP.Base.Identity.ApplicationSignInManager --描述：
+	Ip“127.0.0.1”登陆失败，不在登陆范围内。
+
+
+
+--------------------------------------------------------------------------------------------------
+--异常堆栈:
+记录时间：2019-10-22 23:33:44 线程ID:[11] 日志级别：ERROR 记录日志类：ASP.global_asax --描述：
+2019.10.22 23:33:44
+.客户信息：
+	Ip:::1
+	浏览器:Chrome
+	浏览器版本:76
+	操作系统:WinNT
+.错误信息：
+	记录来源：Application_Error
+	页面：http://localhost:12348/Jkt/adm/uesr/Login
+	错误信息：未找到路径“/Jkt/adm/uesr/Login”的控制器或该控制器未实现 IController。
+	错误源：System.Web.Mvc
+	异常方法：System.Web.Mvc.IController GetControllerInstance(System.Web.Routing.RequestContext, System.Type)
+	堆栈信息：   在 System.Web.Mvc.DefaultControllerFactory.GetControllerInstance(RequestContext requestContext, Type controllerType)
+   在 System.Web.Mvc.DefaultControllerFactory.CreateController(RequestContext requestContext, String controllerName)
+   在 System.Web.Mvc.MvcHandler.ProcessRequestInit(HttpContextBase httpContext, IController& controller, IControllerFactory& factory)
+   在 System.Web.Mvc.MvcHandler.BeginProcessRequest(HttpContextBase httpContext, AsyncCallback callback, Object state)
+   在 System.Web.Mvc.MvcHandler.BeginProcessRequest(HttpContext httpContext, AsyncCallback callback, Object state)
+   在 System.Web.Mvc.MvcHandler.System.Web.IHttpAsyncHandler.BeginProcessRequest(HttpContext context, AsyncCallback cb, Object extraData)
+   在 System.Web.HttpApplication.CallHandlerExecutionStep.System.Web.HttpApplication.IExecutionStep.Execute()
+   在 System.Web.HttpApplication.ExecuteStepImpl(IExecutionStep step)
+   在 System.Web.HttpApplication.ExecuteStep(IExecutionStep step, Boolean& completedSynchronously)
+
+
+
+--------------------------------------------------------------------------------------------------
+--异常堆栈:
+记录时间：2019-10-22 23:33:44 线程ID:[12] 日志级别：ERROR 记录日志类：EKP.Base.Identity.ApplicationSignInManager --描述：
+	Ip“127.0.0.1”登陆失败，不在登陆范围内。
+
+
+
+--------------------------------------------------------------------------------------------------
+--异常堆栈:
+记录时间：2019-10-22 23:41:10 线程ID:[11] 日志级别：ERROR 记录日志类：EKP.Base.Identity.ApplicationSignInManager --描述：
+	Ip“127.0.0.1”登陆失败，不在登陆范围内。
+
+
+
+--------------------------------------------------------------------------------------------------
+--异常堆栈:

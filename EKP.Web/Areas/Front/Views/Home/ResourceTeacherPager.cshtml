@@ -1,0 +1,456 @@
+﻿<style>
+    a {
+        color: blue;
+    }
+</style>
+<div class="container">
+    <div class="student-top"></div>
+</div>
+<div class="main">
+    <div class="container" style="padding-right: 30px;">
+        <div class="portlet light">
+            <div class="portlet-body row">
+
+                @*检索条件*@
+                <div class="form-group col-md-12" id="studentSearch">
+                    <div class="col-md-12  padding-left-0">
+                        <div class="col-md-4" style="text-align:left;">
+                            <div class="search-label">班级</div>
+                            <div class="col-md-9">
+                                <input type="text" class="form-control input input-left" name="ClassIdSearch">
+                            </div>
+                        </div>
+                        <div class="col-md-4" style="text-align:left">
+                            <div class="search-label">关键字</div>
+                            <div class="col-md-9">
+                                <input type="text" class="form-control input input-left" name="KeyWord" placeholder="资源名称、资源种类、发布人">
+                            </div>
+                        </div>
+                        <div class="col-md-1" style="margin-left:-30px;">
+                            <a href="javascript:;" class="btn btn blue" onclick="btnResourceSearch()">
+                                <i class="fa fa-search"></i> 检索
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                @*增删改发布等基本操作*@
+                <div class="btn-group col-md-12" id="grid-toolbar">
+                    <ul class="nav nav-pills col-md-8 no-margin-bottom">
+                        <li>
+                            <button class="btn blue" onclick="open_create()">
+                                <i class="fa fa-plus"></i>
+                                新增
+                            </button>
+                        </li>
+                        <li>
+                            <button class="btn blue" onclick="open_edit()">
+                                <i class="fa fa-pencil"></i>
+                                编辑
+                            </button>
+                        </li>
+                        <li>
+                            <button class="btn blue" onclick="del()">
+                                <i class="fa fa-trash"></i>
+                                删除
+                            </button>
+                        </li>
+                        <li>
+                            <button class="btn blue"  id="btnPublish"  onclick="open_publish()">
+                                <i class="fa fa-pencil"></i>
+                                发布班级
+                            </button>
+                        </li>
+
+                    </ul>
+                </div>
+
+                @*显示数据的表格*@
+                <div class="table-responsive col-md-12 margin-top-10">
+                    <table class="table table-bordered" id="resourcePagerBox">
+                        <thead>
+                            <tr>
+                                <th>
+                                    #
+                                </th>
+                                <th>
+                                    资源名称
+                                </th>
+                                <th>
+                                    资源种类
+                                </th>
+                                <th>
+                                    所发班级
+                                </th>                                
+                                <th>
+                                    要求附件
+                                </th>
+                                <th>
+                                    下载次数
+                                </th> 
+                                <th>
+                                    下载链接
+                                </th>                              
+                                <th>
+                                    来源老师
+                                </th>
+                                <th>
+                                    发布时间
+                                </th>
+                                <th>
+                                    描述
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody style="display: none" class="list">
+                            <tr style="display: none" class="listTemplate" _id="{Id}" _ClassName="{ClassName}">
+                                <td width="40px">
+                                    {Index}
+                                </td>
+                                <td>
+                                    {Name}
+                                </td>
+                                <td>
+                                    {Type}
+                                </td>
+                                <td>
+                                    {ClassName}
+                                </td>
+                                <td>
+                                    <a href="{Attachment}" onclick="count({Id});">{AttachmentName}</a>
+                                </td>
+                                <td>
+                                    {DownLoadCount}
+                                </td>
+                                <td>
+                                    <a href="{MyURL}" target="_blank">{MyURLName}</a>
+                                </td>                                
+                                <td>
+                                    {SharedUser}
+                                </td>
+                                <td>
+                                    {DateTime}
+                                </td>
+                                <td>
+                                    {Description}
+                                </td>
+                            </tr>
+                        </tbody>
+                        <tbody class="loading">
+                            <tr>
+                                <td colspan="11" style="text-align: center">
+                                    <img src="/Areas/Adm/Images/loading_5.gif" />
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <div class="mt20" id="pageResourceDiv"></div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+@section head_style{
+    <link href="/Areas/Base/Scripts/Metronicv/assets/global/plugins/select2/select2.css" rel="stylesheet" />
+    <link href="/Areas/Base/Scripts/Metronicv/assets/global/css/plugins.css" rel="stylesheet" type="text/css">
+    <link href="/Areas/Base/Scripts/Metronicv/assets/global/plugins/icheck/skins/all.css" rel="stylesheet" />
+    <link href="/Areas/Base/Scripts/kindeditor-4.1.10/themes/default/default.css" rel="stylesheet" />
+    <link href="/Areas/Base/Content/plugin.extend.css" rel="stylesheet" />
+    <style>
+        #resourcePagerBox .listTemplate.current {
+            background: #FF83FA;
+            color: #fff;
+        }
+    </style>
+}
+@section body_js{
+    <script src="/Areas/Base/Scripts/Metronicv/assets/global/plugins/select2/select2.js"></script>
+    <script src="/Areas/Base/Scripts/Metronicv/assets/global/plugins/select2/select2_locale_zh-CN.js"></script>
+    <script src="/Areas/Base/Scripts/Metronicv/assets/global/plugins/icheck/icheck.min.js"></script>
+    <script src="/Areas/Base/Scripts/formvalidation/dist/js/formValidation.js"></script>
+    <script src="/Areas/Base/Scripts/formvalidation/dist/js/framework/bootstrap.js"></script>
+    <script src="/Areas/Base/Scripts/formvalidation/dist/js/language/zh_CN.js"></script>
+    <script src="/Areas/Base/Scripts/kindeditor-4.1.10/kindeditor.js"></script>
+    <script src="/Areas/Base/Scripts/kindeditor-4.1.10/lang/zh_CN.js"></script>
+    <script src="/Areas/Base/Scripts/customer/plugin.extend.js"></script>
+    <script>
+        //初始化
+        $(function () {
+            //母版页
+            frontLayout({
+                title: "资源管理",
+                menuName: "Resource"
+            });
+
+            //插件
+            $("#studentSearch input[name='ClassIdSearch']").select2({
+                placeholder: "-请选择-",
+                allowClear: true,
+                formatSelection: function (item) { return item.Name; },
+                formatResult: function (item) { return item.Name; },
+                ajax: {
+                    url: getUrl("Class", "Pager"),
+                    dataType: "json",
+                    type: 'post',
+                    data: function (term, page) {
+                        return {
+                            PageSize: 999,
+                            SortBy: "Id",
+                            SortOrder: "asc"
+                        };
+                    },
+                    results: function (data, page) {
+                        var items = data.Rows;
+                        var more = (page * 30) < data.TotalRecords;
+                        $(items).each(function (i, item) {
+                            item.id = item.Id.toString();
+                            item.Name = item.Name;
+                        });
+                        if (page == 1) {
+                            items.unshift({ id: "", Name: "-请选择-" });
+                        }
+                        return { results: items, more: more };
+                    }
+                }
+            });
+
+            //分页
+            $("#pageResourceDiv").jqPager({
+                url: getUrl("Resource", "Pager", { area: "Adm" }),
+                pageNo: 1,
+                pageSize: 10,
+                pagerTempalte: "t2",
+                sortBy: "Id",
+                sortOrder: "desc",
+                loadBefore: function () {
+                    $("#resourcePagerBox .list").hide();
+                    $("#resourcePagerBox .loading").show();
+                },
+                loadComplete: function (data) {
+                    $("#resourcePagerBox .list").show();
+                    $("#resourcePagerBox .loading").hide();
+
+                    var rows = data.Rows;
+                    var template = $("#resourcePagerBox .listTemplate").prop("outerHTML");
+                    $("#resourcePagerBox .listTemplate").not(":first").remove();
+
+                    console.log(data);
+                    console.log(template);
+                    $(rows).each(function (i, row) {
+                        row.Index = i + 1;
+                        row.DateTime = $formatDate(row.DateTime, "yyyy年MM月dd日");
+                        $("#resourcePagerBox .listTemplate:last").after($(template.format(row)));
+                    });
+                    $("#resourcePagerBox .listTemplate").not(":first").show();
+
+                    //点击事件
+                    $("#resourcePagerBox .listTemplate").click(function () {
+                        var lt = $(this);
+                        $("#resourcePagerBox .listTemplate").removeClass("current");
+                        $(lt).addClass("current");
+
+                        var ClassName = $("#resourcePagerBox .listTemplate.current").attr('_ClassName');
+                        if (ClassName == "")
+                            $("#btnPublish").attr("disabled", false); //.hide();
+                        else
+                            $("#btnPublish").attr("disabled", true); //.show();
+                    });
+                },
+            });
+        });
+
+        //打开添加窗口
+        function open_create() {
+            $.ajax({
+                url: getUrl("Home", "ResourceCreate"),
+                dataType: 'html',
+                type: 'get',
+                beforeSend: function () {
+
+                    layer.load(0, { shade: false });
+                },
+                success: function (html) {
+                    layer.closeAll("loading");
+                    layer.confirm(html, {
+                        title: '<i class="fa fa-plus"></i> 新增资源',
+                        area: ['900px', '440px'],
+                        btn: ['<i class="fa fa-save"></i>&nbsp;保存', '<i class="fa fa-times"></i>&nbsp;取消']
+                    }, function (v, box) {
+                        create();
+                    });
+                }
+            });
+        }
+
+        //添加
+        function create() {
+            if (!$('#create-form').formValidation("validate").data("formValidation").isValid()) return;
+            $.ajax({
+                async: true,
+                type: "post",
+                dataType: "json",
+                data: $('#create-form').serialize(),
+                url: getUrl("Resource", "Create", { area: "Adm" }),
+                success: function (data) {
+                    $dialogShow(data);
+                    if (data.Type == "Success") {
+                        $("#pageResourceDiv").jqPager("gotoPage");
+                    }
+                }
+            });
+        }
+
+        //打开编辑窗口
+        function open_edit() {
+            var Id = $("#resourcePagerBox .listTemplate.current").attr('_id');
+            if (!Id) {
+                layer.alert("请选择记录后再操作！", { icon: 5 });
+                return;
+            }
+            $.ajax({
+                type: "POST",
+                dataType: "json",
+                data: { Id: Id },
+                url: getUrl("Resource", "Detail", { area: "Adm" }),
+                beforeSend: function () {
+                    layer.load(0, { shade: false });
+                },
+                success: function (data) {
+                    $.ajax({
+                        url: getUrl("Home", "ResourceEdit"),
+                        dataType: 'html',
+                        type: 'get',
+                        success: function (html) {
+                            layer.closeAll("loading");
+                            layer.confirm(html, {
+                                title: '<i class="fa fa-pencil"></i> 编辑资源',
+                                area: ['900px', '370px'],
+                                btn: ['<i class="fa fa-save"></i>&nbsp;保存', '<i class="fa fa-times"></i>&nbsp;取消'],
+                            }, function (v, box) {
+                                edit();
+                            });
+                            $("#edit-form .form-control").bindData(data);
+                        }
+                    });
+                }
+            });
+        }
+
+        //编辑
+        function edit() {
+            if (!$('#edit-form').formValidation("validate").data("formValidation").isValid()) return;
+            $.ajax({
+                async: true,
+                type: "post",
+                dataType: "json",
+                data: $('#edit-form').serialize(),
+                url: getUrl("Resource", "Edit", { area: "Adm" }),
+                success: function (data) {
+                    $dialogShow(data);
+                    if (data.Type == "Success") {
+                        $("#pageResourceDiv").jqPager("gotoPage");
+                    }
+                }
+            });
+        }
+
+        //删除
+        function del() {
+            layer.confirm("确定要删除记录？", {
+                btn: ['确认', '取消']
+            }, function () {
+                var Id = $("#resourcePagerBox .listTemplate.current").attr('_id');
+                if (!Id) {
+                    layer.alert("请选择记录后再操作！", { icon: 5 });
+                    return;
+                }
+
+                var ids = [Id];
+                $.ajax({
+                    async: true,
+                    type: "post",
+                    dataType: "json",
+                    data: { ids: ids },
+                    url: getUrl("Resource", "Delete", { area: "Adm" }),
+                    success: function (data) {
+                        $dialogShow(data);
+                        if (data.Type == "Success") {
+                            $("#pageResourceDiv").jqPager("gotoPage");
+                        }
+                    }
+                });
+                layer.closeAll();
+            });            
+        }
+
+        //打开发布班级窗口
+        function open_publish() {
+            var Id = $("#resourcePagerBox .listTemplate.current").attr('_id');
+            if (!Id) {
+                layer.alert("请选择记录后再操作！", { icon: 5 });
+                return;
+            }
+            $.ajax({
+                type: "POST",
+                dataType: "json",
+                data: { Id: Id },
+                url: getUrl("Resource", "Detail", { area: "Adm" }),
+                beforeSend: function () {
+                    layer.load(0, { shade: false });
+                },
+                success: function (data) {
+                    $.ajax({
+                        url: getUrl("Home", "ResourcePublish"),
+                        dataType: 'html',
+                        type: 'get',
+                        success: function (html) {
+                            layer.closeAll("loading");
+                            layer.confirm(html, {
+                                title: '<i class="fa fa-pencil"></i> 发布班级',
+                                area: ['600px', '160px'],
+                                btn: ['<i class="fa fa-save"></i>&nbsp;保存', '<i class="fa fa-times"></i>&nbsp;取消'],
+                            }, function (v, box) {
+                                publish();
+                            });
+                            $("#pubish-form .form-control").bindData(data);
+                        }
+                    });
+                }
+            });
+        }
+
+        //发布班级
+        function publish() {
+            if (!$('#pubish-form').formValidation("validate").data("formValidation").isValid()) return;
+            $.ajax({
+                async: true,
+                type: "post",
+                dataType: "json",
+                data: $('#pubish-form').serialize(),
+                url: getUrl("Resource", "Publish", { area: "Adm" }),
+                success: function (data) {
+                    $dialogShow(data);
+                    if (data.Type == "Success") {
+                        $("#pageResourceDiv").jqPager("gotoPage");
+                    }
+                }
+            });
+        }
+
+        //查询
+        function btnResourceSearch() {
+            var queryParams = $("#pageResourceDiv").jqPager("getPostData");
+            $($("#studentSearch .form-control").serializeArray()).each(function (i, obj) {
+                queryParams[obj.name] = obj.value;
+            });
+            $("#pageResourceDiv").jqPager("gotoPage");
+        }
+
+
+            
+        
+    </script>
+}
+
+

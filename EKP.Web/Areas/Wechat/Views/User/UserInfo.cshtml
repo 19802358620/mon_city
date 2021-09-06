@@ -1,0 +1,149 @@
+﻿@{
+    Layout = "~/Areas/WeChat/Views/Shared/_Layout.cshtml";
+}
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>个人资料</title> 
+    <style>
+        .text-left {
+            margin-left: -20px;
+            margin-right: 10px;
+        }
+
+        .text-right {
+            margin-top: 5px;
+        }
+
+        .container-fluid {
+            margin-bottom: 20px;
+        }
+    </style>   
+</head>
+<body>
+    <div class="container-fluid">
+        <input id="hidPicture" type="hidden" />
+        <form class="form-horizontal">
+            <div class="row" style="text-align: center; margin-top: 10px; margin-bottom: 10px;">
+                <h2>个人资料</h2>
+            </div>
+            <div class="row">
+                <div class="col-xs-4"><p class="text-right">用户名</p></div>
+                <div class="col-xs-8">
+                    <p class="text-left"><input type="text" class="form-control" id="account" name="Account" placeholder="用户名" readonly="readonly"></p>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-xs-4"><p class="text-right">真实姓名</p></div>
+                <div class="col-xs-8">
+                    <p class="text-left"><input type="text" class="form-control" id="realName" name="RealName" placeholder="真实姓名"></p>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-xs-4"><p class="text-right">性别</p></div>
+                <div class="col-xs-8">
+                    <p class="text-left">
+                        <select class="form-control" id="sex" name="Sex">
+                            <option value="男">男</option>
+                            <option value="女">女</option>
+                        </select>
+                    </p>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-xs-4"><p class="text-right">年龄</p></div>
+                <div class="col-xs-8">
+                    <p class="text-left">
+                        <input type="text" class="form-control" id="age" name="Age" placeholder="年龄">
+                    </p>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-xs-4"><p class="text-right">手机号码</p></div>
+                <div class="col-xs-8">
+                    <p class="text-left">
+                        <input type="text" class="form-control" id="telephone" name="Telephone" placeholder="手机号码">
+                    </p>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-xs-4"><p class="text-right">Email地址</p></div>
+                <div class="col-xs-8">
+                    <p class="text-left">
+                        <input type="text" class="form-control" id="email" name="Email" placeholder="Email地址">
+                    </p>
+                </div>
+            </div>
+            <div class="row" style="margin-top:10px;">
+                <div class="col-xs-offset-4 col-xs-8">
+                    <button type="button" class="btn blue" style="width:40%" id="btn_edit" onclick="edit()">修改</button>
+                    <button type="button" class="btn blue" style="width:40%" id="btn_save" onclick="save()">保存</button>
+                </div>
+            </div>
+        </form>
+    </div>
+
+    <script>
+        $(function () {
+            $.ajax({
+                url: "/jkt/WeChat/User/GetUserInfo",
+                type: "post",
+                dataType: "json",
+                success: function (data) {
+                    //console.log(data);
+                    $("#account").val(data.Account);
+                    $("#realName").val(data.RealName);
+                    $("#sex").val(data.Sex);                   
+                    $("#age").val(data.Age);
+                    $("#telephone").val(data.Telephone);
+                    $("#email").val(data.Email);
+                    //if (data.Picture != null && data.Picture != "")
+                    //    $("#imgPicture").attr("src", function () { return "../" + data.Picture + "?" + Math.random() }); //头像
+                    //$("#hidPicture").val(data.Picture);
+                }
+            });
+
+            $('input').attr("disabled", true);
+            $('#sex').attr("disabled", true);
+            $('#btn_save').attr("disabled", true);            
+        });
+        function edit() {
+            $('input').attr("disabled", false);
+            $('#sex').attr("disabled", false);
+            $('#btn_save').attr("disabled", false);
+            $('#btn_edit').attr("disabled", true);
+            $('#account').attr("disabled", true); //用户名不可修改
+            
+            //var schoolName = $("#input_school").val();
+            //$('#select_school option:contains(' + schoolName + ')').each(function () {
+            //    if ($(this).text() == schoolName) {
+            //        $(this).attr('selected', true);
+            //    }
+            //});
+        }
+
+        function save() {
+            $.ajax({
+                url: "/jkt/WeChat/User/EditUserInfo",
+                type: "post",
+                data: {
+                    Account: $("#account").val(),
+                    RealName: $("#realName").val(),
+                    Sex: $("#sex").val(),
+                    Age: $("#age").val(),
+                    Telephone: $("#telephone").val(),
+                    Email: $("#email").val(),
+                },
+                dataType: "json",
+                success: function (data) {
+                    if (data == "true")
+                        alert("修改成功!");
+                    window.location.reload();
+                }
+            });
+        }
+    </script>
+
+</body>
+</html>

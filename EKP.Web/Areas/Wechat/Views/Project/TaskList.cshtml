@@ -1,0 +1,27 @@
+﻿@{
+    Layout = "~/Areas/WeChat/Views/Shared/_Layout.cshtml";
+}
+<!DOCTYPE html>
+<html>
+<head>
+    <title>任务列表</title>    
+</head>
+<body>
+
+    <div class="list-group">
+    @foreach (var item in Model)
+{
+    <a href="#" onclick="showSubject('@item.Id')" class="list-group-item">
+        <img src="~/Areas/Base/Content/images/bullet_key.png" style="margin-top:-5px;" />&nbsp;&nbsp;
+        @item.Name
+    </a>
+}
+    </div>
+
+    <script>
+        function showSubject(projectId) {
+            window.location.href = "/jkt/WeChat/Subject/Index?projectId={0}&returnUrl={1}".format(projectId, escape(location.href));
+        }
+    </script>
+</body>
+</html>

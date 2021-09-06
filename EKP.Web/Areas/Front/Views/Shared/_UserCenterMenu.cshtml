@@ -1,0 +1,110 @@
+﻿<!--iCheck Css Begin-->
+<link href="~/Areas/Base/Scripts/Metronicv/assets/global/plugins/icheck/skins/all.css" rel="stylesheet" />
+<!--iCheck Css End-->
+<div class="center-left fl">
+    <!--头像-->
+    <div class="user_box" id="basicInfo">
+        <div class="left_poto">
+            <img src="{Photo}" alt="" width="105" height="105">
+        </div>
+        <div class="tc qd_btn"><a class="wit_btn blue_btn" onclick="signIn()"><i class="mr5"><img src="~/Areas/Front/templates/Shared/t1/images/icon_qd.png" /></i><span>签到</span></a></div>
+        <b class="user_name">{Account}</b>
+        <div class="edit_box mt10">
+            <a href="" onclick="goUrl(this,'UserCenter','UserInfo')"><i class="icon_edit"></i>编辑</a>
+            <span>|</span>
+            <a href="" onclick="goUrl(this,'User','ChangePwd')">修改密码</a>
+        </div>
+    </div>
+    <!--导航-->
+    <div class="user_nav clr">
+        <ul class="clr" id="userNavMenu">
+            <li sign="Home">
+                <a href="javascript:;" onclick="goUrl(this,'UserCenter','Home')">
+                    <em class="icon_kind icon_zy"></em>
+                    <span class="fl">我的主页</span>
+                    <i class="fa  fa-angle-right fr"></i>
+                </a>
+            </li>
+            <li sign="UserInfo">
+                <a href="javascript:;" onclick="goUrl(this,'UserCenter','UserInfo')">
+                    <em class="icon_kind icon_zl"></em>
+                    <span class="fl">个人资料</span>
+                    <i class="fa fa-angle-right fr"></i>
+                </a>
+            </li>
+            <li sign="Subscribe">
+                <a href="javascript:;" onclick="goUrl(this,'UserCenter','Subscribe')">
+                    <em class="icon_kind icon_dy"></em>
+                    <span class="fl">资料订阅</span>
+                    <i class="fa fa-angle-right fr"></i>
+                </a>
+            </li>
+            <li sign="MyDisk">
+                <a href="javascript:;" onclick="goUrl(this,'UserCenter','MyDisk')">
+                    <em class="icon_kind icon_wp"></em>
+                    <span class="fl">我的网盘</span>
+                    <i class="fa fa-angle-right fr"></i>
+                </a>
+            </li>
+            <li sign="Consult">
+                <a href="javascript:;" onclick="goUrl(this,'UserCenter','Consult')">
+                    <em class="icon_kind icon_zx"></em>
+                    <span class="fl">参考咨询</span>
+                    <i class="fa fa-angle-right fr"></i>
+                </a>
+            </li>
+            <li sign="Collect">
+                <a href="javascript:;" onclick="goUrl(this,'UserCenter','Collect')">
+                    <em class="icon_kind icon_sc"></em>
+                    <span class="fl">个人收藏</span>
+                    <i class="fa fa-angle-right fr"></i>
+                </a>
+            </li>
+            <li sign="SDI">
+                <a href="javascript:;" onclick="goUrl(this,'UserCenter','SDI')">
+                    <em class="icon_kind icon_dt"></em>
+                    <span class="fl">定题服务</span>
+                    <i class="fa fa-angle-right fr"></i>
+                </a>
+            </li>
+            <li sign="Statistics">
+                <a href="javascript:;" onclick="goUrl(this,'UserCenter','Statistics')">
+                    <em class="icon_kind icon_tj"></em>
+                    <span class="fl">账户统计</span>
+                    <i class="fa fa-angle-right fr"></i>
+                </a>
+            </li>
+        </ul>
+    </div>
+</div>
+<script src="~/Areas/Front/templates/global/js/tab/tabScript.js"></script>
+<script src="~/Areas/Base/Scripts/Metronicv/assets/global/plugins/icheck/icheck.js"></script>
+<script>
+    $(function () {
+        loadUserBasicInfo();//加载左侧用户信息
+    });
+
+    function loadUserBasicInfo() {
+        $("#basicInfo").replaceFormat({
+            Photo: appInfo.loginUser.UserInfo.Photo || "/Areas/Front/templates/Shared/t1/images/icon_gr.png",
+            Account: appInfo.loginUser.UserInfo.Account,
+        });
+    }
+
+    //签到
+    function signIn() {
+        $.ajax({
+            async: true,
+            type: "post",
+            dataType: "json",
+            url: getUrl("SignIn", "Add"),
+            success: function (data) {
+                if (data.Type == "Success") {
+                    layer.msg(data.Content, { icon: 1, time: 1000 });
+                } else {
+                    layer.msg(data.Content, { icon: 2 });
+                }
+            }
+        });
+    }
+</script>

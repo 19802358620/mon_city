@@ -1,0 +1,80 @@
+﻿<form class="form-horizontal" id="dictValue-edit-form" role="form">
+    <input type="text" class="form-control " name="dictValue.edit.Id" style="display: none">
+    <div class="form-body">
+
+        <div class="col-md-12">
+            <div class="form-group">
+                <label class="col-md-3 control-label"><span class="required"> * </span>数据名称</label>
+                <div class="col-md-8">
+                    <input class="form-control" name="dictValue.edit.Value">
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-12">
+            <div class="form-group">
+                <label class="col-md-3 control-label"><span class="required"> * </span>数据显示名称</label>
+                <div class="col-md-8">
+                    <input class="form-control" name="dictValue.edit.ShowValue">
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-12">
+            <div class="form-group">
+                <label class="col-md-3 control-label"><span class="required">* </span>是否启用</label>
+                <div class="col-md-4">
+                    <div class="icheck-inline">
+                        <label>
+                            <input type="radio" name="dictValue.edit.IsWork" class="icheck form-control" value="yes"> 是
+                        </label>
+                        <label>
+                            <input type="radio" name="dictValue.edit.IsWork" class="icheck form-control" value="no"> 否
+                        </label>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-12">
+            <div class="form-group">
+                <label class="col-md-3 control-label">备注</label>
+                <div class="col-md-8">
+                    <textarea class="form-control" name="dictValue.edit.Remark" rows="3"></textarea>
+                </div>
+            </div>
+        </div>
+
+        <div class="clearfix"></div>
+
+    </div>
+</form>
+
+<script>
+    $(function () {
+        //初始化插件
+        $("#dictValue-edit-form .icheck").iCheck({
+            checkboxClass: 'icheckbox_minimal-grey',
+            radioClass: 'iradio_minimal-grey'
+        });
+        //表单验证
+        $('#dictValue-edit-form').formValidation({
+            fields: {
+                "dictValue.edit.Value": {
+                    validators: {
+                        notEmpty: {
+                            message: '该项为必填项.'
+                        }
+                    }
+                },
+                "dictValue.edit.ShowValue": {
+                    validators: {
+                        notEmpty: {
+                            message: '该项为必填项.'
+                        }
+                    }
+                }
+            }
+        });
+    });
+</script>

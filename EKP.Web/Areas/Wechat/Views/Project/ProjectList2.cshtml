@@ -1,0 +1,57 @@
+﻿@{
+    Layout = "~/Areas/WeChat/Views/Shared/_Layout.cshtml";
+}
+<!DOCTYPE html>
+<html>
+<head>
+    <title>项目列表</title>    
+</head>
+<body>
+
+    <div class="list-group">
+    @foreach (var item in Model)
+    {
+        <a href="#" onclick="showTaskList('@item.Id')" class="list-group-item goback-link">
+            <img src="~/Areas/Base/Content/images/bullet_go.png" style="margin-top:-5px;" />&nbsp;&nbsp;
+            @item.Name
+        </a>
+    }
+    </div>
+
+    <script>
+        function showTaskList(projectId) {
+            window.location.href = "/jkt/WeChat/Project/TaskList?projectId={0}&returnUrl={1}".format(projectId, escape(location.href));
+        }
+        $(function () {
+            //$.ajax({
+            //    type: "post",
+            //    dataType: "json",
+            //    data: { page: page, rows: 5, sort: "CreateDateTime", order: "desc", CourseId: courseId, UserId: signInUser.Id, SchoolId: signInUser.SchoolId, IsWeChat: true },
+            //    url: "/Manager/TestPaper/GetAllCanPublishTestPager",
+            //    beforeSend: function () {
+            //        $("#list-loading").show();
+            //    },
+            //    success: function (data) {
+                    
+            //    }
+            //});
+            //$(".goback-link").click(function () {
+            //    var link = $(this);
+            //    var href = $(link).attr("href");
+            //    alert(href);
+            //    if (href != "#") {
+            //        var qs = $getQueryStrings(href);
+            //        if (!qs.length) {
+            //            href += "?";
+            //        } else {
+            //            href += "&";
+            //        }
+            //        href += "returnUrl={0}".format(escape(window.location.href));
+
+            //        $(link).attr("href", href);
+            //    }
+            //});
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,30 @@
+﻿@{
+    Layout = "~/Areas/WeChat/Views/Shared/_Layout.cshtml";
+}
+<!DOCTYPE html>
+<html>
+<head>
+    <title>项目列表</title>    
+</head>
+<body>
+
+    <div class="list-group">
+    @foreach (var item in Model)
+    {                
+        <a href="#" onclick="showProjectGuidance('@item.Id')" class="list-group-item">
+            <img src="~/Areas/Base/Content/images/bullet_go.png" style="margin-top:-5px;" />&nbsp;&nbsp;
+            @item.Name
+        </a>
+    }
+    </div>
+
+    <script>
+        $(function () {
+            
+        });
+        function showProjectGuidance(projectId) {
+            window.location.href = "/jkt/WeChat/Project/ProjectGuidance?projectId={0}&returnUrl={1}".format(projectId, escape(location.href));
+        }
+    </script>
+</body>
+</html>

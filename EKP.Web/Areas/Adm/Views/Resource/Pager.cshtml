@@ -1,0 +1,294 @@
+﻿<div class="portlet light">
+    <div class="portlet-body">
+        <div class="row">
+            <div class="btn-group col-md-12">
+                <ul class="nav nav-pills col-md-8 no-margin-bottom" id="grid-toolbar">
+                    <li>
+                        <button class="btn blue" onclick="open_create()">
+                            <i class="fa fa-plus"></i>
+                            上传
+                        </button>
+                    </li>
+                    <li>
+                        <button class="btn blue toolbar-data" disabled="disabled" onclick="open_edit()">
+                            <i class="fa fa-pencil"></i>
+                            编辑
+                        </button>
+                    </li>
+                    <li>
+                        <button class="btn blue toolbar-datas" disabled="disabled" onclick="del()">
+                            <i class="fa fa-trash"></i>
+                            删除
+                        </button>
+                    </li>
+                    <li class="search-split">
+                        |
+                    </li>
+                </ul>
+                <div class="form-group col-md-4 margin-bottom-0" id="search">
+                    <div class="col-md-offset-2 col-md-10 padding-right-0">
+                        <div class="input-group">
+                            <input type="text" class="form-control input input-left" name="KeyWord" placeholder="关键字">
+                            <span class="input-group-btn">
+                                <a href="javascript:;" class="btn btn blue input-right" onclick="btnSearch()">
+                                    <i class="fa fa-search"></i> 检索
+                                </a>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-12">
+                <div class="table-scrollable col-md-12">
+                    <table id="grid"></table>
+                    <table id="gridPager"></table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+@section  body_js{
+    <script>
+        var menuName = "Adm.Resource.Pager";
+
+        //初始化
+        $(function () {
+            Metronic.init();
+            Layout.init();
+            admLayout({ menuName: menuName });
+
+             //插件
+            $("#search input[name='ClassId']").select2({
+                placeholder: "-请选择-",
+                allowClear: true,
+                formatSelection: function (item) { return item.Name; },
+                formatResult: function (item) { return item.Name; },
+                ajax: {
+                    url: getUrl("Class", "Pager"),
+                    dataType: "json",
+                    type: 'post',
+                    data: function (term, page) {
+                        return {
+                            PageSize: 999,
+                            SortBy: "Id",
+                            SortOrder: "asc"
+                        };
+                    },
+                    results: function (data, page) {
+                        var items = data.Rows;
+                        var more = (page * 30) < data.TotalRecords;
+                        $(items).each(function (i, item) {
+                            item.id = item.Id.toString();
+                            item.Name = item.Name;
+                        });
+                        if (page == 1) {
+                            items.unshift({ id: "", Name: "-请选择-" });
+                        }
+                        return { results: items, more: more };
+                    }
+                }
+            });
+
+            //列表
+            $("#grid").jqGrid({
+                url: getUrl("Resource", "Pager"),
+                pager: "#gridPager",
+                toolbar: "#grid-toolbar",
+                sortname: "DateTime",
+                sortorder: "desc",
+                postData: { SiteId: appInfo.site.Id },
+                colModel: [
+                    { name: 'Id', label: 'Id', key: true, hidden: true },
+                    { name: 'Name', label: '资源名称' },
+                    { name: 'Type', label: '资源类型' },
+                    { name: 'TeacherName',label:'老师'},
+                    { name: 'Description', label: '描述' },
+                    { name: 'ClassName', label: '分享至班级' },
+                    {
+                        name: 'AttachmentName', label: '下载链接',
+                        formatter: function editLink(cellValue, options, rowdata, action) {
+
+
+                            return "<a onclik='add1()' href=" + rowdata.Attachment + ">" + rowdata.AttachmentName + "</a>";
+
+                        }
+                    },
+                    {
+                        name: 'MyURLName', label: '链接',
+                        formatter: function editLink(cellValue, options, rowdata, action) {
+                            return "<a href=" + rowdata.MyURL + ">" + rowdata.MyURLName + "</a>";
+                        }
+                    },
+                    { name: 'DownLoadCount', label: '下载次数' },
+                    { name: 'SharedUser', label: '来源用户' },
+                    { name: 'SharedResource', label: '来源资源' },
+                    { name: 'Remark', label: '备注' }
+                ],
+                onSelectRow: function (rowId) {                   
+                    $("#grid").jqGrid('getGridParam', 'updateToolbar')(this);                    
+                },
+                onSelectAll: function () {
+                    $("#grid").jqGrid('getGridParam', 'updateToolbar')(this);
+                },
+                loadComplete: function () {
+                    $("#grid").jqGrid('getGridParam', 'updateToolbar')(this);
+                    $("#grid").jqGrid('getGridParam', 'loadCompleteExt')(this);
+                }
+            });
+
+        });
+
+        
+        
+        //打开上传窗口
+        function open_create() {
+            $.ajax({
+                url: getUrl("Resource", "Create"),
+                dataType: 'html',
+                type: 'get',
+                beforeSend: function () {
+                    layer.config({
+                        extend: 'extend/layer.ext.js',
+                        zIndex: 200
+                    });
+                    layer.load(0, { shade: false });
+                },
+                success: function (html) {
+                    layer.closeAll("loading");
+                    layer.confirm(html, {
+                        title: '<i class="fa fa-plus"></i> 上传资源',
+                        area: ['900px', '410px'],
+                        btn: ['<i class="fa fa-save"></i>&nbsp;上传', '<i class="fa fa-times"></i>&nbsp;取消']
+                    }, function (v, box) {
+                        create();
+                    });
+                }
+            });
+        }
+
+       
+        //上传
+        function create() {
+            if (!$('#create-form').formValidation("validate").data("formValidation").isValid()) return;
+            $.ajax({
+                async: true,
+                type: "post",
+                dataType: "json",
+                data: $('#create-form').serialize(),
+                url: getUrl("Resource", "Create"),
+                success: function (data) {
+                    $dialogShow(data);
+                    if (data.Type == "Success") {
+                        $("#grid").trigger('reloadGrid');
+                    }
+                }
+            });
+        }
+
+        //打开编辑窗口
+        function open_edit() {
+            var id = $("#grid").jqGrid('getGridParam', 'selrow');
+            $.ajax({
+                type: "POST",
+                dataType: "json",
+                data: { Id: id },
+                url: getUrl("Resource", "Detail"),
+
+                success: function (data) {
+                    $.ajax({
+                        url: getUrl("Resource", "Edit"),
+                        dataType: 'html',
+                        type: 'get',
+                        success: function (html) {
+                            layer.closeAll("loading");
+                            layer.confirm(html, {
+                                title: '<i class="fa fa-pencil"></i> 编辑资源',
+                                area: ['900px'],
+                                btn: ['<i class="fa fa-save"></i>&nbsp;保存', '<i class="fa fa-times"></i>&nbsp;取消'],
+                            }, function (v, box) {
+                                edit();
+                            });
+                            $("#edit-form .form-control").bindData(data);
+                            KindEditor.html('input[name="edit.Request"]', data.Request);
+                        }
+                    });
+                }
+            });
+        }
+        //编辑
+        function edit() {
+            if (!$('#edit-form').formValidation("validate").data("formValidation").isValid()) return;
+            //同步Kindeditor内容
+            for (var i in KindEditor.instances) {
+                if (KindEditor.instances.hasOwnProperty(i)) {
+                    KindEditor.instances[i].sync();
+                }
+            }
+            $.ajax({
+                async: true,
+                type: "post",
+                dataType: "json",
+                data: $('#edit-form').serialize(),
+                url: getUrl("Resource", "Edit"),
+                success: function (data) {
+                    $dialogShow(data);
+                    if (data.Type == "Success") {
+                        $("#grid").trigger('reloadGrid');
+                    }
+                }
+            });
+        }
+        //删除
+        function del() {
+            $dialogShow({
+                Type: "confirm",
+                Title: "删除",
+                Content: "确定要删除所选条目吗？",
+                SureFn: function (modal) {
+                    $(modal).on('hidden.bs.modal', function () {
+                        var ids = $("#grid").jqGrid('getGridParam', 'selarrrow');
+                        $.ajax({
+                            async: true,
+                            type: "post",
+                            dataType: "json",
+                            data: { ids: ids },
+                            url: getUrl("Resource", "Delete"),
+                            success: function (data) {
+                                $dialogShow(data);
+                                if (data.Type == "Success") {
+                                    $("#grid").trigger('reloadGrid');
+                                }
+                            }
+                        });
+                    }).modal("hide");
+                }
+            });
+        }
+        //function add1() {
+            
+        //    ajax({
+        //        async: true;
+        //        url: getUrl("Resource", "count"),
+        //        dataType: 'json',
+        //        type: 'post',
+        //        success: function () {
+        //            $("#grid").trigger('reloadGrid');
+        //        }
+        //    })
+        //}
+
+        //查询
+        function btnSearch() {
+            var queryParams = $("#grid").jqGrid("getGridParam", "postData");
+            $($("#search .form-control").serializeArray()).each(function (i, obj) {
+                queryParams[obj.name] = obj.value;
+            });
+
+            $("#grid").jqGrid("setGridParam", { postData: queryParams }).trigger("reloadGrid");
+        }
+
+
+    </script>
+}
+
+

@@ -1,0 +1,103 @@
+﻿@{
+    Layout = null;
+    string url = ViewBag.Url; //回调路径
+}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>系统登录</title>
+    <meta charset="utf-8">
+    <meta name="format-detection" content="telephone=no">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-touch-fullscreen" content="yes">
+    <meta http-equiv="Access-Control-Allow-Origin" content="*">
+    <link href="~/Areas/Wechat/css/WeChatLogin/global.css" rel="stylesheet" />
+    <link href="~/Areas/Wechat/css/WeChatLogin/login.css" rel="stylesheet" />
+    <script src="~/Areas/Base/Scripts/bootstrap/js/jquery-1.8.3.min.js"></script>
+</head>
+<body>
+    <div class="login">
+        <div class="login-title">
+            <br />
+            <h2>城市公共交通系统-运营调度</h2>
+        </div>
+        <div class="login-body">
+            <div class="login-bar">
+                <ul>
+                    <li><img src="~/Areas/Base/Content/images/login_user.png" /><input type="text" class="text" id="inputName" autocomplete="off" placeholder="请输入用户名" /></li>
+                    <li><img src="~/Areas/Base/Content/images/login_pwd.png" /><input type="password" class="psd" id="inputPwd" autocomplete="off" placeholder="请输入密码" /></li>
+                    <li>
+                        @*<img src="/WebSite/User/SignInValidCode" style="width: 120px; height: 42px; cursor: pointer" />*@
+                        <input type="text" class="validCode" id="ValidCode" placeholder="验证码" />
+                        <div class="validImg"><img class="validImg" src="/jkt/WeChat/User/SignInValidCode" /></div>
+                    </li>
+                </ul>
+            </div>
+            <div class="login-btn">
+                <button class="btn" type="submit">登陆</button>
+            </div>
+        </div>
+    </div>
+    <script>
+    //更新验证码
+    $(".validImg").click(function () {
+        $("#ValidCode").val("");
+        $(this).attr("src", "/jkt/WeChat/User/SignInValidCode?m=SignInValidCode&random=" + Math.random() * 1000);
+    });
+
+    //登录
+    $(".btn").click(function () {
+        var model = {
+            Name: $("#inputName").val(),
+            PassWord: $("#inputPwd").val(),
+            ValidCode: $("#ValidCode").val()
+        };
+
+        $.ajax({
+            type: 'POST',
+            url: '/jkt/WeChat/User/Login',
+            async: false,
+            dataType: 'json',
+            data: model,
+            success: function (data) {                
+                console.log(data);
+                //alert(data.OtherInfo);//137教师 138学生
+                if (data.OtherInfo == "137" || data.OtherInfo == "138") {
+                    var returnUrl = "@url";
+                    if (returnUrl) {
+                        location.href = unescape(returnUrl) + "?returnUrl=" + unescape(document.referrer);
+                    }
+                    else {
+                        //location.href = "/WeChat/Home/Index"; //返回测试菜单
+                        WeixinJSBridge.call('closeWindow'); //关闭浏览器回到微信
+                    }
+                }
+                else {
+                    $(".validImg").click();
+                    alert(data.Content);
+                    $("#ValidCode").val("");
+                }
+            }
+        });
+    });
+    function GetQueryString(name) {
+        var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)", "i");
+        var r = window.location.search.substr(1).match(reg);  //获取url中"?"符后的字符串并正则匹配
+        var context = "";
+        if (r != null)
+            context = r[2];
+        reg = null;
+        r = null;
+        return context == null || context == "" || context == "undefined" ? "" : context;
+    }
+    $(document).keyup(function (e) {
+        if (e.keyCode == 13) {
+            $(".btn").trigger("click");
+        }
+    });
+    </script>
+</body>
+</html>
+

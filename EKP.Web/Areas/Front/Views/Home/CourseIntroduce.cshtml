@@ -1,0 +1,58 @@
+﻿<div class="introduce-top"></div>
+<div class="main">    
+    <div class="container">
+        <div class="row margin-bottom-40">
+            <div class="col-md-12" id="conBox">
+                <div class="article">
+                    <div style="text-align:center;"><h2>城市公共交通运营调度</h2></div>
+                    <div class="loading" style="line-height: 300px;height: 300px;">
+                        <div class="tp-loader spinner0"><div class="dot1"></div><div class="dot2"></div><div class="bounce1"></div><div class="bounce2"></div><div class="bounce3"></div></div>
+                    </div>
+                    <div class="content-page" style="display: none">{CourseIntroduce}</div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+@section head_style{
+    <style>
+        .main {
+            padding-top: 0 !important;
+        }
+         #conBox {
+             padding-right:29px;
+         }
+            #conBox .article {
+                padding-top: 10px;
+                background: #fff;
+                width: auto;
+                padding: 15px;
+            }
+        .content-page {
+            width: 800px;
+            margin: auto;
+        }
+        .content-page p {
+            word-break: normal;
+            word-wrap: break-word;
+        }
+        .content-page span {
+            word-break: normal;
+            word-wrap: break-word;
+        }
+    </style>
+}
+@section body_js{
+    <script type="text/javascript">
+        //初始化
+        $(function() {
+            frontLayout({
+                title: "课程介绍",
+                menuName: "CourseIntroduce"
+            });
+
+            $("#conBox .loading").hide();
+            $("#conBox .content-page").replaceFormat(appInfo.site).show();
+        });
+    </script>
+}

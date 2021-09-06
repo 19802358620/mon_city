@@ -1,0 +1,47 @@
+﻿@{
+    Layout = "~/Areas/WeChat/Views/Shared/_Layout.cshtml";
+}
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>主页的导航栏</title>    
+</head>
+<body>
+
+    <nav class="navbar navbar-default" role="navigation">
+        <div class="container-fluid">
+            <div class="navbar-header">
+                <a class="navbar-brand" href="#">菜单</a>
+            </div>
+            <div>     
+                <ul class="nav nav-pills">
+                    <li role="presentation"><a class="dropdown-link" href="/jkt/WeChat/Project/ProjectList1">课程学习</a></li>
+                    <li role="presentation"><a class="dropdown-link" href="/jkt/WeChat/Project/ProjectList2">思考练习</a></li>
+                    <li role="presentation"><a class="dropdown-link" href="/jkt/WeChat/User/Index">个人中心</a></li>
+                </ul>          
+            </div>
+        </div>
+    </nav>
+
+    <script>
+        $(function () {
+            $(".dropdown-link").click(function () {
+                var link = $(this);
+                var href = $(link).attr("href");
+                if (href != "#") {
+                    var qs = $getQueryStrings(href);
+                    if (!qs.length) {
+                        href += "?";
+                    } else {
+                        href += "&";
+                    }
+                    href += "returnUrl={0}".format(escape(window.location.href));
+
+                    $(link).attr("href", href);
+                }
+            });
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,58 @@
+﻿<link href="~/Areas/Base/Scripts/bootstrap/datetimepicker/css/bootstrap-datetimepicker.css" rel="stylesheet" />
+<link href="~/Areas/Base/Scripts/bootstrap/datetimepicker/css/bootstrap-datetimepicker.min.css" rel="stylesheet" />
+<script src="~/Areas/Base/Scripts/bootstrap/datetimepicker/js/bootstrap-datetimepicker.js"></script>
+<script src="~/Areas/Base/Scripts/bootstrap/datetimepicker/js/bootstrap-datetimepicker.min.js"></script>
+<script src="~/Areas/Base/Scripts/bootstrap/datetimepicker/js/locales/bootstrap-datetimepicker.zh-CN.js"></script>
+﻿@{ Layout = null; }
+
+<style>
+    .style{
+        font-size:15px
+    }
+    #divTitle, #divInvalidDateTime {text-align:center;}
+    #divContent{margin-top:20px; margin-bottom:10px;}
+    #divAccessory, #divLink {margin-left:20px;}
+</style>
+
+<form id="noticeDetail-form" class="form-horizontal" novalidate="novalidate">
+    @*<input class="form-control" type="hidden" name="RoleId" value="137" />*@
+    <input type="text" class="form-control hide" name="Id">
+    <div class="form-body">
+        <div class="form-group">
+            <div style="width: 98%" class="stle">
+                <div class="col-md-12" id="divTitle">                    
+                </div>
+                <div class="col-md-12" id="divInvalidDateTime">                    
+                </div>
+                <div class="col-md-12" id="divContent">                    
+                </div>
+
+                <div class="col-md-12" id="divAccessory">                    
+                </div>
+                <div class="col-md-12" id="divLink">                   
+                </div>
+            </div>
+        </div>
+    </div>
+</form>
+<script>
+    //初始化
+    $(function () {
+        
+    });
+    // 年月日 时分秒
+    $('.form_datetime').datetimepicker({
+        language: 'zh-CN',
+        weekStart: 1,
+        todayBtn: 1,
+        autoclose: 1,
+        todayHighlight: 1,
+        startView: 2,
+        minuteStep: 1,//分钟间隔为1
+        maxView: 4, //最高显示到年份
+        minView: 0, //最低显示到日
+        forceParse: 0,
+        format: 'yyyy-mm-dd hh:ii:ss'
+    });
+
+</script>

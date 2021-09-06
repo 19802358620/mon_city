@@ -1,0 +1,51 @@
+﻿body {
+
+}
+/*头部*/
+.head_info
+{
+	clear:both;
+	overflow:hidden;
+	background:#009dd9;
+	padding:2% 0%;
+	color:#Fff;
+}
+.head_info a.head_info_return
+{
+	float:left;
+	width:3%;
+    margin-top:5px;
+    margin-left: 15px;
+}
+.head_info span
+{
+	width:90%;
+	float:left;
+	display:block;
+	text-align:center;
+	font-size:140%;
+	margin:auto;
+}
+
+.head_info a.head_info_other
+{
+	float:right;
+	color:#Fff;
+	font-size:100%;
+}
+.head_info_return img {
+    display: block;
+    width: 100%;
+   
+}
+/*头部*/  
+
+/*列表内容*/ 
+.contentText {
+        color: #337ab7;
+        margin-top:7px;
+    }
+.text-left {
+        margin-left: -20px;
+    }
+/*列表内容*/ 

@@ -1,0 +1,278 @@
+﻿.site-logo {
+    margin-right: 0;
+    padding-top: 8px !important;
+}
+body {
+      background: #edeef0; /*#f5f0eb*/  
+}
+body > .main {
+    min-height: 400px;
+    padding-top: 10px;
+}
+.header {
+    margin-bottom: 0;
+}
+.header .container {
+    padding-right: 35px;
+}
+.loginBox {
+     margin-left: 10px;
+     padding-top: 25px;          
+}
+.header-navigation > ul > li > a {
+    color: #9e8181;
+}
+.header-navigation ul > li.active > a {
+    border-bottom: 2px solid #5CC7CB;
+    color: #5CC7CB;
+}
+.content-page {
+    margin-right: 0;
+    background: none;
+}
+
+.introduce-top {
+    background: url(../Images/courseIntroduceTop.jpg) no-repeat center 0;
+    height: 300px;
+    margin-right: 15px;
+}
+.courseProject-top {
+    background: url(../Images/courseProject.jpg) no-repeat center 0;
+    height: 290px;
+    margin-right: 15px;
+}
+.video-top {
+    background: url(../Images/courseVideo.jpg) no-repeat center 0;
+    height: 290px;
+    margin-right: 15px;
+}
+.courseProjectGuidance-top {
+    background: url(../Images/courseProjectGuidance.jpg) no-repeat center 0;
+    height: 290px;
+    margin-right: 15px;
+}
+.courseKnowledge-top {
+    background: url(../Images/courseKnowledge.jpg) no-repeat center 0;
+    height: 290px;
+    margin-right: 15px;
+}
+.student-top {
+    background: url(../Images/student.png) no-repeat center 0;
+    height: 290px;
+    margin-right: 15px;
+}
+.scoreStatistics-top {
+    background: url(../Images/scoreStatistics.png) no-repeat center 0;
+    height: 290px;
+    margin-right: 15px;
+}
+.pre-weixin {
+    height: 210px;
+    background: #ece6e0;
+    display: none;
+}
+.pre-weixin h2 {
+    margin-top: 80px;
+    text-align: center;
+    font-family: 黑体;
+}
+.pre-weixin .dbtn {
+    text-align: center;
+    font-family: 黑体;
+    font-size: 26px;
+    margin: 0 auto;
+    width: 150px;
+    height: 40px;
+    line-height: 40px;
+    display: block;
+    background: #fff;
+}
+.pre-footer {
+    display: block !important;
+    color: #fff;
+    font-weight: 500;
+    font-size: 10px;
+}
+.pre-footer .EnWeChat {
+    width: 120px;
+    height: 120px;
+}
+.projectTree li.active>a {
+    font-weight: 900;
+    color: #9900FF;
+}
+.projectTree li i {
+    cursor: pointer;
+    color: #826666;
+}
+
+#projectTreeBox {
+    min-height: 460px;
+    padding-left: 0;
+    padding-right: 0;
+}  
+.corporate .content-page {
+    height: 100%;
+    overflow-y: auto;
+}
+.content-title {
+    height: 90px;
+    line-height: 90px;
+    box-shadow: 0px 2px 3px 1px #808080;
+    font-weight: 900;
+    font-size: 26px !important;
+    background: #e6e6e6;
+}  
+#projectDetailBox {
+    min-height: 800px;
+}
+.list-unstyled .fa-myacar, .list-unstyled .fa-myacar-open {
+    width: 45px;
+    height: 19px;
+    position: relative;
+    top: 5px;
+    display: inline-block;
+}
+.list-unstyled .car1-1.fa-myacar {
+    background: url(../Images/caricon/car-01.png);
+}
+.list-unstyled .car1-1.fa-myacar-open {
+    background: url(../Images/caricon/car-01-open.png);
+}
+.list-unstyled .car1-2.fa-myacar {
+    background: url(../Images/caricon/car-02.png);
+}
+.list-unstyled .car1-2.fa-myacar-open {
+    background: url(../Images/caricon/car-02-open.png);
+}
+.list-unstyled .car1-3.fa-myacar {
+    background: url(../Images/caricon/car-03.png);
+}
+.list-unstyled .car1-3.fa-myacar-open {
+    background: url(../Images/caricon/car-03-open.png);
+}
+.list-unstyled .car1-4.fa-myacar {
+    background: url(../Images/caricon/car-04.png);
+}
+.list-unstyled .car1-4.fa-myacar-open {
+    background: url(../Images/caricon/car-04-open.png);
+}
+.list-unstyled .car1-5.fa-myacar {
+    background: url(../Images/caricon/car-05.png);
+}
+.list-unstyled .car1-5.fa-myacar-open {
+    background: url(../Images/caricon/car-05-open.png);
+}
+
+.list-unstyled .car2-1.fa-myacar {
+    background: url(../Images/caricon/car2-01.png);
+}
+.list-unstyled .car2-1.fa-myacar-open {
+    background: url(../Images/caricon/car2-01-open.png);
+}
+.list-unstyled .car2-2.fa-myacar {
+    background: url(../Images/caricon/car2-02.png);
+}
+.list-unstyled .car2-2.fa-myacar-open {
+    background: url(../Images/caricon/car2-02-open.png);
+}
+.list-unstyled .car2-3.fa-myacar {
+    background: url(../Images/caricon/car2-03.png);
+}
+.list-unstyled .car2-3.fa-myacar-open {
+    background: url(../Images/caricon/car2-03-open.png);
+}
+.list-unstyled .car2-4.fa-myacar {
+    background: url(../Images/caricon/car2-04.png);
+}
+.list-unstyled .car2-4.fa-myacar-open {
+    background: url(../Images/caricon/car2-04-open.png);
+}
+.list-unstyled .car2-5.fa-myacar {
+    background: url(../Images/caricon/car2-05.png);
+}
+.list-unstyled .car2-5.fa-myacar-open {
+    background: url(../Images/caricon/car2-05-open.png);
+}
+
+.content-page .list-unstyled li {
+    margin-bottom: 0;
+}
+.content-page .node-item.current{
+    background: #5d80ab !important;
+}
+.content-page .list-unstyled li.active > .node-item a {
+    color: #c54848 !important;
+}
+.content-page .list-unstyled .list-unstyled {
+    margin-left: 0;
+    padding-top: 0;
+}
+.content-page .list-unstyled li > .list-unstyled {
+    margin-left: 0;
+}
+.content-page p, .content-page .list-unstyled {
+    margin-bottom: 0;
+}
+
+.content-page .projectTree.list-unstyled  li > .node-item {
+    display: block;
+    height: 60px;
+    padding-top: 6px;
+    padding-left: 10px;
+    background: #aeb3bf;
+}
+.content-page .projectTree.list-unstyled  li > .node-item  a {
+    color: #352e2e;
+    font-weight: 900;
+    font-size: 12px;
+    display: inline-block;
+    width: 200px;
+}
+
+.content-page .projectTree.list-unstyled  li ul li ul li > .node-item {
+    height: 35px;
+    padding-top: 5px;
+    padding-left: 60px;
+}
+
+.content-page .projectTree.list-unstyled > li > .node-item{
+    display: block;
+    height: 60px;
+    padding-top: 15px;
+    padding-left: 10px;
+    background: #aeb3bf;
+    border-bottom: 1px solid #fff;
+}
+.content-page .projectTree.list-unstyled > li > .node-item a {
+     color: #fff;
+     font-weight: 900;
+     font-size: 14px;
+}
+ .content-page p{
+     word-break: normal;
+     word-wrap: break-word;
+ }
+ .content-page .rbtn {
+     float: right;
+     background-color: red;
+     width: 25px;
+     height: 20px;
+     margin-top: 3px;
+     margin-right: 5px;
+}
+.content-page .rbtn.fa-myacar {
+      background: url(../Images/caricon/car-close.png);
+}
+.content-page .rbtn.fa-myacar-open {
+      background: url(../Images/caricon/car-open.png);
+}
+
+/*富文本样式调整*/
+.projectDetailBox h1,.projectDetailBox h2,.projectDetailBox h3,.projectDetailBox h4 {
+    color: #058e93;
+}
+
+.projectDetailBox content-page p {
+    /*line-height:30px;*/
+}

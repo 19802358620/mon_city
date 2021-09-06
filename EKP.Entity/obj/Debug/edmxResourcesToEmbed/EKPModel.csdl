@@ -1,0 +1,463 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="EKP_JSModel" Alias="Self" p1:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:p1="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+  <EntityContainer Name="EKP_JSEntities" p1:LazyLoadingEnabled="true">
+    <EntitySet Name="T_AdmSetting" EntityType="EKP_JSModel.T_AdmSetting" />
+    <EntitySet Name="T_Authority" EntityType="EKP_JSModel.T_Authority" />
+    <EntitySet Name="T_Class" EntityType="EKP_JSModel.T_Class" />
+    <EntitySet Name="T_Detection" EntityType="EKP_JSModel.T_Detection" />
+    <EntitySet Name="T_DetectionHand" EntityType="EKP_JSModel.T_DetectionHand" />
+    <EntitySet Name="T_DetectionReply" EntityType="EKP_JSModel.T_DetectionReply" />
+    <EntitySet Name="T_DetectionSetting" EntityType="EKP_JSModel.T_DetectionSetting" />
+    <EntitySet Name="T_DictKey" EntityType="EKP_JSModel.T_DictKey" />
+    <EntitySet Name="T_DictValue" EntityType="EKP_JSModel.T_DictValue" />
+    <EntitySet Name="T_Homework" EntityType="EKP_JSModel.T_Homework" />
+    <EntitySet Name="T_HomeworkClass" EntityType="EKP_JSModel.T_HomeworkClass" />
+    <EntitySet Name="T_HomeworkSubmit" EntityType="EKP_JSModel.T_HomeworkSubmit" />
+    <EntitySet Name="T_Info" EntityType="EKP_JSModel.T_Info" />
+    <EntitySet Name="T_LearningResource" EntityType="EKP_JSModel.T_LearningResource" />
+    <EntitySet Name="T_LearningResourceClass" EntityType="EKP_JSModel.T_LearningResourceClass" />
+    <EntitySet Name="T_Notice" EntityType="EKP_JSModel.T_Notice" />
+    <EntitySet Name="T_NoticeClass" EntityType="EKP_JSModel.T_NoticeClass" />
+    <EntitySet Name="T_Project" EntityType="EKP_JSModel.T_Project" />
+    <EntitySet Name="T_ProjectInfo" EntityType="EKP_JSModel.T_ProjectInfo" />
+    <EntitySet Name="T_Question" EntityType="EKP_JSModel.T_Question" />
+    <EntitySet Name="T_Role" EntityType="EKP_JSModel.T_Role" />
+    <EntitySet Name="T_Site" EntityType="EKP_JSModel.T_Site" />
+    <EntitySet Name="T_Subject" EntityType="EKP_JSModel.T_Subject" />
+    <EntitySet Name="T_User" EntityType="EKP_JSModel.T_User" />
+    <EntitySet Name="V_HomeworkClass" EntityType="EKP_JSModel.V_HomeworkClass" />
+    <EntitySet Name="T_Video" EntityType="EKP_JSModel.T_Video" />
+    <EntitySet Name="T_VideoTree" EntityType="EKP_JSModel.T_VideoTree" />
+  </EntityContainer>
+  <EntityType Name="T_AdmSetting">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="SiteId" Type="Int32" />
+    <Property Name="UserId" Type="Int32" />
+    <Property Name="Layout" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+    <Property Name="Setting" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+    <Property Name="IsWork" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+    <Property Name="CreateIp" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="true" />
+    <Property Name="CreateBy" Type="Int32" Nullable="false" />
+    <Property Name="CreateTime" Type="DateTime" Nullable="false" Precision="3" />
+    <Property Name="IsDeleted" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="true" />
+  </EntityType>
+  <EntityType Name="T_Authority">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Type" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+    <Property Name="Name" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+    <Property Name="RoleId" Type="Int32" />
+  </EntityType>
+  <EntityType Name="T_Class">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="Remark" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="CreateIp" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+    <Property Name="CreateBy" Type="Int32" />
+    <Property Name="CreateTime" Type="DateTime" Precision="3" />
+    <Property Name="IsDeleted" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
+    <Property Name="SiteId" Type="Int32" />
+  </EntityType>
+  <EntityType Name="T_Detection">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="ParentId" Type="Int32" />
+    <Property Name="Name" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+    <Property Name="ProjectId" Type="Int32" />
+    <Property Name="SortIndex" Type="Int32" />
+    <Property Name="CreateIp" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+    <Property Name="CreateBy" Type="Int32" />
+    <Property Name="CreateTime" Type="DateTime" Nullable="false" Precision="3" />
+    <Property Name="IsDeleted" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="true" />
+    <Property Name="SiteId" Type="Int32" Nullable="false" />
+  </EntityType>
+  <EntityType Name="T_DetectionHand">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="DetectiontId" Type="Int32" />
+    <Property Name="LastSubmitTime" Type="DateTime" Precision="3" />
+    <Property Name="Status" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+    <Property Name="CreateBy" Type="Int32" Nullable="false" />
+    <Property Name="CreateTime" Type="DateTime" Nullable="false" Precision="3" />
+    <Property Name="IsDeleted" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="true" />
+  </EntityType>
+  <EntityType Name="T_DetectionReply">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="DetectionHandId" Type="Int32" />
+    <Property Name="SubjectId" Type="Int32" />
+    <Property Name="QuestionId" Type="Int32" />
+    <Property Name="Value" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="Score" Type="Double" />
+    <Property Name="CreateBy" Type="Int32" Nullable="false" />
+    <Property Name="CreateTime" Type="DateTime" Nullable="false" Precision="3" />
+    <Property Name="IsDeleted" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="true" />
+  </EntityType>
+  <EntityType Name="T_DetectionSetting">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="ViewAnswerMode" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="DetectionId" Type="Int32" />
+    <Property Name="UserId" Type="Int32" />
+    <Property Name="CreateIp" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+    <Property Name="CreateBy" Type="Int32" />
+    <Property Name="CreateTime" Type="DateTime" Precision="3" />
+    <Property Name="IsDeleted" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
+    <Property Name="SiteId" Type="Int32" />
+  </EntityType>
+  <EntityType Name="T_DictKey">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Key" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="true" />
+    <Property Name="Name" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="Note" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+    <Property Name="CreateTime" Type="DateTime" Nullable="false" Precision="3" />
+    <Property Name="CreateBy" Type="Int32" />
+    <Property Name="IsDeleted" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="true" />
+    <Property Name="IsLock" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
+  </EntityType>
+  <EntityType Name="T_DictValue">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="ParentId" Type="Int32" />
+    <Property Name="KeyId" Type="Int32" Nullable="false" />
+    <Property Name="Value" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="true" />
+    <Property Name="ShowValue" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+    <Property Name="Remark" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="IsDeleted" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="true" />
+    <Property Name="IsWork" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
+  </EntityType>
+  <EntityType Name="T_Homework">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Name" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+    <Property Name="Request" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+    <Property Name="Link" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="LinkName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="Attachment" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+    <Property Name="AttachmentName" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+    <Property Name="AnswerAttachment" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+    <Property Name="AnswerAttachmentName" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+    <Property Name="UserId" Type="Int32" />
+    <Property Name="DateTime" Type="DateTime" Precision="3" />
+    <Property Name="StartDateTime" Type="DateTime" Precision="3" />
+    <Property Name="EndDateTime" Type="DateTime" Precision="3" />
+    <Property Name="Status" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+    <Property Name="ScoreDegree" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="Remark" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="IsDeleted" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+  </EntityType>
+  <EntityType Name="T_HomeworkClass">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="HomeworkId" Type="Int32" />
+    <Property Name="ClassId" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="Remark" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+  </EntityType>
+  <EntityType Name="T_HomeworkSubmit">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Answer" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+    <Property Name="Attachment" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+    <Property Name="AttachmentName" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+    <Property Name="HomeworkId" Type="Int32" />
+    <Property Name="UserId" Type="Int32" />
+    <Property Name="SubmitDateTime" Type="DateTime" Precision="3" />
+    <Property Name="Status" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+    <Property Name="DealDateTime" Type="DateTime" Precision="3" />
+    <Property Name="Score" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="Remark" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+  </EntityType>
+  <EntityType Name="T_Info">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Type" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+    <Property Name="ContentType" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+    <Property Name="Title" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+    <Property Name="Cover" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+    <Property Name="Abstract" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+    <Property Name="Content" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+    <Property Name="Resource" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="Writer" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="CreateIp" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+    <Property Name="CreateBy" Type="Int32" />
+    <Property Name="IsDeleted" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="true" />
+    <Property Name="CreateTime" Type="DateTime" Nullable="false" Precision="3" />
+    <Property Name="SiteId" Type="Int32" Nullable="false" />
+  </EntityType>
+  <EntityType Name="T_LearningResource">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Name" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+    <Property Name="Type" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
+    <Property Name="Description" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+    <Property Name="Attachment" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+    <Property Name="AttachmentName" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+    <Property Name="DateTime" Type="DateTime" Precision="3" />
+    <Property Name="UserId" Type="Int32" Nullable="false" />
+    <Property Name="MyURL" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="MyURLName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="DownLoadCount" Type="Int32" />
+    <Property Name="SharedUserId" Type="Int32" />
+    <Property Name="SharedResourceId" Type="Int64" />
+    <Property Name="Remark" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+  </EntityType>
+  <EntityType Name="T_LearningResourceClass">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="ResourceId" Type="Int64" />
+    <Property Name="ClassId" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="Remark" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+  </EntityType>
+  <EntityType Name="T_Notice">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Title" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+    <Property Name="Content" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+    <Property Name="InvalidDateTime" Type="DateTime" Precision="3" />
+    <Property Name="DateTime" Type="DateTime" Precision="3" />
+    <Property Name="UserId" Type="Int32" />
+    <Property Name="Type" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+    <Property Name="State" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+    <Property Name="Link" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="LinkName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="Accessory" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+    <Property Name="AccessoryName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="Remark" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+  </EntityType>
+  <EntityType Name="T_NoticeClass">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="NoticeId" Type="Int64" />
+    <Property Name="ClassId" Type="Int32" />
+    <Property Name="Remark" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+  </EntityType>
+  <EntityType Name="T_Project">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="ParentId" Type="Int32" />
+    <Property Name="Name" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="Type" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+    <Property Name="LearningTarget" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+    <Property Name="LearningImport" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+    <Property Name="TaskDescription" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+    <Property Name="TaskPrepare" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+    <Property Name="TaskImple" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+    <Property Name="ExtendedLearning" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+    <Property Name="ProjectGuidance" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+    <Property Name="SortIndex" Type="Int32" />
+    <Property Name="CreateIp" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+    <Property Name="CreateBy" Type="Int32" />
+    <Property Name="CreateTime" Type="DateTime" Precision="3" />
+    <Property Name="IsDeleted" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
+    <Property Name="SiteId" Type="Int32" />
+  </EntityType>
+  <EntityType Name="T_ProjectInfo">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Type" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+    <Property Name="Name" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+    <Property Name="Picture" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+    <Property Name="Video" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+    <Property Name="Content" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+    <Property Name="ProjectId" Type="Int32" />
+    <Property Name="CreateBy" Type="Int32" />
+    <Property Name="CreateTime" Type="DateTime" Nullable="false" Precision="3" />
+    <Property Name="IsDeleted" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="true" />
+    <Property Name="SiteId" Type="Int32" Nullable="false" />
+  </EntityType>
+  <EntityType Name="T_Question">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Name" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="Type" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="Options" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
+    <Property Name="OptionsColumns" Type="Int32" />
+    <Property Name="Answer" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+    <Property Name="SubjectId" Type="Int32" />
+    <Property Name="CreateBy" Type="Int32" Nullable="false" />
+    <Property Name="CreateTime" Type="DateTime" Nullable="false" Precision="3" />
+    <Property Name="IsDeleted" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="true" />
+  </EntityType>
+  <EntityType Name="T_Role">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Name" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="Grade" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="Key" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+    <Property Name="Description" Type="String" MaxLength="300" FixedLength="false" Unicode="true" />
+    <Property Name="CreateIp" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+    <Property Name="CreateBy" Type="Int32" />
+    <Property Name="CreateTime" Type="DateTime" Nullable="false" Precision="3" />
+    <Property Name="IsDeleted" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="true" />
+    <Property Name="SiteId" Type="Int32" Nullable="false" />
+  </EntityType>
+  <EntityType Name="T_Site">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Name" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+    <Property Name="ParentId" Type="Int32" />
+    <Property Name="Type" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="Logo" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+    <Property Name="TopBanner" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+    <Property Name="Favicon" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+    <Property Name="Domain" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="true" />
+    <Property Name="Status" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+    <Property Name="Province" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+    <Property Name="City" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+    <Property Name="AboutUs" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="Helper" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="Telephone" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="Fax" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="Email" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="Address" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="FundSupport" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+    <Property Name="Technical" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+    <Property Name="Copyright" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
+    <Property Name="Manual" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="MetaKeywords" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+    <Property Name="MetaDescription" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+    <Property Name="EnWeChat" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+    <Property Name="CourseIntroduce" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+    <Property Name="CreateIp" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+    <Property Name="CreateBy" Type="Int32" Nullable="false" />
+    <Property Name="CreateTime" Type="DateTime" Nullable="false" Precision="3" />
+    <Property Name="IsDeleted" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="true" />
+    <Property Name="SiteId" Type="Int32" Nullable="false" />
+    <Property Name="Title" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+  </EntityType>
+  <EntityType Name="T_Subject">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Name" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="Type" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+    <Property Name="Analysis" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="DetectionId" Type="Int32" />
+    <Property Name="Score" Type="Double" />
+    <Property Name="CreateBy" Type="Int32" Nullable="false" />
+    <Property Name="CreateTime" Type="DateTime" Nullable="false" Precision="3" />
+    <Property Name="IsDeleted" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="true" />
+  </EntityType>
+  <EntityType Name="T_User">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Account" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="Status" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="Type" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
+    <Property Name="RealName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="PassWord" Type="String" MaxLength="80" FixedLength="false" Unicode="true" />
+    <Property Name="Ips" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+    <Property Name="RoleId" Type="Int32" />
+    <Property Name="Email" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+    <Property Name="Photo" Type="String" MaxLength="300" FixedLength="false" Unicode="true" />
+    <Property Name="Phone" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+    <Property Name="Telephone" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="IDNumber" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="Age" Type="Int32" />
+    <Property Name="Province" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="City" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="Sex" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
+    <Property Name="DrivingAge" Type="Int32" />
+    <Property Name="AllowCarType" Type="Int32" />
+    <Property Name="CarTestType" Type="Int32" />
+    <Property Name="School" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="Grade" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="Major" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="ClassIds" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+    <Property Name="CreateBy" Type="Int32" />
+    <Property Name="CreateIp" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+    <Property Name="CreateTime" Type="DateTime" Nullable="false" Precision="3" />
+    <Property Name="IsDeleted" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="true" />
+    <Property Name="SiteId" Type="Int32" Nullable="false" />
+    <Property Name="Attribute" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
+    <Property Name="Education" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+  </EntityType>
+  <EntityType Name="V_HomeworkClass">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" />
+    <Property Name="HomeworkId" Type="Int32" />
+    <Property Name="ClassId" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="Remark" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="ClassName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+  </EntityType>
+  <EntityType Name="T_Video">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Title" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+    <Property Name="Description" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="Pic" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="URL" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="VideoURL" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="AudioURL" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="TxtURL" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="TxtContent" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+    <Property Name="QRCode" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="Contents" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+    <Property Name="Count" Type="Int32" />
+    <Property Name="VideoTreeId" Type="Int32" />
+    <Property Name="Remark" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+  </EntityType>
+  <EntityType Name="T_VideoTree">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="ParentId" Type="Int32" />
+    <Property Name="Remark" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+  </EntityType>
+</Schema>

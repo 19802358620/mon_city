@@ -1,0 +1,376 @@
+﻿<div class="portlet light">
+    <div class="portlet-body">
+        <div class="row">
+            <div class="form-group col-md-9 padding-bottom-10" id="info-search">
+                <div class="col-md-12  padding-left-0">
+                    <div class="col-md-3">
+                        <input type="text" class="form-control input input-left" name="Type" placeholder="一级类型" />
+                    </div>
+                    <div class="col-md-3" style="text-align:left">
+                        <input type="text" class="form-control input input-left" name="ContentType" placeholder="二级类型" />
+                    </div>
+                    <div class="col-md-4" style="text-align:left">
+                        <input type="text" class="form-control input input-left" name="KeyWord" placeholder="标题、摘要、内容">
+                    </div>
+                    <div class="col-md-2">
+                        <a href="javascript:;" class="btn btn blue" onclick="searchInfo()">
+                            <i class="fa fa-search"></i> 检索
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <div class="btn-group col-md-12" id="grid-toolbar">
+                <ul class="nav nav-pills col-md-8 no-margin-bottom">
+                    <li>
+                        <button class="btn green" onclick="open_create()">
+                            <i class="fa fa-plus"></i>
+                            新增
+                        </button>
+                    </li>
+                    <li>
+                        <button class="btn blue toolbar-data" disabled="disabled" onclick="open_edit()">
+                            <i class="fa fa-pencil"></i>
+                            编辑
+                        </button>
+                    </li>
+                    <li>
+                        <button class="btn red toolbar-datas" disabled="disabled" onclick="del()">
+                            <i class="fa fa-trash"></i>
+                            删除
+                        </button>
+                    </li>
+                </ul>
+            </div>
+            <div class="col-md-12">
+                <div class="table-scrollable col-md-12">
+                    <table id="grid"></table>
+                    <table id="gridPager"></table>
+                </div>
+            </div>
+        </div>
+        <div class="clearfix"></div>
+    </div>
+</div>
+@section  body_js{
+    <script>
+        var firtId = 0;
+        var secondHasLoad = false;
+
+        //初始化
+        $(function () {
+            Metronic.init();
+            Layout.init();
+            admLayout({ menuName: "Adm.Info.Pager" });
+
+            var firtId = 0;
+            var secondHasLoad = false;
+            //初始化插件
+            $("#info-search *[name='Type']").select2({
+                placeholder: "-请选择-",
+                allowClear: true,
+                formatSelection: function (item) { return item.Name; },
+                formatResult: function (item) { return item.Name; },
+                ajax: {
+                    url: getUrl("dictValue", "Pager"),
+                    dataType: "json",
+                    type: 'post',
+                    data: function (term, page) {
+                        return {
+                            KeyId: 9
+                        };
+                    },
+                    results: function (data, page) {
+                        var items = data.Rows;
+                        var more = (page * 30) < data.TotalRecords;
+                        $(items).each(function (i, item) {
+                            if (!item.ParentId) {
+                                item.id = item.Value;
+                                item.Name = "{0}".format(item.ShowValue);
+                            }
+                        });
+                        if (page == 1) {
+                            items.unshift({ id: 0, Name: "-请选择-" });
+                        }
+                        return { results: items, more: more };
+                    }
+                }
+            }).on("select2-selected", function (e) {
+                if (secondHasLoad) {
+                    $("#info-search *[name='ContentType']").select2('data', null);
+                }
+                firtId = e.choice.id;
+            });
+
+            $("#info-search *[name='ContentType']").select2({
+                placeholder: "-请选择-",
+                allowClear: true,
+                formatSelection: function (item) { return item.Name; },
+                formatResult: function (item) { return item.Name; },
+                ajax: {
+                    url: getUrl("dictValue", "Pager"),
+                    dataType: "json",
+                    type: 'post',
+                    data: function (term, page) {
+                        return {
+                            KeyId: 9, ParentId: firtId
+                        };
+                    },
+                    results: function (data, page) {
+                        secondHasLoad = true;
+                        var items = data.Rows;
+                        var more = (page * 30) < data.TotalRecords;
+                        $(items).each(function (i, item) {
+                            if (item.ParentId) {
+                                item.id = item.Value;
+                                item.Name = "{0}".format(item.ShowValue);
+                            }
+                        });
+                        if (page == 1) {
+                            items.unshift({ id: 0, Name: "-请选择-" });
+                        }
+                        return { results: items, more: more };
+                    }
+                }
+            }).on("select2-selected", function (e) {
+
+            });
+
+            //列表
+            $("#grid").jqGrid({
+                url: getUrl("Info", "Pager"),
+                pager: "#gridPager",
+                toolbar: "#grid-toolbar",
+                sortname: "CreateTime",
+                sortorder: "asc",
+                postData: { SiteId: appInfo.site.Id },
+                colModel: [
+                    { name: 'Id', label: 'Id', key: true, hidden: true },
+                    { name: 'Title', label: '标题' },
+                    { name: 'FirstType', label: '一级分类' },
+                    { name: 'SecondType', label: '二级分类' },
+                    { name: 'CreateTime', label: '创建时间', formatter: 'date', formatoptions: { newformat: 'Y-m-d' } },
+                ],
+                onSelectRow: function (rowId) {
+                    $("#grid").jqGrid('getGridParam', 'updateToolbar')("#grid");
+                },
+                onSelectAll: function () {
+                    $("#grid").jqGrid('getGridParam', 'updateToolbar')("#grid");
+                },
+                loadComplete: function () {
+                    $("#grid").jqGrid('getGridParam', 'updateToolbar')("#grid");
+                }
+            });
+        });
+
+        //打开添加窗口
+        function open_create() {
+            $.ajax({
+                url: getUrl("Info", "Create"),
+                dataType: 'html',
+                type: 'get',
+                beforeSend: function () {
+                    layer.load(0, { shade: false });
+                },
+                success: function (html) {
+                    layer.closeAll("loading");
+                    layer.confirm(html, {
+                        title: '<i class="fa fa-plus"></i> 新增',
+                        area: ['70%', '80%'],
+                        btn: ['<i class="fa fa-save"></i>&nbsp;保存', '<i class="fa fa-times"></i>&nbsp;取消']
+                    }, function (v, box) {
+                        create();
+                    });
+                }
+            });
+        }
+
+        //打开编辑窗口
+        function open_edit() {
+            var id = $("#grid").jqGrid('getGridParam', 'selrow');
+            $.ajax({
+                type: "POST",
+                dataType: "json",
+                data: { id: id },
+                url: getUrl("Info", "Detail"),
+                beforeSend: function () {
+                    layer.load(0, { shade: false });
+                },
+                success: function (data) {
+                    $.ajax({
+                        url: getUrl("Info", "Edit"),
+                        dataType: 'html',
+                        type: 'get',
+                        success: function (html) {
+                            layer.closeAll("loading");
+                            layer.confirm(html, {
+                                title: '<i class="fa fa-pencil"></i> 编辑',
+                                area: ['70%', '80%'],
+                                btn: ['<i class="fa fa-save"></i>&nbsp;保存', '<i class="fa fa-times"></i>&nbsp;取消'],
+                            }, function (v, box) {
+                                edit();
+                            });
+                            $("#edit-form .form-control").bindData(data);
+                            KindEditor.html('#Content', data.Content);
+                            KindEditor.html('#Abstract', data.Abstract);
+
+                            //$.post(getUrl("dictValue", "Pager"), { KeyId: 9 }, function (rt) {
+                            //    var r = JSON.parse(rt);
+                            //    var items = r.Rows;
+                            //    var rows = [];
+                            //    $(items).each(function (i, item) {
+                            //        if (!item.ParentId) {
+                            //            item.id = item.Value;
+                            //            item.Name = "{0}".format(item.ShowValue);
+                            //            rows.push(item);
+                            //        }
+                            //    });
+                            //    if (r.Rows.length == 0) {
+                            //        rows.push({ id: 0, Name: "-请选择-" });
+                            //    }
+
+                            //    $("#edit-form *[name='Type']").select2({
+                            //        placeholder: "-请选择-",
+                            //        allowClear: true,
+                            //        formatSelection: function (item) { return item.Name; },
+                            //        formatResult: function (item) { return item.Name; },
+                            //        data: { results: rows }
+                            //    }).on("select2-selected", function (e) {
+                            //        if (secondHasLoad) {
+                            //            $("#create-form *[name='ContentType']").select2('data', null);
+                            //        }
+                            //        firtId = e.choice.id;
+                            //    });
+
+                            //    $("#edit-form *[name='Type']").select2('val', data.Type);
+                            //});
+
+                            //$("#edit-form *[name='ContentType']").select2({
+                            //    placeholder: "-请选择-",
+                            //    allowClear: true,
+                            //    formatSelection: function (item) { return item.Name; },
+                            //    formatResult: function (item) { return item.Name; },
+                            //    ajax: {
+                            //        url: getUrl("dictValue", "Pager"),
+                            //        dataType: "json",
+                            //        type: 'post',
+                            //        data: function (term, page) {
+                            //            return {
+                            //                KeyId: 9, ParentId: firtId
+                            //            };
+                            //        },
+                            //        results: function (data, page) {
+                            //            secondHasLoad = true;
+                            //            var items = data.Rows;
+                            //            var more = (page * 30) < data.TotalRecords;
+                            //            $(items).each(function (i, item) {
+                            //                if (item.ParentId) {
+                            //                    item.id = item.Value;
+                            //                    item.Name = "{0}（{1}）".format(item.ShowValue, item.Value);
+                            //                }
+                            //            });
+                            //            if (page == 1) {
+                            //                items.unshift({ id: 0, Name: "-请选择-" });
+                            //            }
+                            //            return { results: items, more: more };
+                            //        }
+                            //    }
+                            //}).on("select2-selected", function (e) {
+
+                            //});
+
+                            //$("#edit-form *[name='ContentType']").select2('val', data.ContentType);
+                            //
+                        }
+                    });
+                }
+            });
+        }
+
+        //添加
+        function create() {
+            if (!$('#create-form').formValidation("validate").data("formValidation").isValid()) return;
+
+            //同步Kindeditor内容
+            for (var i in KindEditor.instances) {
+                if (KindEditor.instances.hasOwnProperty(i)) {
+                    KindEditor.instances[i].sync();
+                }
+            }
+            $.ajax({
+                async: true,
+                type: "post",
+                dataType: "json",
+                data: $('#create-form').serialize(),
+                url: getUrl("Info", "Create"),
+                success: function (data) {
+                    $dialogShow(data);
+                    if (data.Type == "Success") {
+                        $("#grid").trigger('reloadGrid');
+                    }
+                }
+            });
+        }
+
+        //编辑
+        function edit() {
+            if (!$('#edit-form').formValidation("validate").data("formValidation").isValid()) return;
+            //同步Kindeditor内容
+            for (var i in KindEditor.instances) {
+                if (KindEditor.instances.hasOwnProperty(i)) {
+                    KindEditor.instances[i].sync();
+                }
+            }
+            $.ajax({
+                async: true,
+                type: "post",
+                dataType: "json",
+                data: $('#edit-form').serialize(),
+                url: getUrl("Info", "Edit"),
+                success: function (data) {
+                    $dialogShow(data);
+                    if (data.Type == "Success") {
+                        $("#grid").trigger('reloadGrid');
+                    }
+                }
+            });
+        }
+
+        //删除
+        function del() {
+            $dialogShow({
+                Type: "confirm",
+                Title: "删除",
+                Content: "确定要删除所选条目吗？",
+                SureFn: function (modal) {
+                    $(modal).on('hidden.bs.modal', function () {
+                        var ids = $("#grid").jqGrid('getGridParam', 'selarrrow');
+                        $.ajax({
+                            async: true,
+                            type: "post",
+                            dataType: "json",
+                            data: { ids: ids },
+                            url: getUrl("Info", "Delete"),
+                            success: function (data) {
+                                $dialogShow(data);
+                                if (data.Type == "Success") {
+                                    $("#grid").trigger('reloadGrid');
+                                }
+                            }
+                        });
+                    }).modal("hide");
+                }
+            });
+        }
+
+        //查询
+        function searchInfo() {
+            var queryParams = $("#grid").jqGrid("getGridParam", "postData");
+            $($("#info-search .form-control").serializeArray()).each(function (i, obj) {
+                queryParams[obj.name] = obj.value;
+            });
+            $("#grid").jqGrid("setGridParam", { postData: queryParams }).trigger("reloadGrid");
+        }
+    </script>
+}
+
+

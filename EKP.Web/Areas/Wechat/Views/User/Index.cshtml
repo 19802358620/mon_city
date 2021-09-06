@@ -1,0 +1,30 @@
+﻿@{
+    Layout = "~/Areas/WeChat/Views/Shared/_Layout.cshtml";
+}
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>项目</title>    
+</head>
+<body>
+    <div class="list-group">
+        <a href="#" onclick="showUserInfo()" class="list-group-item">个人资料</a>
+        <a href="#" onclick="showModifyPassword()" class="list-group-item">修改密码</a>
+        @*<a href="#" onclick="showLogin()" class="list-group-item">登录</a>*@
+    </div>
+
+    <script>
+        function showUserInfo() {
+            window.location.href = "/jkt/WeChat/User/UserInfo?returnUrl={0}".format(escape(location.href));
+        }
+        function showModifyPassword() {
+            window.location.href = "/jkt/WeChat/User/ModifyPassword?returnUrl={0}".format(escape(location.href));
+        }
+        function showLogin() {
+            window.location.href = "/jkt/WeChat/User/Login?returnUrl={0}".format(escape(location.href));
+        }
+    </script>
+
+</body>
+</html>

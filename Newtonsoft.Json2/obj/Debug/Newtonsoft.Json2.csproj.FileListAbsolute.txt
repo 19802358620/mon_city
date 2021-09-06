@@ -1,0 +1,14 @@
+G:\实验室\代码\Newtonsoft.Json2\bin\Debug\Newtonsoft.Json2.dll
+G:\实验室\代码\Newtonsoft.Json2\bin\Debug\Newtonsoft.Json2.pdb
+G:\实验室\代码\Newtonsoft.Json2\bin\Debug\Newtonsoft.Json2.dll.CodeAnalysisLog.xml
+G:\实验室\代码\Newtonsoft.Json2\bin\Debug\Newtonsoft.Json2.dll.lastcodeanalysissucceeded
+G:\实验室\代码\Newtonsoft.Json2\obj\Debug\Newtonsoft.Json2.dll
+G:\实验室\代码\Newtonsoft.Json2\obj\Debug\Newtonsoft.Json2.pdb
+G:\实验室\代码\Newtonsoft.Json2\obj\Debug\Newtonsoft.Json2.csprojResolveAssemblyReference.cache
+G:\实验室\城市交通调度系统\代码\Newtonsoft.Json2\bin\Debug\Newtonsoft.Json2.dll
+G:\实验室\城市交通调度系统\代码\Newtonsoft.Json2\bin\Debug\Newtonsoft.Json2.pdb
+G:\实验室\城市交通调度系统\代码\Newtonsoft.Json2\bin\Debug\Newtonsoft.Json2.dll.CodeAnalysisLog.xml
+G:\实验室\城市交通调度系统\代码\Newtonsoft.Json2\bin\Debug\Newtonsoft.Json2.dll.lastcodeanalysissucceeded
+G:\实验室\城市交通调度系统\代码\Newtonsoft.Json2\obj\Debug\Newtonsoft.Json2.dll
+G:\实验室\城市交通调度系统\代码\Newtonsoft.Json2\obj\Debug\Newtonsoft.Json2.pdb
+G:\实验室\城市交通调度系统\代码\Newtonsoft.Json2\obj\Debug\Newtonsoft.Json2.csprojResolveAssemblyReference.cache

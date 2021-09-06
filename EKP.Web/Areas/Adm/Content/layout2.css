@@ -1,0 +1,220 @@
+﻿/*********************●网站全局样式******************************/
+::-webkit-input-placeholder {
+    color: #CDCDC1 !important;
+}
+
+:-moz-placeholder {
+    color: #CDCDC1 !important;
+}
+
+::-moz-placeholder {
+    color: #CDCDC1 !important;
+}
+
+:-ms-input-placeholder {
+    color: #CDCDC1 !important;
+}
+
+html, body {
+    font-family: "Segoe UI", "Lucida Grande", Helvetica, Arial, "Microsoft YaHei", FreeSans, Arimo, "Droid Sans", "wenquanyi micro hei", "Hiragino Sans GB", "Hiragino Sans GB W3", "FontAwesome", sans-serif;
+}
+
+.theme-panel > .toggler {
+    top: 3px !important;
+    padding: 18px !important;
+}
+
+.page-head {
+    padding-top: 11px;
+    padding-bottom: 11px;
+    padding-left: 15px;
+    background: #FFFFFF;
+}
+
+    .page-head .page-title h1 {
+        font-family: Microsoft YaHei !important;
+    }
+
+.page-header.navbar.navbar-fixed-top {
+    z-index: 1999;
+}
+
+.page-content {
+    padding-top: 15px !important;
+}
+
+.sidebar-welcome-wrapper {
+    padding-top: 15px !important;
+    padding-bottom: 15px !important;
+}
+
+    .sidebar-welcome-wrapper .sidebar-welcome {
+        text-align: center;
+    }
+
+    .sidebar-welcome-wrapper .welcome {
+        margin-top: 5px;
+    }
+
+    .sidebar-welcome-wrapper .img-circle {
+        height: 60px;
+        width: 60px;
+    }
+
+.layui-layer-dialog .layui-layer-content .form-horizontal {
+    line-height: normal;
+}
+
+.layui-layer-dialog .layui-layer-content .icheck-inline label {
+    margin-bottom: 4px;
+}
+
+.page-footer .page-footer-inner {
+    float: none;
+    text-align: center;
+    display: block;
+}
+
+.navbar-nav > li > a {
+    padding-top: 27px;
+    padding-bottom: 27px;
+    padding-left: 25px;
+    padding-right: 25px;
+    font-size: 15px;
+}
+.navbar-nav > li > a span.lab {
+    display: inline-block;
+    float: left;
+    padding-right: 5px;
+}
+.navbar-nav > li > a span.badge {
+    position: static !important;
+    float:left;
+}
+.page-header.navbar .hor-menu.hor-menu-light .navbar-nav > li.active > a {
+    background: #e9ecf3;
+}
+.page-breadcrumb {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+    overflow: auto;
+}
+.page-bar {
+    display: inline-block;
+    margin-top: 10px;
+}
+
+.page-toolbar {
+    margin-right: 10px;
+}
+
+.page-breadcrumb i {
+    color: #5b9bd1;
+}
+.page-breadcrumb li {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    float: left;
+}
+
+.page-header .page-logo {
+    line-height: 75px !important;
+}
+.logo-default {
+    margin-top: 0px !important;
+    margin-left: 0px !important;
+    max-height: 60px !important; 
+    max-width: 180px !important; 
+}
+.navbar-nav {
+    margin-left: 10px !important;
+}
+.btn-theme-panel{
+    margin-top:10px;
+}
+.dropdown-shared .dropdown-menu {
+    max-width: 600px !important;
+    width: 600px !important;
+}
+.dropdown-menu .mix .img-box {
+    text-align: center;
+    overflow: hidden;
+}
+
+.dropdown-menu .mix .mix-inner {
+    border: 3px solid #F2F2F2;
+}
+
+.dropdown-menu .mix.active .mix-inner {
+    border: 3px solid #000;
+}
+
+.dropdown-menu .mix img {
+    max-width: 100%;
+    height: 300px;
+    position: relative;
+    display: inline;
+}
+
+.dropdown-menu .mix .label {
+    position: absolute;
+    width: 100%;
+    height: 40px;
+    bottom: -40px;
+}
+
+.dropdown-menu .mix .label-bg {
+    background: #0da3e2;
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+}
+.dropdown-menu .mix-grid .mix{
+    margin-top:15px;
+}
+
+.dropdown-menu .mix .label-text {
+    color: #fff;
+    position: relative;
+    z-index: 500;
+    padding: 5px 8px;
+}
+.dropdown-menu .mix .label-text a {
+    color: #fff;
+}
+
+/*********************●jqgrid工具栏******************************/
+.search-box {
+    padding-bottom: 10px;
+}
+
+    .search-box .control-label {
+        text-align: left;
+        height: 34px;
+        line-height: 34px;
+        float: left;
+        width: 70px;
+    }
+
+.nav-pills .search-split {
+    font-size: 14px;
+    padding-top: 4px;
+    padding-left: 3px;
+    padding-right: 3px;
+    color: #547ea8;
+}
+
+.search-label {
+    height: 34px;
+    line-height: 34px;
+    padding-left: 0;
+    padding-right: 0;
+    text-align: left;
+    width: 60px;
+    display: block;
+    float: left;
+}

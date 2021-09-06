@@ -1,0 +1,361 @@
+﻿<style>
+    .ui-jqgrid tr.jqgrow td {
+        white-space: normal !important;
+        height: auto;
+    }
+    /*自动换行*/
+</style>
+<div class="portlet light">
+    <div class="portlet-body">
+        <div class="row">
+            <div class="btn-group col-md-12">
+                <ul class="nav nav-pills col-md-8 no-margin-bottom" id="grid-toolbar">
+                    <li>
+                        <button class="btn blue" onclick="open_create()">
+                            <i class="fa fa-plus"></i>
+                            新增
+                        </button>
+                    </li>
+                    <li>
+                        <button class="btn blue toolbar-data" disabled="disabled" onclick="open_edit()">
+                            <i class="fa fa-pencil"></i>
+                            编辑
+                        </button>
+                    </li>
+                    <li>
+                        <button class="btn blue toolbar-datas" disabled="disabled" onclick="del()">
+                            <i class="fa fa-trash"></i>
+                            删除
+                        </button>
+                    </li>
+                    <li>
+                        <button id="btnPublish" class="btn green toolbar-datas" disabled="disabled" onclick="hw_publish()">
+                            <i class="fa fa-plane">
+                            </i>
+                            发布
+                        </button>
+                    </li>
+                    <li>
+                        <button id="btnUndoPublish" class="btn green toolbar-datas" disabled="disabled" onclick="hw_undoPublish()">
+                            <i class="fa fa-plane">
+                            </i>
+                            取消发布
+                        </button>
+                    </li>
+
+                    @*<li>
+                            <button id="btnUndoPublish" class="btn green toolbar-datas" disabled="disabled" onclick="hw_score()">
+                                <i class="fa fa-plane">
+                                </i>
+                                作业成绩
+                            </button>
+                        </li>*@
+                </ul>
+                <div class="form-group col-md-4 margin-bottom-0" id="search">
+                    <div class="col-md-offset-2 col-md-10 padding-right-0">
+                        <div class="input-group">
+                            <input type="text" class="form-control input input-left" name="KeyWord" placeholder="关键字:名称，链接，附件">
+                            <span class="input-group-btn">
+                                <a href="javascript:;" class="btn btn blue input-right" onclick="btnSearch()">
+                                    <i class="fa fa-search"></i> 检索
+                                </a>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-12">
+                <div class="table-scrollable col-md-12">
+                    <table id="grid"></table>
+                    <table id="gridPager"></table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+@section  body_js{
+    <script>
+        var menuName = "Adm.Homework.Pager";
+        //初始化
+        $(function () {
+            Metronic.init();
+            Layout.init();
+            admLayout({ menuName: menuName });
+
+            //列表
+            $("#grid").jqGrid({
+                url: getUrl("Homework", "Pager"),
+                pager: "#gridPager",
+                toolbar: "#grid-toolbar",
+                sortname: "Id",
+                sortorder: "asc",
+                colModel: [
+                    { name: 'Id', label: 'Id', key: true, hidden: true },
+                    { name: 'Name', label: '作业名称', width: 150 },
+                    { name: 'TeacherName', label: '发布人' },
+                    {
+                        name: 'LinkName', label: '下载链接',
+                        formatter: function editLink(cellValue, options, rowdata, action) {
+                            return "<a href=" + rowdata.Link + ">" + rowdata.LinkName + "</a>";
+                        }
+                    },
+                    {
+                        name: 'AttachmentName', label: '要求附件',
+                        formatter: function editLink(cellValue, options, rowdata, action) {
+                            return "<a href=" + rowdata.Attachment + ">" + rowdata.AttachmentName + "</a>";
+                        }
+                    },
+                    {
+                        name: 'ClassNames', label: '所发班级'
+                    },
+                    {
+                        name: 'StartDateTime', label: '开始时间',
+                        formatter: function (data, row, index) {
+                            return data.replace("T", " ");
+                        }
+                    },
+                    {
+                        name: 'EndDateTime', label: '结束时间'
+                        ,
+                        formatter: function (data, row, index) {
+                            return data.replace("T", " ");
+                        }
+                    },
+                    { name: 'Status', label: '状态' },
+                    { name: 'ScoreDegree', label: '分数等级' },
+                    { name: 'Remark', label: '备注' }
+                ],
+                onSelectRow: function (rowId) {
+                    $("#grid").jqGrid('getGridParam', 'updateToolbar')(this);
+                    var id = $("#grid").jqGrid('getGridParam', 'selrow');
+                    var celldata = $("#grid").jqGrid('getCell', id, "Status");
+                    if (celldata == "已发布") {
+                        $("#btnPublish").attr('disabled', 'disabled');
+                    }
+                    if (celldata == "未发布") {
+                        $("#btnUndoPublish").attr('disabled', 'disabled');
+                    }
+                },
+                onSelectAll: function () {
+                    $("#grid").jqGrid('getGridParam', 'updateToolbar')(this);
+                },
+                loadComplete: function () {
+                    $("#grid").jqGrid('getGridParam', 'updateToolbar')(this);
+                    $("#grid").jqGrid('getGridParam', 'loadCompleteExt')(this);
+                }
+            });
+        });
+
+        //打开添加窗口
+        function open_create() {
+            $.ajax({
+                url: getUrl("Homework", "Create"),
+                dataType: 'html',
+                type: 'get',
+                beforeSend: function () {
+                    layer.config({
+                        extend: 'extend/layer.ext.js',
+                        zIndex: 200
+                    });
+                    layer.load(0, { shade: false });
+                },
+                success: function (html) {
+                    layer.closeAll("loading");
+                    layer.confirm(html, {
+                        title: '<i class="fa fa-plus"></i> 新增作业',
+                        area: ['900px'],
+                        btn: ['<i class="fa fa-save"></i>&nbsp;保存', '<i class="fa fa-times"></i>&nbsp;取消']
+                    }, function (v, box) {
+                        create();
+                    });
+                }
+            });
+        }
+
+        //打开编辑窗口
+        function open_edit() {
+            var id = $("#grid").jqGrid('getGridParam', 'selrow');
+            $.ajax({
+                type: "POST",
+                dataType: "json",
+                data: { Id: id },
+                url: getUrl("Homework", "Detail"),
+                beforeSend: function () {
+                    layer.load(0, { shade: false });
+                },
+                success: function (data) {
+                    $.ajax({
+                        url: getUrl("Homework", "Edit"),
+                        dataType: 'html',
+                        type: 'get',
+                        success: function (html) {
+                            layer.closeAll("loading");
+                            layer.confirm(html, {
+                                title: '<i class="fa fa-pencil"></i> 编辑角色',
+                                area: ['900px'],
+                                btn: ['<i class="fa fa-save"></i>&nbsp;保存', '<i class="fa fa-times"></i>&nbsp;取消'],
+                            }, function (v, box) {
+                                edit();
+                            });
+                            $("#edit-form .form-control").bindData(data);
+                            $("#edit-form input[name='edit.StartDateTime']").val($formatDate(data.StartDateTime, "yyyy年MM月dd日"));
+                            $("#edit-form input[name='edit.EndDateTime']").val($formatDate(data.EndDateTime, "yyyy年MM月dd日"));
+                            KindEditor.html('input[name="create.Request"]', data.Request);
+                        }
+                    });
+                }
+            });
+        }
+
+        //添加
+        function create() {
+            if (!$('#create-form').formValidation("validate").data("formValidation").isValid()) return;
+            //同步Kindeditor内容
+            for (var i in KindEditor.instances) {
+                if (KindEditor.instances.hasOwnProperty(i)) {
+                    KindEditor.instances[i].sync();
+                }
+            }
+            $.ajax({
+                async: true,
+                type: "post",
+                dataType: "json",
+                data: $('#create-form').serialize(),
+                url: getUrl("Homework", "Create"),
+                success: function (data) {
+                    $dialogShow(data);
+                    if (data.Type == "Success") {
+                        $("#grid").trigger('reloadGrid');
+                    }
+                }
+            });
+        }
+
+        //编辑
+        function edit() {
+            if (!$('#edit-form').formValidation("validate").data("formValidation").isValid()) return;
+            //同步Kindeditor内容
+            for (var i in KindEditor.instances) {
+                if (KindEditor.instances.hasOwnProperty(i)) {
+                    KindEditor.instances[i].sync();
+                }
+            }
+            $.ajax({
+                async: true,
+                type: "post",
+                dataType: "json",
+                data: $('#edit-form').serialize(),
+                url: getUrl("Homework", "Edit"),
+                success: function (data) {
+                    $dialogShow(data);
+                    if (data.Type == "Success") {
+                        $("#grid").trigger('reloadGrid');
+                    }
+                }
+            });
+        }
+
+        //删除
+        function del() {
+            $dialogShow({
+                Type: "confirm",
+                Title: "删除",
+                Content: "确定要删除所选条目吗？",
+                SureFn: function (modal) {
+                    $(modal).on('hidden.bs.modal', function () {
+                        var ids = $("#grid").jqGrid('getGridParam', 'selarrrow');
+                        $.ajax({
+                            async: true,
+                            type: "post",
+                            dataType: "json",
+                            data: { ids: ids },
+                            url: getUrl("Homework", "Delete"),
+                            success: function (data) {
+                                $dialogShow(data);
+                                if (data.Type == "Success") {
+                                    $("#grid").trigger('reloadGrid');
+                                }
+                            }
+                        });
+                    }).modal("hide");
+                }
+            });
+        }
+
+        //查询
+        function btnSearch() {
+            var queryParams = $("#grid").jqGrid("getGridParam", "postData");
+            $($("#search .form-control").serializeArray()).each(function (i, obj) {
+                queryParams[obj.name] = obj.value;
+            });
+
+            $("#grid").jqGrid("setGridParam", { postData: queryParams }).trigger("reloadGrid");
+        }
+
+        //发布离线作业
+        function hw_publish() {
+            $dialogShow({
+                Type: "confirm",
+                Title: "发布",
+                Content: "确定要发布条目吗？",
+                SureFn: function (modal) {
+                    $(modal).on('hidden.bs.modal', function () {
+                        var Id = $("#grid").jqGrid('getGridParam', 'selarrrow');
+                        $.ajax({
+                            async: true,
+                            type: "post",
+                            dataType: "json",
+                            data: { Id: Id },
+                            url: getUrl("Homework", "PublisHomeWork"),
+                            success: function (data) {
+                                $dialogShow(data);
+                                if (data.Type == "Success") {
+                                    $("#grid").trigger('reloadGrid');
+                                }
+                            }
+                        });
+                    }).modal("hide");
+                }
+            });
+        }
+        //取消发布离线作业
+        function hw_undoPublish() {
+            $dialogShow({
+                Type: "confirm",
+                Title: "取消发布",
+                Content: "确定要取消发布条目吗？",
+                SureFn: function (modal) {
+                    $(modal).on('hidden.bs.modal', function () {
+                        var Id = $("#grid").jqGrid('getGridParam', 'selarrrow');
+                        $.ajax({
+                            async: true,
+                            type: "post",
+                            dataType: "json",
+                            data: { Id: Id },
+                            url: getUrl("Homework", "UndoPublisHomeWork"),
+                            success: function (data) {
+                                $dialogShow(data);
+                                if (data.Type == "Success") {
+                                    $("#grid").trigger('reloadGrid');
+                                }
+                            }
+                        });
+                    }).modal("hide");
+                }
+            });
+        }
+
+
+
+
+
+
+
+
+    </script>
+}
+
+
+
+
+

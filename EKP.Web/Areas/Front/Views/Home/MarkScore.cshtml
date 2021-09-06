@@ -1,0 +1,258 @@
+﻿<div class="main">
+    <div class="container">
+        <div class="row margin-bottom-40">
+            <div class="col-md-12 col-sm-12">
+                <div class="content-page">
+                    <div class="col-md-12 col-sm-12" id="projectDetailBox">
+                        <div class="loading" style="line-height: 300px;height: 300px;text-align:center;display: none">
+                            <img src="/Areas/Adm/Images/loading_5.gif" />
+                        </div>
+                        <div class="content-page">
+                            <ul class="nav nav-tabs" id="projectSubjectTabBox"></ul>
+                            <div id="projectSubjectConBox">
+                                <div class="tab-pane fade" id="tab-1">
+                                    <div id="detectionSubjectBox" class="exercises">
+                                        <div class="exercises-list">
+                                            <div class="load" style="display:none;text-align: center">
+                                                <img src="/Areas/Adm/Images/loading_5.gif">
+                                            </div>
+                                            <div class="empty" style="display:none">
+                                                当前不存在题目，<a href="javascript:openCreateDetectionSubject();">点击立即创建</a>
+                                            </div>
+                                            <div class="con">
+                                                <ul class="subjectBox" id="subjectBox"></ul>
+                                                <div class="row">
+                                                    <div class="col-md-9">
+                                                        <button type="button" class="btn blue saveSubject" onclick="btnSaveScore()">
+                                                            <i class="fa fa-save"></i>
+                                                            保存评分
+                                                        </button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+@section head_style{
+    <link href="/Areas/Base/Content/subject.css" rel="stylesheet" />
+}
+@section body_js{
+
+    <script src="/Areas/Base/Scripts/subject.js"></script>
+    <script src="/Areas/Base/Scripts/kindeditor-4.1.10/kindeditor.js"></script>
+    <script src="/Areas/Base/Scripts/kindeditor-4.1.10/lang/zh_CN.js"></script>
+    <script src="/Areas/Base/Scripts/customer/plugin.extend.js"></script>
+    <script type="text/javascript">
+        var detectionId = null;
+        var detectionHand = null;
+
+        //初始化
+        $(function() {
+            frontLayout({
+                title: "练习批改",
+                menuName: "ScoreStatistics"
+            });
+
+            //试题列表
+            $.ajax({
+                type: "POST",
+                dataType: "json",
+                url: getUrl("Project", "Detail", { area: "Adm", id: gloQs.projectId }),
+                beforeSend: function() {
+                    $("#projectDetailBox .loading").show();
+                    $("#projectDetailBox .content-page").hide();
+                },
+                success: function(data) {
+                    $("#projectDetailBox .loading").hide();
+                    $("#projectDetailBox .content-page").show();
+
+                    initProjectSubject(gloQs.projectId);
+                }
+            });
+        });
+
+        //初始化tab切换
+        function initProjectSubject(projectId) {
+            $.ajax({
+                type: "POST",
+                dataType: "json",
+                url: getUrl("Detection", "Tree", { area: "Adm", projectId: projectId }),
+                beforeSend: function() {
+                },
+                success: function(data) {
+                    //初始化tab
+                    $(data).each(function(i, node) {
+                        $("#projectSubjectTabBox").append('<li><a href="#tab-1" detectionId="{id}" data-toggle="tab">{text}</a></li>'.format(node));
+                    });
+
+                    //tab切换
+                    $('#projectSubjectTabBox a[data-toggle="tab"]').on('shown.bs.tab', function(e) {
+                        detectionId = $(e.target).attr("detectionId");
+                        $("#projectSubjectTabBox").attr("detectionId", detectionId);
+                        $(window).trigger("resize");
+                        initSubjects(detectionId);
+                    });
+                    $("#projectSubjectTabBox li a:first").tab('show');
+                }
+            });
+        }
+
+        //初始化试题
+        function initSubjects(detectionId, callBack) {
+            $.ajax({
+                type: "post",
+                dataType: "json",
+                data: { detectionId: detectionId, userId: gloQs.userId },
+                url: getUrl("Home", "ProjectSubject"),
+                beforeSend: function() {
+                    $("#detectionSubjectBox .load").show();
+                    $("#detectionSubjectBox .empty").hide();
+                    $("#detectionSubjectBox .con").hide();
+                    $("#detectionSubjectBox .subjectBox").html("");
+                },
+                success: function(data) {
+                    //显示题目
+                    var projectSubject = data;
+                    var subjects = projectSubject.subjects.Rows;
+                    if (subjects.length) {
+                        $("#detectionSubjectBox .load").hide();
+                        $("#detectionSubjectBox .empty").hide();
+                        $("#detectionSubjectBox .con").show();
+                        $(subjects).each(function(i, subject) {
+                            var subjectItem = $("<li class='subject_item' subjectId='{Id}' type='{Type}'></li>".format(subject));
+                            $("#subjectBox").append(subjectItem);
+
+                            //基本信息
+                            detectionHand = data.detectionHand;
+                            if (!detectionHand) {
+                                layer.alert("该模块学生还未作答！", { icon: 5 });
+                                return;
+                            }
+
+                            //初始化题目
+                            ztsubject.init({
+                                box: $(subjectItem),
+                                subject: subject,
+                                sNum: i + 1,
+                                afterInit: function(opts) {
+                                },
+                                afterQuestionInit: function(sOpts, qdata, questionBox) {
+                                    //获取答题信息
+                                    var detectionReplys = data.detectionHand.DetectionReplys;
+                                    var detectionReply = null;
+                                    $(detectionReplys).each(function(j, dr) {
+                                        if (dr.SubjectId == qdata.SubjectId) {
+                                            detectionReply = dr;
+                                            return false;
+                                        }
+                                    });
+
+                                    //显示答题内容
+                                    if (qdata.Type == "single") {
+                                        $(questionBox).find(".answer_q[value='{0}']".format(detectionReply.Value)).attr("checked", true);
+                                    }
+                                    else if (qdata.Type == "multi") {
+                                        $(questionBox).find(".answer_q").each(function(i, aq) {
+                                            if (detectionReply.Value.indexOf($(aq).val()) > -1) {
+                                                $(aq).attr("checked", true);
+                                            }
+                                        });
+                                    }
+                                    else if (qdata.Type == "bit") {
+                                        $(questionBox).find(".answer_q[value='{0}']".format(detectionReply.Value)).attr("checked", true);
+                                    }
+                                    else if (qdata.Type == "fill") {
+                                        var replys = JSON.parse(detectionReply.Value);
+                                        $(subjectItem).find(".subject-input.answer_q").each(function(k, aq) {
+                                            if (replys.length >= k + 1) {
+                                                $(aq).val(replys[k]);
+                                            }
+                                        });
+                                    } else if (qdata.Type == "shortAnswer") {
+                                        var kindEditor = $(questionBox).find(".kindeditor.answer_q");
+                                        KindEditor.html(kindEditor, detectionReply.Value);
+                                    }
+
+                                    //显示得分
+                                    ztsubject.checkAnswer({
+                                        subject_item: subjectItem,
+                                        subject: subject,
+                                        isShowCheck: true,
+                                        checkCallback: function(isRight) {
+                                            detectionReply.Score = detectionReply.Score == null ? "" : detectionReply.Score;
+                                            detectionReply.MaxScore = subject.Score;
+                                            $(subjectItem).find(".sunject-answer .isRight").hide();
+                                            $(subjectItem).find(".sunject-answer .isRight").after(
+                                                "<h4>" +
+                                                "<span class=\"pre\">本题得分：</span><span class=\"con\"><input testPaperReplyId=\"{Id}\" type=\"text\" class=\"subject-score-input width50\" value=\"{Score}\"/> 分（满分：{MaxScore}分）</span>".format(detectionReply) +
+                                                "</h4 > ");
+                                        }
+                                    });
+                                }
+                            });
+                        });
+                    }
+                    else {
+                        $("#detectionSubjectBox .empty").show();
+                        $("#detectionSubjectBox .con").hide();
+                    }
+
+                    //显示按钮
+                    if (data.detectionHand) {
+                        $(".errorRepeatSubject, .checkAllSubject").show();
+                    } else {
+                        $(".saveSubject").show();
+                    }
+
+                    if (callBack) {
+                        callBack(data);
+                    }
+                }
+            });
+        }
+
+        //保存评分
+        function btnSaveScore() {
+            layer.confirm("确认要保存评分吗？", {
+                title: "",
+                btn: ['确认', '取消']
+            }, function(v, box) {
+                layer.closeAll();
+
+                //提交
+                var models = new Array();
+                $("#subjectBox .subject-score-input").each(function(i, input) {
+                    var subjectItem = $(input).closest(".subject_item");
+                    if ($(subjectItem).css("display") == "none") return true;
+
+                    models.push({
+                        Id: $(input).attr("testPaperReplyId"),
+                        Score: $(input).val()
+                    });
+                });
+                $.ajax({
+                    type: "post",
+                    dataType: "json",
+                    data: { models: models, detectionHandId: detectionHand.Id },
+                    url: getUrl("DetectionReply", "UpdateScore", { area: "Adm" }),
+                    success: function(data) {
+                        $dialogShow(data);
+                        if (data.Type == "Success") {
+                            setTimeout(function() {
+                                initSubjects(detectionId);
+                            }, 500);
+                        }
+                    }
+                });
+            });
+        }
+    </script>
+}

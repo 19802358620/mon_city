@@ -1,0 +1,93 @@
+﻿html {
+    overflow: auto;
+}
+.main {
+    margin-top: -22px;
+}
+.idx .container {
+    background: url(../Images/idx6.jpg) no-repeat center -150px;
+    min-height: 630px;
+    position: relative;
+    width: 100% !important;
+    padding: 0;
+}
+.idx .container .bgimg {
+    width: 100%;
+    min-height: 600px;
+}
+.idx .container .tr {
+    position: absolute;
+    width: 550px;
+    height: 170px;
+    top: 50px;
+    right: 50px;
+    background: #FDF8F3;
+    border-radius: 20px !important;
+    border:2px solid #FDF8F3;
+    padding: 10px;
+    padding-top: 5px;
+}
+.idx .container .tr-content {
+    font-size: 14px;
+    text-indent: 2em;
+    text-align: left;
+    padding: 10px;
+    padding-top: 0;
+}
+.idx .container .tr-title h1 {
+    float: left;
+    margin-top: 10px;
+    margin-left: 10px;
+    font-weight: 500;
+    letter-spacing:3px;
+}
+.idx .container .tr .link {
+    display: block;
+    float: left;
+    margin-top: 15px;
+    margin-left: 10px;
+    background: #5CC7CB;
+    color: #FDF8DF;
+    height: 30px;
+    line-height: 30px;
+    padding-left: 10px;
+    padding-right: 10px;
+    border-radius: 20px !important;
+}
+.idx .container .tr .link:hover {
+    color: #FDF8DF;
+}
+.idx .container .bl {
+    position: absolute;
+    top: 355px;
+}
+.idx .container .bl .btn {
+    width: 150px;
+    height: 150px;
+    background-color: rgba(92,199,203,0.7) !important;
+    margin-right: 10px;
+    padding: 0 !important;
+    padding-top: 25px !important;
+    border-radius: 20px !important;
+}
+.footer {
+    display: block !important;
+}
+@media screen and (max-width: 1440px) {
+    .idx .container .bl {
+        top: 250px;
+    }
+    .idx .container {
+        background: url(../Images/idx7.jpg) no-repeat center 0px;
+    }
+    .idx .container .bl .btn img {
+        width: 150px;
+        height: 150px;
+    }
+    .idx .container .tr {
+        height: 140px;
+    }
+    .idx .container .tr-title h1 {
+        font-size: 30px;
+    }
+}

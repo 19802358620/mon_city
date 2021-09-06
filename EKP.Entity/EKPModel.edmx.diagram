@@ -1,0 +1,38 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="36aab39dce9d46528198eca086697c9c" Name="关系图1" ZoomLevel="74">
+        <EntityTypeShape EntityType="EKP_JSModel.T_AdmSetting" PointX="0.75" PointY="0.75" Width="1.5" />
+        <EntityTypeShape EntityType="EKP_JSModel.T_Authority" PointX="2.75" PointY="0.75" Width="1.5" />
+        <EntityTypeShape EntityType="EKP_JSModel.T_Class" PointX="2.75" PointY="3.75" Width="1.5" />
+        <EntityTypeShape EntityType="EKP_JSModel.T_Detection" PointX="4.75" PointY="0.75" Width="1.5" />
+        <EntityTypeShape EntityType="EKP_JSModel.T_DetectionHand" PointX="4.75" PointY="4.75" Width="1.5" />
+        <EntityTypeShape EntityType="EKP_JSModel.T_DetectionReply" PointX="6.75" PointY="0.75" Width="1.5" />
+        <EntityTypeShape EntityType="EKP_JSModel.T_DetectionSetting" PointX="6.75" PointY="4.75" Width="1.5" />
+        <EntityTypeShape EntityType="EKP_JSModel.T_DictKey" PointX="0.75" PointY="7.75" Width="1.5" />
+        <EntityTypeShape EntityType="EKP_JSModel.T_DictValue" PointX="8.75" PointY="0.75" Width="1.5" />
+        <EntityTypeShape EntityType="EKP_JSModel.T_Homework" PointX="2.75" PointY="8.75" Width="1.5" />
+        <EntityTypeShape EntityType="EKP_JSModel.T_HomeworkClass" PointX="8.75" PointY="4.75" Width="1.5" />
+        <EntityTypeShape EntityType="EKP_JSModel.T_HomeworkSubmit" PointX="4.75" PointY="8.75" Width="1.5" />
+        <EntityTypeShape EntityType="EKP_JSModel.T_Info" PointX="6.75" PointY="8.75" Width="1.5" />
+        <EntityTypeShape EntityType="EKP_JSModel.T_LearningResource" PointX="8.75" PointY="7.75" Width="1.5" />
+        <EntityTypeShape EntityType="EKP_JSModel.T_LearningResourceClass" PointX="10.75" PointY="0.75" Width="1.5" />
+        <EntityTypeShape EntityType="EKP_JSModel.T_Notice" PointX="10.75" PointY="3.75" Width="1.5" />
+        <EntityTypeShape EntityType="EKP_JSModel.T_NoticeClass" PointX="10.75" PointY="8.75" Width="1.5" />
+        <EntityTypeShape EntityType="EKP_JSModel.T_Project" PointX="10.75" PointY="11.75" Width="1.5" />
+        <EntityTypeShape EntityType="EKP_JSModel.T_ProjectInfo" PointX="12.75" PointY="0.75" Width="1.5" />
+        <EntityTypeShape EntityType="EKP_JSModel.T_Question" PointX="12.75" PointY="4.75" Width="1.5" />
+        <EntityTypeShape EntityType="EKP_JSModel.T_Role" PointX="12.75" PointY="8.75" Width="1.5" />
+        <EntityTypeShape EntityType="EKP_JSModel.T_Site" PointX="12.75" PointY="12.75" Width="1.5" />
+        <EntityTypeShape EntityType="EKP_JSModel.T_Subject" PointX="0.75" PointY="13.75" Width="1.5" />
+        <EntityTypeShape EntityType="EKP_JSModel.T_User" PointX="2.75" PointY="13.75" Width="1.5" />
+        <EntityTypeShape EntityType="EKP_JSModel.V_HomeworkClass" PointX="4.75" PointY="13.75" Width="1.5" />
+        <EntityTypeShape EntityType="EKP_JSModel.T_Video" PointX="6.75" PointY="13.75" Width="1.5" />
+        <EntityTypeShape EntityType="EKP_JSModel.T_VideoTree" PointX="14.75" PointY="0.75" Width="1.5" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

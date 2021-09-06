@@ -1,0 +1,14 @@
+G:\实验室\代码\Ge.Quartz\bin\Debug\Ge.Quartz.dll
+G:\实验室\代码\Ge.Quartz\bin\Debug\Ge.Quartz.pdb
+G:\实验室\代码\Ge.Quartz\bin\Debug\Common.Logging.dll
+G:\实验室\代码\Ge.Quartz\bin\Debug\Quartz.dll
+G:\实验室\代码\Ge.Quartz\obj\Debug\Ge.Quartz.csprojResolveAssemblyReference.cache
+G:\实验室\代码\Ge.Quartz\obj\Debug\Ge.Quartz.dll
+G:\实验室\代码\Ge.Quartz\obj\Debug\Ge.Quartz.pdb
+G:\实验室\城市交通调度系统\代码\Ge.Quartz\bin\Debug\Ge.Quartz.dll
+G:\实验室\城市交通调度系统\代码\Ge.Quartz\bin\Debug\Ge.Quartz.pdb
+G:\实验室\城市交通调度系统\代码\Ge.Quartz\bin\Debug\Common.Logging.dll
+G:\实验室\城市交通调度系统\代码\Ge.Quartz\bin\Debug\Quartz.dll
+G:\实验室\城市交通调度系统\代码\Ge.Quartz\obj\Debug\Ge.Quartz.dll
+G:\实验室\城市交通调度系统\代码\Ge.Quartz\obj\Debug\Ge.Quartz.pdb
+G:\实验室\城市交通调度系统\代码\Ge.Quartz\obj\Debug\Ge.Quartz.csprojResolveAssemblyReference.cache

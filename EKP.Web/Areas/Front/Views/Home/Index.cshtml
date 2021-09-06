@@ -1,0 +1,47 @@
+﻿<div class="main idx">
+    <div class="container" style="display: none">
+@*        <img src="/Areas/Front/Images/idx.jpg" class="bgimg"/>*@
+     @*    <div class="tr">
+            <div class="tr-title">
+                <h1>课程简介</h1>
+                <a class="link" target="_blank" onclick="goUrl(this,'Home','CourseIntroduce')">点击了解详情</a>
+            </div>
+            <div class="clearfix"></div>
+            <div class="tr-content">
+                {CourseIntroduce}
+            </div>
+        </div>*@
+        <div class="bl">
+            <a  @* class="btn btn-2" *@ target="_blank" title="课程学习" onclick="goUrl(this,'Home','Project')"><img src="/Areas/Front/Images/idx2.png"/></a>
+            <a @*  class="btn btn-3" *@ target="_blank" title="视频微课" onclick="goUrl(this,'Home','Video')"><img src="/Areas/Front/Images/idx3.png"/></a>
+            <a  @* class="btn btn-4" *@ target="_blank" title="思考练习" onclick="goUrl(this,'Home','ProjectGuidance')"><img src="/Areas/Front/Images/idx4.png"/></a>
+        </div>
+    </div>
+</div>
+@section head_style{
+    <link href="~/Areas/Front/Content/index.css" rel="stylesheet" />
+}
+@section body_js{
+    <script type="text/javascript">
+        $(function() {
+            frontLayout({
+                title: "首页",
+                menuName:"Index"
+            });
+
+            $(window).resize(function () {
+                $(".idx .container").height($(window).height() - ($(".corporate .header").height()) + 30);
+                if ($(window).width() <= 1440) {
+                    $(".idx  .btnBox").css("left", ($(window).width() / 2 - 250) + "px");
+                }
+                else {
+                    $(".idx  .btnBox").css("left", ($(window).width() / 2 - 320) + "px");
+                }
+            }).trigger("resize");
+
+            var indexData = appInfo.site;
+            indexData.CourseIntroduce = indexData.CourseIntroduce.ignoreHtmlNbsp(146) + "...";
+            $(".idx .container").replaceFormat(indexData).show();
+        });
+    </script>
+}

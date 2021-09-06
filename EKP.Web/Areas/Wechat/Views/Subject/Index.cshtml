@@ -1,0 +1,334 @@
+﻿@{
+    Layout = "~/Areas/WeChat/Views/Shared/_Layout.cshtml";
+}
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>自我检测</title>  
+    <style>
+        .tab-content {
+            margin-left: -10px;
+            margin-right: -10px;
+        }
+
+        .list-tool {
+            text-align: left;
+            margin-top: 10px;
+        }
+    </style>  
+</head>
+<body>
+    <div class="container-fluid">
+        <ul class="nav nav-tabs" style="margin-top:5px;" id="projectSubjectTabBox"></ul>
+        <div id="projectSubjectConBox">
+            <div class="tab-pane fade" id="tab-1">
+                <div id="detectionSubjectBox" class="exercises">
+                    <div class="exercises-list">
+                        <div class="load" style="display:none">
+                            <img src="/Areas/Adm/Images/loading_5.gif">
+                        </div>
+                        <div class="empty" style="display:none">
+                            当前不存在题目，<a href="javascript:openCreateDetectionSubject();">点击立即创建</a>
+                        </div>
+                        <div class="con" style="display:none">
+                            <div class="row">
+                                <button type="button" class="btn blue errorRepeatSubject" style="display: none" onclick="btnErrorRepeatSubject()">
+                                    <i class="fa fa-history"></i>
+                                    错题重做
+                                </button>
+                                <button type="button" class="btn blue checkAllSubject" style="display: none" onclick="btnCheckAllSubject()">
+                                    <i class="fa fa-eye"></i>
+                                    核对答案
+                                </button>
+                            </div>
+                            <ul class="subjectBox" id="subjectBox"></ul>
+                            <div class="row">
+                                <div class="col-md-9">
+                                    <button type="button" class="btn blue saveSubject" style="display: none" onclick="btnSaveSubject()">
+                                        <i class="fa fa-save"></i>
+                                        保存
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <link href="/Areas/Base/Content/subject.css" rel="stylesheet" />
+    <script src="/Areas/Base/Scripts/subject.js"></script>
+    <script src="~/Areas/Base/Scripts/kindeditor-4.1.10/kindeditor.js"></script>
+    <script src="~/Areas/Base/Scripts/kindeditor-4.1.10/lang/zh_CN.js"></script>
+    <script src="~/Areas/Base/Scripts/customer/plugin.extend.js"></script>
+    <script>
+        var projectSubject = null;
+
+        //初始化
+        $(function () {
+            initProjectSubject(gloQs.projectId);
+        });
+
+        //初始化tab切换
+        function initProjectSubject(projectId) {
+            $.ajax({
+                type: "POST",
+                dataType: "json",
+                url: getUrl("Detection", "Tree", { area: "Adm", projectId: projectId }),
+                beforeSend: function () {
+                },
+                success: function (data) {
+                    //初始化tab
+                    $(data).each(function (i, node) {
+                        $("#projectSubjectTabBox").append('<li><a href="#tab-1" detectionId="{id}" data-toggle="tab">{text}</a></li>'.format(node));
+                    });
+
+                    //tab切换
+                    $('#projectSubjectTabBox a[data-toggle="tab"]').on('shown.bs.tab', function (e) {
+                        var detectionId = $(e.target).attr("detectionId");
+                        $("#projectSubjectTabBox").attr("detectionId", detectionId);
+                        $(window).trigger("resize");
+                        initSubjects(detectionId);
+                    });
+                    $("#projectSubjectTabBox li a:first").tab('show');
+                }
+            });
+        }
+
+        //初始化试题
+        //status：1：做题；2：错题重做;；3：核对答案
+        function initSubjects(detectionId, status, callBack) {
+            status = status || 1;
+
+            $.ajax({
+                type: "post",
+                dataType: "json",
+                data: { detectionId: detectionId },
+                url: getUrl("Home", "ProjectSubject", { area:"Front" }),
+                beforeSend: function () {
+                    $("#detectionSubjectBox .load").show();
+                    $("#detectionSubjectBox .empty").hide();
+                    $("#detectionSubjectBox .con").hide();
+                    $("#detectionSubjectBox .subjectBox").html("");
+
+                    $(".errorRepeatSubject, .checkAllSubject, .saveSubject").hide();
+                },
+                success: function (data) {
+                    $("#detectionSubjectBox .load").hide();
+
+                    //显示题目
+                    projectSubject = data; 
+                    var subjects = projectSubject.subjects.Rows;
+                    if (subjects.length) {
+                        $("#detectionSubjectBox .empty").hide();
+                        $("#detectionSubjectBox .con").show();
+                        $(subjects).each(function (i, subject) {
+                            if (status == 2) {
+                                var replyQuestion = null;
+                                $(data.detectionHand.DetectionReplys).each(function (j, detectionReply) {
+                                    if (detectionReply.SubjectId == subject.Id && detectionReply.IsRight == false) {
+                                        replyQuestion = detectionReply;
+                                        return false;
+                                    }
+                                });
+                                if (!replyQuestion) return;
+                            }
+
+                            var subjectItem = $("<li class='subject_item' subjectId='{Id}' type='{Type}'></li>".format(subject));
+                            $("#subjectBox").append(subjectItem);
+
+                            //初始化题目
+                            ztsubject.init({
+                                box: $(subjectItem),
+                                subject: subject,
+                                sNum: i + 1,
+                                afterInit: function (opts) {
+                                    if (status == 2) {
+                                        $(subjectItem).find(".subject-tool").show();
+                                        $(subjectItem).find(".subject-tool span").append(
+                                            '<button class="btn btn-sm btn-primary btn-add" onclick="btnCheckSubject(this)"><i class= "fa fa-eye"></i> 核对答案</button >'.format(subject));
+                                    }
+                                },
+                                afterQuestionInit: function (sOpts, qdata, questionBox) {
+                                    if (data.detectionHand) {
+                                        $(data.detectionHand.DetectionReplys).each(function (j, detectionReply) {
+                                            if (detectionReply.QuestionId == qdata.Id) {
+                                                if (qdata.Type == "single") {
+                                                    $(questionBox).find(".answer_q[value='{0}']".format(detectionReply.Value)).attr("checked", true);
+                                                }
+                                                else if (qdata.Type == "multi") {
+                                                    $(questionBox).find(".answer_q").each(function (i, aq) {
+                                                        if (detectionReply.Value.indexOf($(aq).val()) > -1) {
+                                                            $(aq).attr("checked", true);
+                                                        }
+                                                    });
+                                                }
+                                                else if (qdata.Type == "bit") {
+                                                    $(questionBox).find(".answer_q[value='{0}']".format(detectionReply.Value)).attr("checked", true);
+                                                }
+                                                else if (qdata.Type == "fill") {
+                                                    var replys = JSON.parse(detectionReply.Value);
+                                                    $(subjectItem).find(".subject-input.answer_q").each(function (i, aq) {
+                                                        if (replys.length >= i + 1) {
+                                                            $(aq).val(replys[i]);
+                                                        }
+                                                    });
+                                                }
+                                                else if (qdata.Type == "shortAnswer") {
+                                                    var kindEditor = $(questionBox).find(".kindeditor.answer_q");
+                                                    KindEditor.html(kindEditor, detectionReply.Value);
+                                                }
+                                            }
+                                        });
+                                    }
+                                }
+                            });
+                        });
+                    }
+                    else {
+                        $("#detectionSubjectBox .empty").show();
+                        $("#detectionSubjectBox .con").hide();
+                    }
+
+                    //显示按钮
+                    if (data.detectionHand) {
+                        $(".errorRepeatSubject, .checkAllSubject").show();
+                    }
+                    else {
+                        $(".saveSubject").show();
+                    }
+
+                    if (callBack) {
+                        callBack(data);
+                    }
+                }
+            });
+        }
+
+        //保存
+        function btnSaveSubject() {
+            layer.confirm("此操作不可撤销，确定要保存吗？", {
+                title: "",
+                btn: ['确认', '取消']
+            }, function (v, box) {
+                layer.closeAll();
+
+                synSubmitAll("Examed", function (data) {
+                    $dialogShow(data);
+                    if (data.Type == "Success") {
+                        setTimeout(function () {
+                            var detectionId = $("#projectSubjectTabBox").attr("detectionId");
+                            initSubjects(detectionId, 1);
+                        }, 500);
+                    }
+                });
+            });
+        }
+
+        //保存答卷
+        function synSubmitAll(status, callback) {
+            var detectionId = $("#projectSubjectTabBox").attr("detectionId");
+
+            //同步富文本的值
+            for (var i in KindEditor.instances) {
+                if (KindEditor.instances.hasOwnProperty(i)) {
+                    KindEditor.instances[i].sync();
+                }
+            }
+
+            //提交
+            var models = new Array();
+            $("#subjectBox .subject_item").find(".question-box").each(function (i, question_box) {
+                var subject_item = $(question_box).closest(".subject_item");
+                var replys = zttp.subjectReply(subject_item);
+                $(replys).each(function (i, reply) {
+                    models.push({
+                        SubjectId: $(subject_item).attr("subjectId"),
+                        QuestionId: reply.questionId,
+                        Value: reply.value
+                    });
+                });
+            });
+            $.ajax({
+                type: "post",
+                dataType: "json",
+                data: {
+                    models: models,
+                    detectionId: detectionId,
+                    status: status
+                },
+                url: getUrl("DetectionReply", "SubmitAll", { area: "Adm" }),
+                success: function (data) {
+                    if (callback) {
+                        callback(data);
+                    }
+                }
+            });
+        }
+
+        //错题重做
+        function btnErrorRepeatSubject() {
+            var detectionId = $("#projectSubjectTabBox").attr("detectionId");
+            initSubjects(detectionId, 2, function (data) {
+
+            });
+        }
+
+        //核对答案
+        function btnCheckAllSubject() {
+            var detectionId = $("#projectSubjectTabBox").attr("detectionId");
+            initSubjects(detectionId, 3, function (data) {
+                layer.msg('请稍等...', {
+                    icon: 16,
+                    shade: 0.01
+                });
+
+                //0.5秒后执行
+                setTimeout(function () {
+                    $("#subjectBox .subject_item").each(function (i, subjectItem) {
+                        var subjectId = $(subjectItem).attr("subjectId");
+                        $(projectSubject.subjects.Rows).each(function (j, subject) {
+                            if (subject.Id == subjectId) {
+                                ztsubject.checkAnswer({
+                                    subject_item: subjectItem,
+                                    subject: subject,
+                                    isShowCheck: true
+                                });
+                            }
+                        });
+                    });
+
+                    layer.closeAll();
+                }, 500);
+            });
+        }
+
+        //核对答案（某道题）
+        function btnCheckSubject(btn) {
+            layer.msg('请稍等...', {
+                icon: 16,
+                shade: 0.01
+            });
+
+            setTimeout(function () {
+                var subjectItem = $(btn).closest(".subject_item");
+                var subjectId = $(subjectItem).attr("subjectId");
+                $(projectSubject.subjects.Rows).each(function (j, subject) {
+                    if (subject.Id == subjectId) {
+                        ztsubject.checkAnswer({
+                            subject_item: subjectItem,
+                            subject: subject,
+                            isShowCheck: true
+                        });
+                    }
+                });
+
+                layer.closeAll();
+            }, 500);
+
+        }
+    </script>
+</body>
+</html>

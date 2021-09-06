@@ -1,0 +1,200 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{8BF33434-48A9-464B-BFA7-D30F494AE5EC}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Ge.Infrastructure</RootNamespace>
+    <AssemblyName>Ge.Infrastructure</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <TargetFrameworkProfile />
+    <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\</SolutionDir>
+    <RestorePackages>true</RestorePackages>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="aliyun-net-sdk-core">
+      <HintPath>..\Lib\aliyun-net-sdk-core.dll</HintPath>
+    </Reference>
+    <Reference Include="aliyun-net-sdk-dysmsapi">
+      <HintPath>..\Lib\aliyun-net-sdk-dysmsapi.dll</HintPath>
+    </Reference>
+    <Reference Include="Aspose.Cells">
+      <HintPath>..\packages\Aspose.Cells.dll</HintPath>
+    </Reference>
+    <Reference Include="EmitMapper">
+      <HintPath>..\packages\EmitMapper.1.0.0\lib\EmitMapper.dll</HintPath>
+    </Reference>
+    <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="log4net">
+      <HintPath>..\packages\log4net.2.0.3\lib\net40-full\log4net.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.AspNet.Identity.Core">
+      <HintPath>..\packages\Microsoft.AspNet.Identity.Core.2.1.0\lib\net45\Microsoft.AspNet.Identity.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.AspNet.Identity.Owin">
+      <HintPath>..\packages\Microsoft.AspNet.Identity.Owin.2.1.0\lib\net45\Microsoft.AspNet.Identity.Owin.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Practices.EnterpriseLibrary.Common, Version=4.1.0.0, Culture=neutral, PublicKeyToken=e44a2bc38ed2c13c, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\EnterpriseLibrary.Common.6.0.1304.0\lib\NET45\Microsoft.Practices.EnterpriseLibrary.Common.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Practices.EnterpriseLibrary.ExceptionHandling">
+      <HintPath>..\packages\EnterpriseLibrary.ExceptionHandling.6.0.1304.0\lib\NET45\Microsoft.Practices.EnterpriseLibrary.ExceptionHandling.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Practices.Unity, Version=1.2.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Unity.3.5.1404.0\lib\net45\Microsoft.Practices.Unity.dll</HintPath>
+    </Reference>
+    <Reference Include="Newtonsoft.Json, Version=6.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Newtonsoft.Json.6.0.6\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.configuration" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Net.Http.Formatting, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Microsoft.AspNet.WebApi.Client.5.2.2\lib\net45\System.Net.Http.Formatting.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Transactions" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Web.Http, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Microsoft.AspNet.WebApi.Core.5.2.2\lib\net45\System.Web.Http.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Mvc, Version=4.0.0.1, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Microsoft.AspNet.Mvc.5.2.2\lib\net45\System.Web.Mvc.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="DataBase\DbHelper\DbHelper.cs" />
+    <Compile Include="DataBase\DbHelper\IDbHelper.cs" />
+    <Compile Include="DataBase\DbHelper\SqlExecuteException.cs" />
+    <Compile Include="DataBase\DbHelper\Trans.cs" />
+    <Compile Include="EasyUi\Base\IEasyUiResult.cs" />
+    <Compile Include="EasyUi\EasyGridParam.cs" />
+    <Compile Include="EasyUi\EasyGridResult.cs" />
+    <Compile Include="EasyUi\DialogFactory.cs" />
+    <Compile Include="EasyUi\DialogResult.cs" />
+    <Compile Include="EasyUi\TreeResult.cs" />
+    <Compile Include="Email\EmailService.cs" />
+    <Compile Include="Excel\Excel.cs" />
+    <Compile Include="Extensions\DataRowExtensions.cs" />
+    <Compile Include="Extensions\HtmlExtensions.cs" />
+    <Compile Include="Extensions\ObjectExtensions.cs" />
+    <Compile Include="Extensions\StringExtensions.cs" />
+    <Compile Include="Filter\FilterInput.cs" />
+    <Compile Include="Metronicv\Dialog\DialogFactory.cs" />
+    <Compile Include="Metronicv\Dialog\DialogModel.cs" />
+    <Compile Include="Metronicv\Dialog\DialogType.cs" />
+    <Compile Include="Metronicv\Jqgrid.cs" />
+    <Compile Include="Metronicv\JsTreeNode.cs" />
+    <Compile Include="Model\DataAnnotations\EnumKeyCheckAttribute.cs" />
+    <Compile Include="Model\ModelValidate.cs" />
+    <Compile Include="Model\ValidationAttribute.cs" />
+    <Compile Include="Mvc\Exceptions\ExceptionHandler.cs" />
+    <Compile Include="Mvc\Exceptions\WebApiError.cs" />
+    <Compile Include="Mvc\Exceptions\WebHttpError.cs" />
+    <Compile Include="Extensions\DataTableExtensions.cs" />
+    <Compile Include="Extensions\EFExtension\DataExtensions.cs" />
+    <Compile Include="Extensions\EFExtension\EntityReferenceExtensions.cs" />
+    <Compile Include="Extensions\EFExtension\GlobalSuppressions.cs" />
+    <Compile Include="Extensions\EFExtension\Materializer.cs" />
+    <Compile Include="Extensions\EFExtension\Messages.Designer.cs" />
+    <Compile Include="Extensions\EFExtension\ObjectQueryExtensions.cs" />
+    <Compile Include="Extensions\EFExtension\Util.cs" />
+    <Compile Include="Extensions\TypeExtensions.cs" />
+    <Compile Include="Filter\Filters.cs" />
+    <Compile Include="Filter\FilterManager.cs" />
+    <Compile Include="Filter\FilterTreeNode.cs" />
+    <Compile Include="Filter\IFilter.cs" />
+    <Compile Include="Filter\FilterAction.cs" />
+    <Compile Include="Ioc\Ioc.cs" />
+    <Compile Include="Ioc\UnityContainerExtensions.cs" />
+    <Compile Include="Ioc\UnityDependencyResolver.cs" />
+    <Compile Include="Mvc\Extensions\ApiControllerExtensions.cs" />
+    <Compile Include="Mvc\Extensions\ControllerExtensions.cs" />
+    <Compile Include="Mvc\FilterAttribute\BaseFilterAttribute.cs" />
+    <Compile Include="Pager\PagerResult.cs" />
+    <Compile Include="Pager\PagerParameter.cs" />
+    <Compile Include="RegularExpressions\RegularDictionary.cs" />
+    <Compile Include="Sms\Alidayu.cs" />
+    <Compile Include="Sms\SmsService.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Sql\SqlDBHelper.cs" />
+    <Compile Include="Sql\SqlHelper.cs" />
+    <Compile Include="Tree\Menu\MenuTreeNode.cs" />
+    <Compile Include="Tree\Menu\MenuTreeDataSourse.cs" />
+    <Compile Include="Tree\Menu\MenuTreeManager.cs" />
+    <Compile Include="Tree\Common\ITreeNode.cs" />
+    <Compile Include="Mvc\Exceptions\WebApiLogExceptionFilterAttribute.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Repository\UpdateExpressionsEntity.cs" />
+    <Compile Include="Extensions\ListExtensions.cs" />
+    <Compile Include="Utilities\AppSettingHelper.cs" />
+    <Compile Include="Utilities\ConfigDebug.cs" />
+    <Compile Include="Utilities\DesEncrypt.cs" />
+    <Compile Include="Utilities\DesJsEncrypt.cs" />
+    <Compile Include="Utilities\EmitMapperAttribute.cs" />
+    <Compile Include="Utilities\Encrypt.cs" />
+    <Compile Include="Utilities\EnumAttribute.cs" />
+    <Compile Include="Utilities\EnumHelper.cs" />
+    <Compile Include="Utilities\Html2Helper.cs" />
+    <Compile Include="Utilities\HttpHelper.cs" />
+    <Compile Include="Utilities\IPLocation.cs" />
+    <Compile Include="Utilities\IpsHelper.cs" />
+    <Compile Include="Utilities\CharHelper.cs" />
+    <Compile Include="Utilities\Md5Encrypt.cs" />
+    <Compile Include="Utilities\ObjectMapper.cs" />
+    <Compile Include="WebApi\ApiAction\ApiActionResult.cs" />
+    <Compile Include="WebApi\ApiAction\BaseApiActionResult.cs" />
+    <Compile Include="WebApi\CacheReturn\AttributeProvider\BaseCacheReturnProvider.cs" />
+    <Compile Include="WebApi\CacheReturn\AttributeProvider\CacheReturnProvider.cs" />
+    <Compile Include="WebApi\CacheReturn\CacheReturnFilterAttribute.cs" />
+    <Compile Include="WebApi\HttpRequestMessage\HttpRequestExtention.cs" />
+    <Compile Include="WebService\WebServiceRespose.cs" />
+    <Compile Include="Xml\XmlHelper\IXmlHelper.cs" />
+    <Compile Include="Xml\XmlHelper\XmlHelper.cs" />
+    <Compile Include="Xml\XmlHelper\XmlHelperExtension.cs" />
+    <Compile Include="Ztree\ZtreeNode.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="app.config" />
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup />
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+</Project>

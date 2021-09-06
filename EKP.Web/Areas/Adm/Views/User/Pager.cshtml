@@ -1,0 +1,248 @@
+﻿<div class="portlet light">
+    <div class="portlet-body">
+        <div class="row">
+            <div class="form-group col-md-12 padding-bottom-10" id="search">
+                <div class="col-md-12  padding-left-0">
+                    <div class="col-md-4" style="text-align:left">
+                        <div class="search-label">关键字</div>
+                        <div class="col-md-9">
+                            <input type="text" class="form-control input input-left" name="KeyWord" placeholder="账号、姓名">
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <a href="javascript:;" class="btn btn blue" onclick="btnSearch()">
+                            <i class="fa fa-search"></i> 检索
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <div class="btn-group col-md-12" id="grid-toolbar">
+                <ul class="nav nav-pills col-md-8 no-margin-bottom">
+                    <li>
+                        <button class="btn blue" onclick="open_create()">
+                            <i class="fa fa-plus"></i>
+                            新增
+                        </button>
+                    </li>
+                    <li>
+                        <button class="btn blue toolbar-data" disabled="disabled" onclick="open_edit()">
+                            <i class="fa fa-pencil"></i>
+                            编辑
+                        </button>
+                    </li>
+                    <li>
+                        <button class="btn blue toolbar-datas" disabled="disabled" onclick="del()">
+                            <i class="fa fa-trash"></i>
+                            删除
+                        </button>
+                    </li>
+                </ul>
+            </div>
+            <div class="col-md-12">
+                <div class="table-scrollable">
+                    <table id="grid"></table>
+                    <table id="gridPager"></table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+@section  body_js{
+    <script>
+        //初始化
+        $(function () {
+            Metronic.init();
+            Layout.init();
+            admLayout({ menuName: "Adm.User.Pager" });
+
+            //列表
+            $("#grid").jqGrid({
+                url: getUrl("User", "Pager"),
+                pager: "#gridPager",
+                toolbar: "#grid-toolbar",
+                sortname: "CreateTime",
+                sortorder: "desc",
+                postData: { SiteId: appInfo.site.Id, RoleId: 2 },
+                colModel: [
+                    { name: 'Id', label: 'Id', key: true, hidden: true },
+                    { name: 'Account', label: '账号' },
+                    { name: 'RealName', label: '姓名' },
+                    { name: 'RoleName', index: "T_Role.Name", label: '角色' },
+                    { name: 'Telephone', label: '电话' },
+                    {
+                        name: 'Status',
+                        label: '账号状态',
+                        formatter: function (value) {
+                            if (value == "NotActivate") return "<span class=\"label label-sm label-danger\">未激活</span>";
+                            else if (value == "Normal") return "<span class=\"label label-sm label-success\">正常</span>";
+                            else if (value == "Stop") return "<span class=\"label label-sm label-default\">停用</span>";
+                            return "";
+                        }
+                    },
+                    { name: 'CreateTime', label: '创建时间', formatter: 'date', formatoptions: { newformat: 'Y-m-d' } }
+                ],
+                onSelectRow: function (rowId) {
+                    $("#grid").jqGrid('getGridParam', 'updateToolbar')(this);
+                },
+                onSelectAll: function () {
+                    $("#grid").jqGrid('getGridParam', 'updateToolbar')(this);
+                },
+                loadComplete: function () {
+                    $("#grid").jqGrid('getGridParam', 'updateToolbar')(this);
+                    $("#grid").jqGrid('getGridParam', 'loadCompleteExt')(this);
+                }
+            });
+        });
+
+        //打开添加窗口
+        function open_create() {
+            $.ajax({
+                url: getUrl("User", "Create"),
+                dataType: 'html',
+                type: 'get',
+                beforeSend: function () {
+                    layer.config({
+                        extend: 'extend/layer.ext.js',
+                        zIndex: 200
+                    });
+                    layer.load(0, { shade: false });
+                },
+                success: function (html) {
+                    layer.closeAll("loading");
+                    layer.confirm(html, {
+                        title: '<i class="fa fa-plus"></i> 新增用户',
+                        area: ['900px', '550px'],
+                        btn: ['<i class="fa fa-save"></i>&nbsp;保存', '<i class="fa fa-times"></i>&nbsp;取消']
+                    }, function (v, box) {
+                        create();
+                    });
+                }
+            });
+        }
+
+        //打开编辑窗口
+        function open_edit() {
+            var id = $("#grid").jqGrid('getGridParam', 'selrow');
+            $.ajax({
+                type: "POST",
+                dataType: "json",
+                data: { id: id },
+                url: getUrl("User", "Detail"),
+                beforeSend: function () {
+                    layer.config({
+                        extend: 'extend/layer.ext.js',
+                        zIndex: 200
+                    });
+                    layer.load(0, { shade: false });
+                },
+                success: function (data) {
+                    $.ajax({
+                        url: getUrl("User", "Edit"),
+                        dataType: 'html',
+                        type: 'get',
+                        success: function (html) {
+                            layer.closeAll("loading");
+                            layer.confirm(html, {
+                                title: '<i class="fa fa-pencil"></i> 编辑用户',
+                                area: ['900px', '550px'],
+                                btn: ['<i class="fa fa-save"></i>&nbsp;保存', '<i class="fa fa-times"></i>&nbsp;取消'],
+                            }, function (v, box) {
+                                edit();
+                            });
+                            data.PassWord2 = data.PassWord;
+                            $("#edit-form .form-control").bindData(data);
+                            $("#edit_Province").trigger("change");
+                            $("#edit_City").val(data.City);
+                            $("#edit_City").trigger("change");
+                            $("#edit_Area").val(data.Area);
+                            if (data.Photo) {
+                                $("#imgPicture").attr("src", data.Photo);
+                            }
+                            if (data.AllowCarType) {
+                                $("#edit-form input[name='AllowCarType']").select2("data", { id: data.AllowCarType, Name: data.AllowCarTypeName });
+                            }
+                            if (data.CarTestType) {
+                                $("#edit-form input[name='CarTestType']").select2("data", { id: data.CarTestType, Name: data.CarTestTypeName });
+                            }
+                        }
+                    });
+                }
+            });
+        }
+
+        //添加
+        function create() {
+            if (!$('#create-form').formValidation("validate").data("formValidation").isValid()) return;
+            $.ajax({
+                async: true,
+                type: "post",
+                dataType: "json",
+                data: $('#create-form').serialize(),
+                url: getUrl("User", "Create"),
+                success: function (data) {
+                    $dialogShow(data);
+                    if (data.Type == "Success") {
+                        $("#grid").trigger('reloadGrid');
+                    }
+                }
+            });
+        }
+
+        //编辑
+        function edit() {
+            if (!$('#edit-form').formValidation("validate").data("formValidation").isValid()) return;
+            $.ajax({
+                async: true,
+                type: "post",
+                dataType: "json",
+                data: $('#edit-form').serialize(),
+                url: getUrl("User", "Edit"),
+                success: function (data) {
+                    $dialogShow(data);
+                    if (data.Type == "Success") {
+                        $("#grid").trigger('reloadGrid');
+                    }
+                }
+            });
+        }
+
+        //删除
+        function del() {
+            $dialogShow({
+                Type: "confirm",
+                Title: "删除",
+                Content: "确定要删除所选条目吗？",
+                SureFn: function (modal) {
+                    $(modal).on('hidden.bs.modal', function () {
+                        var ids = $("#grid").jqGrid('getGridParam', 'selarrrow');
+                        $.ajax({
+                            async: true,
+                            type: "post",
+                            dataType: "json",
+                            data: { ids: ids },
+                            url: getUrl("User", "Delete"),
+                            success: function (data) {
+                                $dialogShow(data);
+                                if (data.Type == "Success") {
+                                    $("#grid").trigger('reloadGrid');
+                                }
+                            }
+                        });
+                    }).modal("hide");
+                }
+            });
+        }
+
+        //查询
+        function btnSearch() {
+            var queryParams = $("#grid").jqGrid("getGridParam", "postData");
+            $($("#search .form-control").serializeArray()).each(function (i, obj) {
+                queryParams[obj.name] = obj.value;
+            });
+
+            $("#grid").jqGrid("setGridParam", { postData: queryParams }).trigger("reloadGrid");
+        }
+    </script>
+}
+
+

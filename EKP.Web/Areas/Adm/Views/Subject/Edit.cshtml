@@ -1,0 +1,181 @@
+﻿<div class="edit-class">
+    <div class="ex-right" style="width: 870px;">
+        <form id="subject-edit-form">
+            <input type="hidden" name="Id" />
+            <input type="hidden" name="DetectionId" />
+            <h2 id="subjectTypeBox" class="hide">
+                题型：
+                <a href="javascript:;" type="single">单选题</a>
+                <a href="javascript:;" type="multi">多选题</a>
+                <a href="javascript:;" type="bit">判断题</a>
+                <a href="javascript:;" type="fill">填空题</a>
+                <a href="javascript:;" type="shortAnswer">是非题</a>
+            </h2>
+            <div class="ex-detail">
+                <ul>
+                    <li class="ex-question"><i>*</i>题目：</li>
+                    <li><textarea name="Name" class="kindeditor"></textarea></li>
+                </ul>
+                <ul id="selectFormBox" style="display:none">
+                    <li class="ex-question">选项：</li>
+                    <li>
+                        <div id="Options_box">
+
+                        </div>
+                        <input type="hidden" name="Options" />
+                    </li>
+                    <li class="clearfix hide"></li>
+                    <li class="ex-question hide">选项列数：</li>
+                    <li class="hide">
+                        <select name="OptionsColumns">
+                            <option value="1">1列</option>
+                            <option value="2">2列</option>
+                            <option value="4" selected="selected">4列</option>
+                        </select>
+                    </li>
+                </ul>
+                <ul id="answerSingle" style="display:none">
+                    <li class="ex-question">答案：</li>
+                    <li class="answerBox"></li>
+                </ul>
+                <ul id="answerMulti" style="display:none">
+                    <li class="ex-question">答案：</li>
+                    <li class="answerBox"></li>
+                </ul>
+                <ul id="answerBit" style="display:none">
+                    <li class="ex-question">答案：</li>
+                    <li>
+                        <label><input type="radio" name="Answer" value="1" /><span>正确</span></label>
+                        &nbsp;&nbsp;
+                        <label><input type="radio" name="Answer" value="0" /><span>错误</span></label>
+                    </li>
+                </ul>
+                <ul id="answerFill" style="display:none">
+                    <li class="ex-question">答案：</li>
+                    <li><textarea name="Answer" class="width700 height100"></textarea></li>
+                </ul>
+                <ul id="answerShortAnswer" style="display:none">
+                    <li class="ex-question">答案：</li>
+                    <li><textarea name="Answer" class="kindeditor"></textarea></li>
+                </ul>
+                <ul>
+                    <li class="ex-question">解析：</li>
+                    <li><textarea name="Analysis" class="kindeditor"></textarea></li>
+                </ul>
+                <input type="hidden" class="tree-data" />
+            </div>
+        </form>
+    </div>
+</div>
+<script>
+    var currentType = "";
+
+    setTimeout(function () {
+        $('.select2-container').css({ "margin-top": "-40px" });
+        $('.tree').css({ "margin-top": "-5px", "margin-left": "-4px" });
+        $('.tree-box').css({"margin-top": "-5px"});
+    }, 500);
+
+    //初始化
+    $(function () {
+        //题型切换
+        $("#subjectTypeBox a").click(function () {
+            var link = $(this);
+            $("#subjectTypeBox a").removeClass("current");
+            $(link).addClass("current");
+
+            currentType = $(link).attr("type");
+            showSubjectHtml(currentType);
+        });
+
+        //富文本
+        KindEditor.basePath = '/Areas/Base/Scripts/kindeditor-4.1.10/';
+        KindEditor.create('.kindeditor', {
+            minWidth: 200,
+            width: '700',
+            height: '150',
+            cssPath: '/Areas/Base/Scripts/kindeditor-4.1.10/plugins/code/prettify.css',
+            uploadJson: '/Areas/Base/Scripts/kindeditor-4.1.10/asp.net/upload_json.ashx',
+            fileManagerJson: '/Areas/Base/Scripts/kindeditor-4.1.10/asp.net/file_manager_json.ashx',
+            allowFileManager: true,
+            resizeType: 1,
+            pasteType: 1,
+            items: [
+                'source', '|', 'undo', 'redo', '|', 'preview', 'print', 'template', 'code', 'cut', 'copy', 'paste',
+                'plainpaste', 'wordpaste', '|', 'justifyleft', 'justifycenter', 'justifyright',
+                'justifyfull', 'insertorderedlist', 'insertunorderedlist', 'indent', 'outdent', 'subscript',
+                'superscript', 'clearhtml', 'quickformat', 'selectall', '|', 'fullscreen', '/',
+                'formatblock', 'fontname', 'fontsize', '|', 'forecolor', 'hilitecolor', 'bold',
+                'italic', 'underline', 'strikethrough', 'lineheight', 'removeformat', '|', 'image', 'multiimage',
+                'flash', 'media', 'insertfile', 'table', 'hr', 'emoticons', 'baidumap', 'pagebreak',
+                'anchor', 'link', 'unlink', '|', 'sbinput'
+            ]
+        });
+    });
+
+    //保存
+    function saveSubjectEdit(callBack) {
+        if (!$('#subject-edit-form').formValidation("validate").data("formValidation").isValid()) return;
+
+        //同步Kindeditor内容
+        for (var i in KindEditor.instances) {
+            if (KindEditor.instances.hasOwnProperty(i)) {
+                KindEditor.instances[i].sync();
+            }
+        }
+
+        var model = {};
+        model.Id = $("#subject-edit-form *[name='Id']").val();
+        model.DetectionId = $("#subject-edit-form *[name='DetectionId']").val();
+        model.Name = $("#subject-edit-form *[name='Name']").val();
+        model.Analysis = $("#subject-edit-form *[name='Analysis']").val();
+        model.Type = currentType;
+        if (currentType == "single") {
+            model.Answer = $("#answerSingle *[name='Answer']:checked").val();
+            model.Options = [];
+            $("#Options_box .Options_box_item").each(function (i, item) {
+                model.Options.push($(item).find(".option_value").html());
+            });
+            model.Options = JSON.stringify(model.Options);
+            model.OptionsColumns = $("#selectFormBox *[name='OptionsColumns']").val();
+        }
+        else if (currentType == "multi") {
+            model.Answer = "";
+            model.Options = [];
+            $("#Options_box .Options_box_item").each(function (i, item) {
+                model.Options.push($(item).find(".option_value").html());
+            });
+            model.Options = JSON.stringify(model.Options);
+            model.OptionsColumns = $("#selectFormBox *[name='OptionsColumns']").val();
+            $("#answerMulti *[name='Answer']:checked").each(function (i, answer) {
+                model.Answer += $(answer).val()
+            });
+        }
+        else if (currentType == "bit") {
+            model.Answer = $("#answerBit *[name='Answer']:checked").val();
+        }
+        else if (currentType == "fill") {
+            model.Answer = $("#answerFill *[name='Answer']").val();
+        }
+        else if (currentType == "shortAnswer") {
+            model.Answer = $("#answerShortAnswer *[name='Answer']").val();
+        }
+
+        $.ajax({
+            type: "post",
+            dataType: "json",
+            data: model,
+            url: getUrl("Subject", "Edit"),
+            success: function (data) {
+                $dialogShow(data);
+                if (data.Type == "Success") {
+                    setTimeout(function () {
+                        if (callBack) {
+                            callBack(data);
+                        }
+                    }, 500);
+                }
+            }
+        });
+    }
+</script>

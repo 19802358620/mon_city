@@ -1,0 +1,169 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<JsTmplates>
+  <!-- 首页模块模板引擎-->
+  <_Template_ id="template">
+    <![CDATA[
+        <div id="template-box">
+            <!--form-->
+            <div class="control control-form form-horizontal col-md-12" willheight="203" pluginname="form">
+                <div class="form-body">
+                </div>
+            </div>
+            
+            <div class="property-box" pluginname="form">
+                <ul class="cstl_form">
+                    <li>
+                        <div class="pn">没有可设置的属性！</div>
+                    </li>
+                </ul>
+            </div>
+            <!--form-->
+            
+            <!--column-->
+            <h3 class="control control-column form-section col-md-12" willheight="47" pluginname="column">
+                <span class="p-name">栏目名称</span>
+            </h3>
+            
+            <div class="property-box" pluginname="column">
+                <ul class="cstl_form">
+                    <li>
+                        <div class="pn">栏目名称：</div>
+                        <div class="pv"><input class="input s-name" type="text"/></div>
+                    </li>
+                </ul>
+            </div>
+            <!--column-->
+            
+            <!--text-->
+            <div class="control control-text form-group col-md-6" willheight="56" pluginname="text">
+                <label class="control-label"><spna class="p-name">标题</spna></label>
+                <div class="col-md-8">
+                    <input type="text" class="form-control" name="Name" placeholder="请填写标题" data-fv-field="Name">
+                    <small class="help-block" data-fv-validator="notEmpty" data-fv-for="Name" data-fv-result="NOT_VALIDATED" style="display: none;"></small>
+                </div>
+            </div>
+            
+            <div class="property-box" pluginname="text">
+                <ul class="cstl_form">
+                    <li>
+                        <div class="toptab">控件：</div>
+                    </li>
+                    <li>
+                        <div class="pn">名称：</div>
+                        <div class="pv"><input class="input s-name" type="text"/></div>
+                    </li>
+                    <li>
+                        <div class="pn">宽度：</div>
+                        <div class="pv">
+                             <select class="input s-width width50">
+                                <option value="6">1</option>
+                                <option value="12">2</option>
+                             </select>
+                        </div>
+                    </li>
+                    <li class="split"><li>
+                    <li>
+                        <div class="toptab">输入框：</div>
+                    </li>
+                    <li>
+                        <div class="pn">placeholder：</div>
+                        <div class="pv"><input class="input s-placeholder" type="text"/></div>
+                    </li>
+                    <li>
+                        <div class="pn">是否必填：</div>
+                        <div class="pv">
+                             <select class="input s-isRequired width50">
+                                <option value="1">是</option>
+                                <option value="0">否</option>
+                             </select>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="pn">输入框宽度：</div>
+                        <div class="pv">
+                             <select class="input s-inputWidth width50">
+                                <option value="1">1</option>
+                                <option value="2">2</option>
+                                <option value="3">3</option>
+                                <option value="4">4</option>
+                                <option value="5">5</option>
+                                <option value="6">6</option>
+                                <option value="7">7</option>
+                                <option value="8">8</option>
+                             </select>
+                        </div>
+                    </li>
+                </ul>
+             </div>
+             <!--text--> 
+             
+            <!--textarea-->
+            <div class="control control-textarea form-group col-md-12" willheight="56" pluginname="textarea">
+                <label class="control-label"><spna class="p-name">标题</spna></label>
+                <div class="col-md-8">
+                    <textarea class="form-control" name="Name" rows="3" cols="20" data-fv-field="Name"></textarea>
+                    <small class="help-block" data-fv-validator="notEmpty" data-fv-for="Name" data-fv-result="NOT_VALIDATED" style="display: none;"></small>
+                </div>
+            </div>
+            
+            <div class="property-box" pluginname="textarea">
+                <ul class="cstl_form">
+                    <li>
+                        <div class="toptab">控件：</div>
+                    </li>
+                    <li>
+                        <div class="pn">名称：</div>
+                        <div class="pv"><input class="input s-name" type="text"/></div>
+                    </li>
+                    <li>
+                        <div class="pn">宽度：</div>
+                        <div class="pv">
+                             <select class="input s-width width50">
+                                <option value="6">1</option>
+                                <option value="12">2</option>
+                             </select>
+                        </div>
+                    </li>
+                    <li class="split"><li>
+                    <li>
+                        <div class="toptab">输入框：</div>
+                    </li>
+                    <li>
+                        <div class="pn">placeholder：</div>
+                        <div class="pv"><input class="input s-placeholder" type="text"/></div>
+                    </li>
+                    <li>
+                        <div class="pn">是否必填：</div>
+                        <div class="pv">
+                             <select class="input s-isRequired width50">
+                                <option value="1">是</option>
+                                <option value="0">否</option>
+                             </select>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="pn">输入框宽度：</div>
+                        <div class="pv">
+                             <select class="input s-inputWidth width50">
+                                <option value="1">1</option>
+                                <option value="2">2</option>
+                                <option value="3">3</option>
+                                <option value="4">4</option>
+                                <option value="5">5</option>
+                                <option value="6">6</option>
+                                <option value="7">7</option>
+                                <option value="8">8</option>
+                             </select>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="pn">行：</div>
+                        <div class="pv"><input class="input s-rows" type="text"/></div>
+                     </li>
+                </ul>
+             </div>
+             <!--textarea-->
+        </div>
+    ]]>
+  </_Template_>
+</JsTmplates>

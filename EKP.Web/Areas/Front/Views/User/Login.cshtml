@@ -1,0 +1,176 @@
+﻿@using EKP.Base;
+@{
+    Layout = null;
+}
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,Chrome=1" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <title>汽车发动机电控系数字化课程-登录</title>
+    <meta name="keywords" content="" />
+    <meta name="description" content="" />
+
+    <link rel="shortcut icon" href="favicon.ico" id="style_favicon" />
+    <link href="/Areas/Base/Scripts/Metronicv/assets/global/plugins/bootstrap/css/bootstrap.css" rel="stylesheet" type="text/css" />
+    <link href="/Areas/Base/Scripts/Metronicv/assets/global/plugins/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css" />
+    <link href="/Areas/Base/Scripts/Metronicv/assets/global/plugins/simple-line-icons/simple-line-icons.min.css" rel="stylesheet" type="text/css" />
+    <link href="/Areas/Base/Scripts/Metronicv/assets/global/css/components-rounded.css" rel="stylesheet" type="text/css" />
+    <link href="/Areas/Base/Content/plugin.extend.css" rel="stylesheet" type="text/css" />
+    <link href="/Areas/Base/Content/common.css" rel="stylesheet" type="text/css" />
+    <link href="/Areas/Front/Content/base.css" rel="stylesheet" type="text/css" />
+    <link href="/Areas/Front/Content/itemBase.css" rel="stylesheet" />
+    <link href="/Areas/Front/Content/selectDefault.css" rel="stylesheet" />
+    <link href="/Areas/Front/Content/style.css" rel="stylesheet" />
+
+    <script src="/Areas/Base/Scripts/Metronicv/assets/global/plugins/jquery.min.js" type="text/javascript"></script>
+    <script src="/Areas/Base/Scripts/Metronicv/assets/global/plugins/bootstrap/js/bootstrap.min.js" type="text/javascript"></script>
+    <script src="/Areas/Base/Scripts/api.js"></script>
+    <script src="/Areas/Base/Scripts/layer/layer.js"></script>
+    <script src="/Areas/Front/Scripts/geetest/gt.js"></script>
+    <style>
+         mt20 #geetest-container .geetest_radar_click_hide {width :280px;}
+    </style>
+</head>
+<body class="login_page">
+    <div class="clr">
+        <!--顶部内容开始-->
+        <div class="header header02 fl" style="width: 100%;">
+            <div class="LoginBox">
+                <div class="fl"><img id="img_logo" alt="" /></div>
+                <div class="login_nav fr">
+                    <a href="" style="display: none">常见问题</a>
+                    <a href="javascript:;" onclick="goUrl(this,'Home','Index')" class="back_home">返回首页</a>
+                </div>
+            </div>
+        </div>
+        <!--顶部内容结束-->
+        <!--主体内容开始-->
+        <div class="login_yy">
+            <div class="login_info">
+                <h1 class="login_h1">登录</h1>
+                <form id="login">
+                    <input type="text" id="username" name="username" style="position:absolute;top:-999px;" />
+                    <div class="form-body">
+                        <div class="wfull"><span class="help-block fb hidden" id="login-form-error"></span></div>
+                        <div class="form-group">
+                            <label class="control-label">用户名</label>
+                            <div class="input-icon right">
+                                <i class="fa"><img src="/Areas/Front/images/icon_uesr_01.png" alt="" /></i>
+                                <input type="text" class="form-control" name="Name" placeholder="用户名、手机、邮箱" />
+                            </div>
+                        </div>
+                        <div class="form-group pr">
+                            <label class="control-label">密码</label>
+                            <a href="javascript:;" class="forget_link" onclick="goUrl(this,'User','ForgotPwd', {area:'Front'})" style="display: none">忘记密码？</a>
+                            <div class="input-icon right">
+                                <i class="fa"><img src="/Areas/Front/images/icon_psod.png" alt="" /></i>
+                                <input type="password" class="form-control" name="Password" placeholder="登录密码" />
+                                <input type="password" style="position:absolute;top:-999px;" />
+                            </div>
+                        </div>
+                        <div class="form-group clr mt20">
+                            <div id="geetest-container"></div>
+                        </div>
+                        <div class="form-actions mt20">
+                            <a class="btn blue btn-lg btn-block" id="login_btn">登录</a>
+                        </div>
+                        @*<div class="other-sign">
+                            <p class="hd-or"><strong>OR</strong></p>
+                            <p>
+                                <a href="#"><img src="/Areas/Front/images/icon_qq.png" alt="" /></a>
+                                <a href="#"><img src="/Areas/Front/images/icon_wx.png" alt="" /></a>
+                                <a href="#"><img src="/Areas/Front/images/icon_wb.png" alt="" /></a>
+                            </p>
+                        </div>*@
+                        <div class="form-group tc mt20"  style="display: none">
+                            <p>没有账号？<a href="javascript:;" onclick="goUrl(this, 'User', 'Register', {p:'phone',area:'Front'})" class="go_zc vb">去注册</a></p>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="login_botyy"></div>
+        </div>
+        <div class="login_foot">版权所有 汽车发动机电控系数字化课程 2018～2020 </div>
+    </div>
+    <script src="/Areas/Base/Scripts/customer/plugin.extend.js"></script>
+    <script src="/Areas/Base/Scripts/customer/common.js"></script>
+    <script src="/Areas/Base/Scripts/area.js"></script>
+    <script src="/Areas/Front/Scripts/common.js"></script>
+    <script src="/Areas/Front/Scripts/commonFrant.js"></script>
+    <script>
+        window.addEventListener('load', processGeeTest);
+
+        function processGeeTest() {
+            $.ajax({
+                // 获取id，challenge，success（是否启用failback）
+                url: getUrl("GeekTest", "GeekTest", { area: "Front" }),
+                type: "get",
+                dataType: "json", // 使用jsonp格式
+                success: function (data) {
+                    // 使用initGeetest接口
+                    // 参数1：配置参数，与创建Geetest实例时接受的参数一致
+                    // 参数2：回调，回调的第一个参数验证码对象，之后可以使用它做appendTo之类的事件
+                    initGeetest({
+                        gt: data.gt,
+                        challenge: data.challenge,
+                        product: "float", // 产品形式
+                        offline: !data.success
+                    },
+                        handler);
+                }
+            });
+        }
+
+        var handler = function (captchaObj) {
+            $("#login_btn").click(function () {
+                var validate = captchaObj.getValidate();
+                if (!validate) {
+                    $("#login-form-error").removeClass("hidden");
+                    $("#login-form-error").html("请先完成验证");
+                    return;
+                }
+
+                $.ajax({
+                    async: true,
+                    type: "POST",
+                    dataType: "json",
+                    data: $("#login").serialize(),
+                    url: getUrl("User", "Login", { area: "Front" }),
+                    success: function (data) {
+                        $dialogShow(data);
+                        if (data.Type == "Error") {
+                            $("#login-form-error").removeClass("hidden");
+                            $("#login-form-error").html(data.Content);
+                            captchaObj.reset();
+                            return false;
+                        }
+                        else if (data.Type == "Success") {
+                            window.location.href = getUrl("Home", "Index");
+                        }
+                    },
+                    error: function (e) {
+                        $("#login-form-error").removeClass("hidden");
+                        $("#login-form-error").html("网络异常，请稍后重试！");
+                    }
+                });
+
+            });
+            // 将验证码加到id为captcha的元素里
+            captchaObj.appendTo("#geetest-container");
+
+            captchaObj.onSuccess = function (e) {
+                console.log(e);
+            }
+
+        };
+
+        $(function () {
+            frontView({
+                title:"登录"
+            });
+        });
+    </script>
+</body>
+</html>

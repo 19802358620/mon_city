@@ -1,0 +1,111 @@
+﻿<form action="#" id="edit-form" class="form-horizontal" novalidate="novalidate">
+    <input type="hidden" name="Id" class="form-control">
+    <div class="form-body">
+        <div class="form-group">
+            <div class="row col-md-8 ">
+                <div class="form-group">
+                    <label class="control-label col-md-3">
+                        标题 <span class="required" aria-required="true">
+                            *
+                        </span>
+                    </label>
+                    <div class="col-md-6">
+                        <input type="text" name="Title" data-required="1" class="form-control">
+                    </div>
+                </div>
+                @*<div class="form-group">
+                    <label class="control-label col-md-3">
+                        一级类型 <span class="required" aria-required="true">
+                            *
+                        </span>
+                    </label>
+                    <div class="col-md-6">
+                        <input type="text" name="Type" data-required="1" class="form-control">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="control-label col-md-3">
+                        二级类型 <span class="required" aria-required="true">
+                            *
+                        </span>
+                    </label>
+                    <div class="col-md-6">
+                        <input type="text" name="ContentType" data-required="1" class="form-control">
+                    </div>
+                </div>*@
+                <div class="form-group">
+                    <label class="control-label col-md-3">
+                        信息来源 <span class="required" aria-required="true">
+                            *
+                        </span>
+                    </label>
+                    <div class="col-md-6">
+                        <input type="text" name="Resource" data-required="1" class="form-control">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="control-label col-md-3">
+                        摘要 <span class="required">
+                            *
+                        </span>
+                    </label>
+                    <div class="col-md-8">
+                        <input class="kindeditor form-control" name="Abstract" id="Abstract" />
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="control-label col-md-3">
+                        内容 <span class="required">
+                            *
+                        </span>
+                    </label>
+                    <div class="col-md-8">
+                        <input class="kindeditor form-control" name="Content" id="Content" />
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>
+
+<script>
+    //初始化
+    $(function () {
+        Metronic.init();
+
+        //富文本
+        KindEditor.basePath = '/Areas/Base/Scripts/kindeditor-4.1.10/';
+        KindEditor.create('.kindeditor', {
+            minWidth: 200,
+            width: '800',
+            height: '400',
+            themeType: 'simple',
+            cssPath: '/Areas/Base/Scripts/kindeditor-4.1.10/plugins/code/prettify.css',
+            uploadJson: '/Areas/Base/Scripts/kindeditor-4.1.10/asp.net/upload_json.ashx',
+            fileManagerJson: '/Areas/Base/Scripts/kindeditor-4.1.10/asp.net/file_manager_json.ashx',
+            allowFileManager: true
+        });
+
+        //表单验证
+        $('#create-form').formValidation({
+            verbose: false,
+            fields: {
+                "Title": {
+                    validators: {
+                        notEmpty: {
+                            message: '标题不能为空.'
+                        }
+                    }
+                },
+                "Resource": {
+                    validators: {
+                        notEmpty: {
+                            message: '信息来源不能为空.'
+                        }
+                    }
+                }
+            }
+        });
+    });
+</script>

@@ -1,0 +1,288 @@
+﻿@charset "utf-8";
+/* CSS Document */
+*,body.div,a,ul,li,p,span{margin:0;padding:0;list-style:none;font-family:"微软雅黑";}
+a{ text-decoration:none;color:#030000;}
+
+/*-------------------------------------------------首页--------------------------------*/
+.main_con{
+	top: 20px;
+	width: 100%;
+	height: 100%;
+	overflow: hidden;
+	margin-bottom: 50px;
+}
+.main_con_allchoose{
+	width: 100%;
+	height: 40px;
+	line-height: 40px;
+	border-bottom:1px solid #e7e7e6 ;
+}
+.main_con_allchoose img{
+	width: 24px;
+	height: 24px;
+	float: right;
+	margin: 8px 15px;
+	display: none;
+}
+.circle{
+	width: 14px;
+	height: 14px;
+	border: 1px solid #bab9b9;
+	border-radius: 50%;
+	display: block;
+	float: left;
+	margin: 12px;
+}
+
+.main_con_goods{
+	width: 100%;
+	height: 100%;
+	overflow: hidden;
+}
+
+
+
+.main_con_goods img{
+	display: block;
+	float: left;	
+	left: 14px;
+	right: 14px;
+}
+
+.main_con_goods .cla{
+	
+	width:50%;
+
+	font-size:10px;
+
+	display:block;
+	float:left;
+
+}
+
+
+
+.main_con_goods ul{
+	overflow: hidden;
+}
+.main_con_goods ul li{
+	overflow: hidden;
+	margin: 15px 0px;
+	
+	border-bottom: 1px solid #e7e7e6;
+	
+}
+.main_con_goods ul li .circle{
+	float: left;
+	margin: 42px 12px;
+}
+.main_con_goods ul li img{
+	width: 100px;
+	height: 80px;
+	float: left;
+}
+/*.main_con_goods ul li div{
+	padding-left: 40%;
+}*/
+.main_con_goods_div{
+    padding-left: 40%;
+}
+.main_con_goods ul li div .title font{
+	width: 100%;
+	font-weight: 600;
+	font-size: 18px;
+	display: block;
+	margin-bottom: 5px;
+}
+.main_con_goods ul li div .money{
+	margin-top: 10px;
+}
+.main_con_goods ul li div .money font{
+	width: 65px;
+	font-weight: 600;
+	font-size: 18px;
+	display: block;
+	margin-bottom: 5px;
+	color: #bf392a;
+	float: left;
+}
+.main_con_goods ul li div .money input{
+	width: 22px;
+	height: 22px;
+	line-height: 22px;
+	text-align: center;
+	display: inline-block;
+	float: right;
+	border: 1px solid #b6b6b6;
+	margin: 0px;
+	padding: 0px;
+}
+.main_con_goods ul li div .money .add{
+	width: 24px;
+	height: 24px;
+	line-height: 24px;
+	margin-left: -1px;
+	position: relative;
+	z-index: 1;
+}
+.main_con_goods ul li div .money .num{
+	position: relative;
+	z-index: 2;
+}
+.main_con_goods ul li div .money .del{
+	width: 24px;
+	height: 24px;
+	line-height: 24px;
+	margin-right: -1px;
+	position: relative;
+	z-index: 1;
+}
+.main_con_goods ul li div .money b{
+	float: right;
+	font-size: 14px;
+	font-weight: 100;
+	margin-top: 5px;
+	margin-left: 2px;
+	margin-right: 2px;
+}
+
+
+.settlement{
+	width: 100%;
+	height: 50px;
+	position: fixed;
+	z-index: 99;
+	bottom: 0px;
+	left: 0px;
+	background-color: #FFF;
+	
+}
+.settlement_left{
+	/*width: 50%;
+	height: 60px;
+	line-height: 20px;
+	overflow: hidden;
+	float: left;
+	font-size: 14px;
+	color: #9b9b9c;
+	padding: 5px 0px;*/
+	
+	width: 50%;
+	overflow: hidden;
+	float: right;
+}
+
+.settlement_left input{
+	width: 100%;
+	height: 50px;
+	line-height: 50px;
+	font-size: 16px;
+	float: right;
+	border: 0px ;
+	background-color: #6CF;
+	color: #FFF;
+}
+
+/*.settlement_left .zongji{
+	margin-left: 10px;
+	font-size: 18px;
+	color: #030000;
+}
+.settlement_left .money{
+	font-size: 18px;
+	color: #bf392a;
+}*/
+.settlement_right{
+	width: 50%;
+	overflow: hidden;
+	float: right;
+}
+.settlement_right input{
+	width: 100%;
+	height: 50px;
+	line-height: 50px;
+	font-size: 16px;
+	float: right;
+	border: 0px ;
+	background-color: #6CF;
+	color: #FFF;
+}
+
+
+/*删除弹窗*/
+.del_tc{
+	width: 100%;
+	background-color: rgba(0,0,0,0.6);
+	position: fixed;
+	bottom: 0px;
+	left: 0px;
+	z-index: 100;
+	display: none;
+}
+.del_tc_box{
+	width: 60%;
+	height: 100px;
+	background-color: #FFF;
+	position: fixed;
+	bottom: 50%;
+	left: 50%;
+	margin-top: -50px;
+	margin-left: -30%;
+	z-index: 100;
+}
+.del_tc_box_title{
+	width: 100%;
+	height: 60px;
+	line-height: 60px;
+	font-size: 18px;
+	font-weight: 600;
+	text-align: center;
+}
+.del_tc_box_content{
+	width: 100%;
+	height: 40px;
+}
+.del_tc_box_content .cancel{
+	width: 50%;
+	height: 40px;
+	border: 0px;
+	background-color: #adadac;
+	color: #FFF;
+	float: left;
+}
+.del_tc_box_content .ok{
+	width: 50%;
+	height: 40px;
+	border: 0px;
+	background-color: #bf392a;
+	color: #FFF;
+	float: left;
+}
+
+.no_goods{
+	margin-bottom: 50px;
+	text-align: center;
+	display: none;
+}
+.no_goods p{
+	line-height: 24px;
+	margin-top: 20px;
+	margin-bottom: 20px;
+	color: #999;
+}
+.no_goods a{
+	width: 120px;
+	height: 50px;
+	line-height: 50px;
+	margin: 0px auto;
+	display: block;
+	background-color: #bf392a;
+	color: #FFF;
+	text-align: center;
+	font-size: 18px;
+	font-weight: 600;
+	text-decoration: none;
+}
+.no_goods a:hover{
+	text-decoration: none;
+}

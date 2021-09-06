@@ -1,0 +1,661 @@
+﻿<div class="row">
+    <div class="col-md-12">
+        <div class="portlet light">
+            <div class="portlet-title"  style="display: none">
+                <div class="caption">
+                    <i class="icon-globe font-green-sharp"></i>
+                    <span class="caption-subject font-green-sharp bold uppercase">
+                        分中心管理
+                    </span>
+                    <span class="caption-helper">编辑</span>
+                </div>
+                <div class="actions btn-set">
+                    <button type="button" name="back" class="btn btn-default btn-circle btnBack" onclick="btnBack()" style="display:none"><i class="fa fa-angle-left"></i> 返回</button>
+                </div>
+            </div>
+            <div class="tabbable ">
+                <ul class="nav nav-tabs">
+                    <li>
+                        <a href="#tab_0" data-toggle="tab">
+                            基本设置
+                        </a>
+                    </li>
+                    <li style="display: none">
+                        <a href="#tab_1" data-toggle="tab">
+                            关于我们
+                        </a>
+                    </li>
+                    <li style="display: none">
+                        <a href="#tab_2" data-toggle="tab">
+                            帮助中心
+                        </a>
+                    </li>
+                    <li style="display: none">
+                        <a href="#tab_3" data-toggle="tab">
+                            Seo优化
+                        </a>
+                    </li>
+                    <li style="display: none">
+                        <a href="#tab_4" data-toggle="tab">
+                            网站模板
+                        </a>
+                    </li>
+                    <li style="display: none">
+                        <a href="#tab_5" data-toggle="tab">
+                            网站皮肤
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#tab_6" data-toggle="tab">
+                            课程介绍
+                        </a>
+                    </li>
+                </ul>
+                <div class="tab-content">
+                    <div class="tab-pane" id="tab_0">
+                        <div class="portlet-body form">
+                            <form action="javascript:;" class="form-horizontal" id="site">
+                                <input type="text" class="form-control" name="Id" style="display: none" />
+                                <div class="form-body">
+                                    <h3 class="form-section">站点信息</h3>
+                                    <div class="form-group">
+                                        <label class="control-label col-md-3"><span class="required"> * </span>站点名称：</label>
+                                        <div class="col-md-6">
+                                            <input type="text" class="form-control" name="Name" placeholder="请填写站点名称" />
+                                            <label for="Name"></label>
+                                        </div>
+                                    </div>
+                                    <div class="form-group" style="display: none">
+                                        <label class="control-label col-md-3">站点目录：</label>
+                                        <div class="col-md-6">
+                                            <input type="text" class="form-control" name="Domain" readonly="readonly" />
+                                            <label for="Name"></label>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="control-label col-md-3">省市：</label>
+                                        <div class="col-md-6">
+                                            <select class="width100 form-control" id="Site_edit_Province" name="Site.edit.Province"></select>&nbsp;
+                                            <select class="width100 form-control" id="Site_edit_City" name="Site.edit.City"></select>
+                                        </div>
+                                    </div>
+                                    <div class="form-group CoverImg">
+                                        <label class="control-label col-md-3">Logo：</label>
+                                        <div class="col-md-6 keImage">
+                                            <img class="bg-img" style="max-width: 500px; border: 1px solid gainsboro;margin-bottom: 5px;" id="imgPicture" />
+                                            <div class="input-group">
+                                                <div class="">
+                                                    <input type="text" name="Logo" class="form-control" readonly="readonly">
+                                                </div>
+                                                <span class="input-group-btn">
+                                                    <button type="button" class="btn blue" id="btnPicture"><i class="fa fa-photo"></i> 浏览</button>
+                                                </span>
+                                            </div>
+                                            <div class="text-align-left">
+                                                <label class="help-block">推荐尺寸：500 * 50</label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-group CoverImg">
+                                        <label class="control-label col-md-3">Favicon：</label>
+                                        <div class="col-md-6 keImage">
+                                            <img style="max-width: 64px; margin-bottom: 5px" id="imgPicture2" />
+                                            <div class="input-group">
+                                                <div class="">
+                                                    <input type="text" name="Favicon" class="form-control" readonly="readonly">
+                                                </div>
+                                                <span class="input-group-btn">
+                                                    <button type="button" class="btn blue" id="btnPicture2"><i class="fa fa-photo"></i> 浏览</button>
+                                                </span>
+                                            </div>
+                                            <div class="text-align-left">
+                                                <label class="help-block">推荐尺寸：32 * 32</label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-group CoverImg" style="display: none">
+                                        <label class="control-label col-md-3">横幅：</label>
+                                        <div class="col-md-6 keImage">
+                                            <img class="bg-img" style="max-width: 600px; margin-bottom: 5px" id="imgPicture3" />
+                                            <div class="input-group">
+                                                <div class="">
+                                                    <input type="text" name="TopBanner" class="form-control" readonly="readonly">
+                                                </div>
+                                                <span class="input-group-btn">
+                                                    <button type="button" class="btn blue" id="btnPicture3"><i class="fa fa-photo"></i> 浏览</button>
+                                                </span>
+                                            </div>
+                                            <div class="text-align-left">
+                                                <label class="help-block">推荐尺寸：1450 * 140</label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <h3 class="form-section">关于平台</h3>
+                                    <div class="form-group" style="display: none">
+                                        <label class="control-label col-md-3">电话：</label>
+                                        <div class="col-md-6">
+                                            <input type="text" class="form-control" name="Telephone" />
+                                            <label for="Telephone"></label>
+                                        </div>
+                                    </div>
+                                    <div class="form-group" style="display: none">
+                                        <label class="control-label col-md-3">传真：</label>
+                                        <div class="col-md-6">
+                                            <input type="text" class="form-control" name="Fax" />
+                                            <label for="Fax"></label>
+                                        </div>
+                                    </div>
+                                    <div class="form-group" style="display: none">
+                                        <label class="control-label col-md-3">Email：</label>
+                                        <div class="col-md-6">
+                                            <input type="text" class="form-control" name="Email" />
+                                            <label for="Email"></label>
+                                        </div>
+                                    </div>
+                                    <div class="form-group" style="display: none">
+                                        <label class="control-label col-md-3">基金资助：</label>
+                                        <div class="col-md-6">
+                                            <textarea class="form-control" name="FundSupport" rows="3"></textarea>
+                                            <label for="Technical"></label>
+                                        </div>
+                                    </div>
+                                    <div class="form-group" style="display: none">
+                                        <label class="control-label col-md-3">技术支持：</label>
+                                        <div class="col-md-6">
+                                            <textarea class="form-control" name="Technical" rows="3"></textarea>
+                                            <label for="Technical"></label>
+                                        </div>
+                                    </div>
+                                    <div class="form-group CoverImg">
+                                        <label class="control-label col-md-3">企业微信公众号：</label>
+                                        <div class="col-md-6 keImage">
+                                            <img class="bg-img" style="width:150px;height:150px;margin-bottom:5px;" id="imgPicture4" />
+                                            <div class="input-group">
+                                                <div class="">
+                                                    <input type="text" name="EnWeChat" class="form-control" readonly="readonly">
+                                                </div>
+                                                <span class="input-group-btn">
+                                                    <button type="button" class="btn blue" id="btnPicture4"><i class="fa fa-photo"></i> 浏览</button>
+                                                </span>
+                                            </div>
+                                            <div class="text-align-left">
+                                                <label class="help-block">推荐尺寸：150 * 150</label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-group" style="display: none">
+                                        <label class="control-label col-md-3">版权所有：</label>
+                                        <div class="col-md-8">
+                                            <input class="kindeditor form-control" name="Copyright" style="height:150px;" />
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-actions">
+                                    <div class="row">
+                                        <div class="col-md-offset-3 col-md-9">
+                                            <button type="button" class="btn blue" onclick="btnSave()">
+                                                <i class="fa fa-save"></i>
+                                                保存
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                    <div class="tab-pane" id="tab_1">
+                        <div class="portlet-body form">
+                            <form action="javascript:;" class="form-horizontal" id="aboutus">
+                                <input type="text" class="form-control" name="Id" style="display: none" />
+                                <div class="form-body">
+                                    <div class="form-group">
+                                        <label class="control-label col-md-2">关于我们：</label>
+                                        <div class="col-md-8">
+                                            <input class="kindeditor form-control" name="AboutUs" id="AboutUs" style="height:600px;" />
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-actions">
+                                    <div class="row">
+                                        <div class="col-md-offset-2 col-md-9">
+                                            <button type="button" class="btn blue" onclick="btnSaveAboutUs()">
+                                                <i class="fa fa-save"></i>
+                                                保存
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                    <div class="tab-pane" id="tab_2">
+                        <div class="portlet-body form">
+                            <form action="javascript:;" class="form-horizontal" id="helper">
+                                <input type="text" class="form-control" name="Id" style="display: none" />
+                                <div class="form-body">
+                                    <div class="form-group">
+                                        <label class="control-label col-md-2">关于我们：</label>
+                                        <div class="col-md-8">
+                                            <input class="kindeditor form-control" name="Helper" id="Helper" style="height:600px;" />
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-actions">
+                                    <div class="row">
+                                        <div class="col-md-offset-2 col-md-9">
+                                            <button type="button" class="btn blue" onclick="btnSaveHelper()">
+                                                <i class="fa fa-save"></i>
+                                                保存
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                    <div class="tab-pane" id="tab_3">
+                        <div class="portlet-body form">
+                            <form action="javascript:;" class="form-horizontal" id="siteSeo">
+                                <input type="text" class="form-control" name="Id" style="display: none" />
+                                <div class="form-body">
+                                    <div class="form-group">
+                                        <label class="control-label col-md-3">关键字：</label>
+                                        <div class="col-md-7">
+                                            <textarea class="form-control" name="MetaKeywords" rows="3"></textarea>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="control-label col-md-3">描述：</label>
+                                        <div class="col-md-7">
+                                            <textarea class="form-control" name="MetaDescription" rows="3"></textarea>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-actions">
+                                    <div class="row">
+                                        <div class="col-md-offset-3 col-md-9">
+                                            <button type="button" class="btn blue" onclick="btnSaveSeo()">
+                                                <i class="fa fa-save"></i>
+                                                保存
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                    <div class="tab-pane" id="tab_4">
+                        <div class="form-actions margin-bottom-20">
+                            <div class="row">
+                                <div class="col-md-9">
+                                    <button type="button" class="btn blue" onclick="btnSaveShareTemplate('#sharedViewTemplateView', 'Shared_Layout')">
+                                        <i class="fa fa-save"></i>
+                                        保存模板
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                        <div id="sharedViewTemplateView">
+
+                        </div>
+                    </div>
+                    <div class="tab-pane" id="tab_5">
+                        <div class="form-actions margin-bottom-20">
+                            <div class="row">
+                                <div class="col-md-9">
+                                    <button type="button" class="btn blue" id="btnSaveTheme">
+                                        <i class="fa fa-save"></i>
+                                        保存皮肤
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                        <div id="sharedThemeView">
+
+                        </div>
+                    </div>
+                    <div class="tab-pane" id="tab_6">
+                        <div class="portlet-body form">
+                            <form action="javascript:;" class="form-horizontal" id="courseIntroduce">
+                                <input type="text" class="form-control" name="Id" style="display: none" />
+                                <div class="form-body">
+                                    <div class="form-group">
+                                        <label class="control-label col-md-2">课程介绍：</label>
+                                        <div class="col-md-8">
+                                            <input class="kindeditor form-control" name="CourseIntroduce"  style="height:600px;" />
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-actions">
+                                    <div class="row">
+                                        <div class="col-md-offset-2 col-md-9">
+                                            <button type="button" class="btn blue" onclick="btnSaveCourseIntroduce()">
+                                                <i class="fa fa-save"></i>
+                                                保存
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+@section  head_style{
+}
+@section  body_js{
+    <script>
+        var menu = gloQs.menu || "Adm.Site.Edit";
+        var site = gloQs.id ? getSite(gloQs.id) : appInfo.site;
+        var currentTab = gloQs.tab || "#tab_0";
+
+        /*************************全局************************************/
+        $(function () {
+            Metronic.init();
+            Layout.init();
+            admLayout({ menuName: menu, title: "编辑站点" });
+
+            //插件
+            $(document).area("Site_edit_Province", "Site_edit_City");//初始化省市联动
+            KeHelper.create('.kindeditor');
+            KeHelper.createImage('.keImage');
+
+            //UI显示
+            if (gloQs.returnUrl) {
+                $(".btnBack").show();
+            }
+
+            //tab切换
+            $('a[data-toggle="tab"]').on('shown.bs.tab', function (e) {
+                currentTab = $(e.target).attr("href");
+                if (currentTab == "#tab_0") {
+                    if ($("#tab_0").hasClass("loaded")) return;
+
+                    $("#tab_0").addClass("loaded");
+                    initBase();
+                }
+                else if (currentTab == "#tab_1") {
+                    if ($("#tab_1").hasClass("loaded")) return;
+                    $("#tab_1").addClass("loaded");
+                    initAbout();
+                }
+                else if (currentTab == "#tab_2") {
+                    if ($("#tab_2").hasClass("loaded")) return;
+                    $("#tab_2").addClass("loaded");
+                    initHelper();
+                }
+                else if (currentTab == "#tab_3") {
+                    if ($("#tab_3").hasClass("loaded")) return;
+
+                    $("#tab_3").addClass("loaded");
+                    initSeo();
+                }
+                else if (currentTab == "#tab_4") {
+                    $("#tab_4").addClass("loaded");
+                    loadView("#sharedViewTemplateView", getUrl("SiteViewTemplate", "UseViewTemplate"), {
+                        success: function () {
+                            initViewTemplate({
+                                box: "#sharedViewTemplateView",
+                                siteId: site.Id,
+                                viewTemplateType: "Shared_Layout"
+                            });
+                        }
+                    });
+                }
+                else if (currentTab == "#tab_5") {
+                    $("#tab_5").addClass("loaded");
+                    loadView("#sharedThemeView", getUrl("SiteTheme", "UseTheme"), {
+                        success: function () {
+                            var viewTemplate = usedViewTemplate(site.Id, "Shared_Layout");
+                            initTheme({
+                                box: "#sharedThemeView",
+                                viewTemplate: viewTemplate
+                            });
+                            $("#btnSaveTheme").unbind("click").click(function () {
+                                btnSaveTheme('#sharedThemeView', viewTemplate.Id)
+                            });
+                        }
+                    });
+                }
+                else if (currentTab == "#tab_6") {
+                    if ($("#tab_6").hasClass("loaded")) return;
+                    $("#tab_6").addClass("loaded");
+                    initCourseIntroduce();
+                }
+            });
+            $(".nav-tabs li a[href='{0}']".format(currentTab)).tab('show');
+        });
+
+        //获取站点信息
+        function getSite(id) {
+            var site = null;
+
+            $.ajax({
+                async: false,
+                type: "POST",
+                dataType: "json",
+                url: getUrl("Site", "Detail", { id: id }),
+                success: function (data) {
+                    site = data;
+                }
+            });
+
+            return site;
+        }
+
+        //返回
+        function btnBack() {
+            window.location.href = gloQs.returnUrl;
+        }
+
+        //获取正在使用的模板
+        function usedViewTemplate(siteId, viewTemplateType) {
+            var viewTemplate = null;
+            $.ajax({
+                async: false,
+                type: "post",
+                dataType: "json",
+                data: { siteId: siteId, type: viewTemplateType },
+                url: getUrl("SiteViewTemplate", "UsedViewTemplate"),
+                success: function (data) {
+                    viewTemplate = data;
+                }
+            });
+
+            return viewTemplate;
+        }
+
+        /*************************基本设置*********************************/
+        //初始化
+        function initBase() {
+            //初始化表单值
+            $("#site .form-control").bindData(site);
+            $("#imgPicture").attr("src", site.Logo);
+            $("#imgPicture2").attr("src", site.Favicon);
+            $("#imgPicture3").attr("src", site.TopBanner);
+            $("#imgPicture4").attr("src", site.EnWeChat);
+            $("#Site_edit_Province").trigger("change");
+            $("#Site_edit_City").val(site.City);
+            $("#Site_edit_Province").select2();
+            $("#Site_edit_City").select2();
+            KindEditor.html('*[name="Copyright"]', site.Copyright);
+
+            //验证
+            $('#site').formValidation({
+                fields: {
+                    "Name": {
+                        validators: {
+                            notEmpty: {
+                                message: '* 该项为必填项.'
+                            }
+                        }
+                    },
+                    "Domain": {
+                        validators: {
+                            notEmpty: {
+                                message: '* 该项为必填项.'
+                            }
+                        }
+                    }
+                }
+            });
+        };
+
+        //保存
+        function btnSave() {
+            //同步Kindeditor内容
+            for (var i in KindEditor.instances) {
+                if (KindEditor.instances.hasOwnProperty(i)) {
+                    KindEditor.instances[i].sync();
+                }
+            }
+
+            if (!$('#site').formValidation("validate").data("formValidation").isValid()) return;
+
+            $.ajax({
+                type: "post",
+                dataType: "json",
+                data: $('#site').serialize(),
+                url: getUrl("site", "Edit"),
+                success: function (data) {
+                    $dialogShow(data);
+
+                    if (data.Type == "Success") {
+                        setTimeout(function () {
+                            window.location.href = urlhelper.setParams({ tab: escape(currentTab) });
+                        }, 500);
+                    }
+                }
+            });
+        }
+
+        /*************************Seo优化**********************************/
+        //初始化
+        function initSeo() {
+            console.log(site);
+            //初始化表单值
+            $("#siteSeo .form-control").bindData(site);
+        }
+
+        //保存
+        function btnSaveSeo() {
+            $.ajax({
+                type: "post",
+                dataType: "json",
+                data: $('#siteSeo').serialize(),
+                url: getUrl("site", "EditSeo"),
+                success: function (data) {
+                    $dialogShow(data);
+
+                    if (data.Type == "Success") {
+                        setTimeout(function () {
+                            window.location.href = urlhelper.setParams({ tab: escape(currentTab) });
+                        }, 500);
+                    }
+                }
+            });
+        }
+
+        /*****************************关于我们*****************************************/
+        //初始化
+        function initAbout() {
+            //初始化表单值
+            $("#aboutus input[name='Id']").val(site.Id);
+            KindEditor.html('#AboutUs', site.AboutUs);
+        }
+
+        //保存
+        function btnSaveAboutUs() {
+            //同步Kindeditor内容
+            for (var i in KindEditor.instances) {
+                if (KindEditor.instances.hasOwnProperty(i)) {
+                    KindEditor.instances[i].sync();
+                }
+            }
+            $.ajax({
+                type: "post",
+                dataType: "json",
+                data: $('#aboutus').serialize(),
+                url: getUrl("site", "EditAboutUs"),
+                success: function (data) {
+                    $dialogShow(data);
+
+                    if (data.Type == "Success") {
+                        setTimeout(function () {
+                            window.location.href = urlhelper.setParams({ tab: escape(currentTab) });
+                        }, 500);
+                    }
+                }
+            });
+        }
+
+        /*****************************帮助中心*****************************************/
+        //初始化
+        function initHelper() {
+            //初始化表单值
+            $("#helper input[name='Id']").val(site.Id);
+            KindEditor.html('#Helper', site.Helper);
+        }
+
+        //保存
+        function btnSaveHelper() {
+            //同步Kindeditor内容
+            for (var i in KindEditor.instances) {
+                if (KindEditor.instances.hasOwnProperty(i)) {
+                    KindEditor.instances[i].sync();
+                }
+            }            console.log($('#helper').serialize());
+            $.ajax({
+                type: "post",
+                dataType: "json",
+                data: $('#helper').serialize(),
+                url: getUrl("site", "EditHelper"),
+                success: function (data) {
+                    $dialogShow(data);
+
+                    if (data.Type == "Success") {
+                        setTimeout(function () {
+                            window.location.href = urlhelper.setParams({ tab: escape(currentTab) });
+                        }, 500);
+                    }
+                }
+            });
+        }
+
+        /*****************************课程介绍*****************************************/
+        //初始化
+        function initCourseIntroduce() {
+            //初始化表单值
+            $("#courseIntroduce input[name='Id']").val(site.Id);
+            KindEditor.html('input[name="CourseIntroduce"]', site.CourseIntroduce);
+        }
+
+        //保存
+        function btnSaveCourseIntroduce() {
+            //同步Kindeditor内容
+            for (var i in KindEditor.instances) {
+                if (KindEditor.instances.hasOwnProperty(i)) {
+                    KindEditor.instances[i].sync();
+                }
+            } 
+            $.ajax({
+                type: "post",
+                dataType: "json",
+                data: $('#courseIntroduce').serialize(),
+                url: getUrl("site", "EditCourseIntroduce"),
+                success: function (data) {
+                    $dialogShow(data);
+
+                    if (data.Type == "Success") {
+                        setTimeout(function () {
+                            window.location.href = urlhelper.setParams({ tab: escape(currentTab) });
+                        }, 500);
+                    }
+                }
+            });
+        }
+    </script>
+}

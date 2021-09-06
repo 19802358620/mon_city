@@ -1,0 +1,602 @@
+﻿<style>
+    a{color:blue;}
+</style>
+<div class="container">
+    <div class="student-top"></div>
+</div>
+<div class="main">
+    <div class="container" style="padding-right: 30px;">
+        <div class="portlet light">
+            <div class="portlet-body row">
+
+                @*检索条件*@
+                <div class="form-group col-md-12" id="studentSearch">
+                    <div class="col-md-12  padding-left-0">
+                        <div class="col-md-4" style="text-align:left;">
+                            <div class="search-label">班级</div>
+                            <div class="col-md-9">
+                                <input type="text" class="form-control input input-left" name="ClassId">
+                            </div>
+                        </div>
+                        <div class="col-md-4" style="text-align:left">
+                            <div class="search-label">关键字</div>
+                            <div class="col-md-9">
+                                <input type="text" class="form-control input input-left" name="KeyWord" placeholder="作业名称，链接，附件">
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <a href="javascript:;" class="btn btn blue" onclick="btnStudentSearch()">
+                                <i class="fa fa-search"></i> 检索
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                @*增删改发布等基本操fa fa-plus作*@
+                <div class="btn-group col-md-12" id="grid-toolbar">
+                    <ul class="nav nav-pills col-md-8 no-margin-bottom">
+                        <li>
+                            <button class="btn blue" onclick="open_create()">
+                                <i class="glyphicon glyphicon-plus"></i>
+                                新增
+                            </button>
+                        </li>
+                        <li>
+                            <button class="btn blue" onclick="open_edit()" id="btnEdit">
+                                <i class="fa fa-pencil"></i>
+                                编辑
+                            </button>
+                        </li>
+                        <li>
+                            <button class="btn blue" onclick="del()">
+                                <i class="fa fa-trash"></i>
+                                删除
+                            </button>
+                        </li>
+
+                        <li>
+                            <button id="btnPublish" class="btn green toolbar-datas" onclick="hw_publish()">
+                                <i class="glyphicon glyphicon-send">
+                                </i>
+                                发布
+                            </button>
+                        </li>
+                        <li>
+                            <button id="btnUndoPublish" class="btn green toolbar-datas" onclick="hw_undoPublish()">
+                                <i class="glyphicon glyphicon-import">
+                                </i>
+                                取消发布
+                            </button>
+                        </li>
+                        <li>
+                            <button class="btn blue" onclick="opensubmitanswer()">
+                                <i class="fa fa-key"></i>
+                                发布答案
+                            </button>
+                        </li>
+                        <li>
+                            <button class="btn blue" onclick="hw_score()">
+                                <i class="glyphicon glyphicon-calendar"></i>
+                                作业成绩
+                            </button>
+                        </li>
+                    </ul>
+                </div>
+
+                @*显示数据的表格*@
+                <div class="table-responsive col-md-12 margin-top-10">
+                    <table class="table table-bordered" id="homeworkPagerBox">
+                        <thead>
+                            <tr>
+                                <th>
+                                    #
+                                </th>
+                                <th>
+                                    作业名称
+                                </th>
+                                <th>
+                                    下载链接
+                                </th>
+                                <th>
+                                    要求附件
+                                </th>
+                                <th>
+                                    所发班级
+                                </th>
+                                <th>
+                                    开始时间
+                                </th>
+                                <th>
+                                    结束时间
+                                </th>
+                                <th>
+                                    状态
+                                </th>
+                                <th>
+                                    分数等级
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody style="display: none" class="list">
+                            <tr style="display: none" class="listTemplate" _id="{Id}" _status="{Status}">
+                                <td width="40px">
+                                    {Index}
+                                </td>
+                                <td>
+                                    {Name}
+                                </td>
+                                <td>
+                                    <a href="{Link}">  {LinkName}</a>
+                                </td>
+                                <td>
+                                    <a href="{Attachment}"> {AttachmentName}</a>
+                                </td>
+                                <td>
+                                    {ClassNames}
+                                </td>
+                                <td width="120px">
+                                    {StartDateTime}
+                                </td>
+                                <td width="120px">
+                                    {EndDateTime}
+                                </td>
+                                <td>
+                                    {Status}
+                                </td>
+                                <td>
+                                    {ScoreDegree}
+                                </td>
+                            </tr>
+                        </tbody>
+                        <tbody class="loading">
+                            <tr>
+                                <td colspan="7" style="text-align: center">
+                                    <img src="/Areas/Adm/Images/loading_5.gif" />
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <div class="mt20" id="pageHomeworkDiv"></div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+@section head_style{
+    <link href="/Areas/Base/Scripts/Metronicv/assets/global/plugins/select2/select2.css" rel="stylesheet" />
+    <link href="/Areas/Base/Scripts/Metronicv/assets/global/css/plugins.css" rel="stylesheet" type="text/css">
+    <link href="/Areas/Base/Scripts/Metronicv/assets/global/plugins/icheck/skins/all.css" rel="stylesheet" />
+    <link href="/Areas/Base/Scripts/kindeditor-4.1.10/themes/default/default.css" rel="stylesheet" />
+    <link href="/Areas/Base/Content/plugin.extend.css" rel="stylesheet" />
+    <style>
+        #homeworkPagerBox .listTemplate.current {
+            background: #FF83FA;
+            color: #fff;
+        }
+    </style>
+}
+@section body_js{
+    <script src="/Areas/Base/Scripts/Metronicv/assets/global/plugins/select2/select2.js"></script>
+    <script src="/Areas/Base/Scripts/Metronicv/assets/global/plugins/select2/select2_locale_zh-CN.js"></script>
+    <script src="/Areas/Base/Scripts/Metronicv/assets/global/plugins/icheck/icheck.min.js"></script>
+    <script src="/Areas/Base/Scripts/formvalidation/dist/js/formValidation.js"></script>
+    <script src="/Areas/Base/Scripts/formvalidation/dist/js/framework/bootstrap.js"></script>
+    <script src="/Areas/Base/Scripts/formvalidation/dist/js/language/zh_CN.js"></script>
+    <script src="/Areas/Base/Scripts/kindeditor-4.1.10/kindeditor.js"></script>
+    <script src="/Areas/Base/Scripts/kindeditor-4.1.10/lang/zh_CN.js"></script>
+    <script src="/Areas/Base/Scripts/customer/plugin.extend.js"></script>
+    <script>
+        //初始化
+        $(function () {
+            //母版页
+            frontLayout({
+                title: "作业管理",
+                menuName: "Homework"
+            });
+
+            //插件
+            $("#studentSearch input[name='ClassId']").select2({
+                placeholder: "-请选择-",
+                allowClear: true,
+                formatSelection: function (item) { return item.Name; },
+                formatResult: function (item) { return item.Name; },
+                ajax: {
+                    url: getUrl("Class", "Pager"),
+                    dataType: "json",
+                    type: 'post',
+                    data: function (term, page) {
+                        return {
+                            PageSize: 999,
+                            SortBy: "Id",
+                            SortOrder: "asc"
+                        };
+                    },
+                    results: function (data, page) {                        
+                        var items = data.Rows;
+                        var more = (page * 30) < data.TotalRecords;
+                        $(items).each(function (i, item) {
+                            item.id = item.Id.toString();
+                            item.Name = item.Name;
+                        });
+                        if (page == 1) {
+                            items.unshift({ id: "", Name: "-请选择-" });
+                        }
+                        return { results: items, more: more };
+                    }
+                }
+            });
+
+            //分页
+            $("#pageHomeworkDiv").jqPager({
+                url: getUrl("Homework", "Pager", { area: "Adm" }),
+                pageNo: 1,
+                pageSize: 10,
+                pagerTempalte: "t2",
+                sortBy: "Id",
+                sortOrder: "desc",
+                loadBefore: function () {
+                    $("#homeworkPagerBox .list").hide();
+                    $("#homeworkPagerBox .loading").show();
+                },
+                loadComplete: function (data) {
+                    $("#homeworkPagerBox .list").show();
+                    $("#homeworkPagerBox .loading").hide();
+
+                    var rows = data.Rows;
+                    var template = $("#homeworkPagerBox .listTemplate").prop("outerHTML");
+                    $("#homeworkPagerBox .listTemplate").not(":first").remove();
+
+                    $(rows).each(function (i, row) {
+                        row.Index = i + 1;
+                        row.StartDateTime = $formatDate(row.StartDateTime, "yyyy年MM月dd日");
+                        row.EndDateTime = $formatDate(row.EndDateTime, "yyyy年MM月dd日");
+                        $("#homeworkPagerBox .listTemplate:last").after($(template.format(row)));
+                    });
+                    $("#homeworkPagerBox .listTemplate").not(":first").show();
+
+                    //点击事件
+                    $("#homeworkPagerBox .listTemplate").click(function (i) {
+                        var lt = $(this);
+                        $("#homeworkPagerBox .listTemplate").removeClass("current");
+                        $(lt).addClass("current");
+
+                        var status = $("#homeworkPagerBox .listTemplate.current").attr('_status');
+                        if (status == "已发布")
+                            $("#btnPublish").attr("disabled", true); //.hide();
+                        else
+                            $("#btnPublish").attr("disabled", false); //.show();
+                        if (status == "未发布")
+                            $("#btnUndoPublish").attr("disabled", true);
+                        else
+                            $("#btnUndoPublish").attr("disabled", false); //.show();
+                    });
+                }
+            });
+        });
+
+        //打开添加窗口
+        function open_create() {
+            $.ajax({
+                url: getUrl("Home", "HomeworkCreate"),
+                dataType: 'html',
+                type: 'get',
+                beforeSend: function () {
+
+                    layer.load(0, { shade: false });
+                },
+                success: function (html) {
+                    layer.closeAll("loading");
+                    layer.confirm(html, {
+                        title: '<i class="fa fa-plus"></i> 新增离线作业',
+                        area: ['900px', '550px'],
+                        btn: ['<i class="fa fa-save"></i>&nbsp;保存', '<i class="fa fa-times"></i>&nbsp;取消']
+                    }, function (v, box) {
+                        create();
+                    });
+                }
+            });
+        }
+
+        //添加
+        function create() {
+            if (!$('#create-form').formValidation("validate").data("formValidation").isValid()) return;
+
+            if ($("#create-form input[name='create.StartDateTime']").val() == null || $("#create-form input[name='create.StartDateTime']").val() == "") {
+                //layer.alert("开始时间不能为空！", { icon: 5 });
+                alert("开始时间不能为空！");
+                return;
+            }
+            if ($("#create-form input[name='create.EndDateTime']").val() == null || $("#create-form input[name='create.EndDateTime']").val() == "") {
+                //layer.alert("结束时间不能为空！", { icon: 5 });
+                alert("结束时间不能为空！");
+                return;
+            }
+            //同步Kindeditor内容
+            for (var i in KindEditor.instances) {
+                if (KindEditor.instances.hasOwnProperty(i)) {
+                    KindEditor.instances[i].sync();
+                }
+            }
+            $.ajax({
+                async: true,
+                type: "post",
+                dataType: "json",
+                data: $('#create-form').serialize(),
+                url: getUrl("Homework", "Create", { area: "Adm" }),
+                success: function (data) {
+                    $dialogShow(data);
+                    if (data.Type == "Success") {
+                        $("#pageHomeworkDiv").jqPager("gotoPage");
+                    }
+                    else {
+                        alert(data.Content);
+                    }
+                }
+            });
+        }
+
+        //打开编辑窗口
+        function open_edit() {
+            var Id = $("#homeworkPagerBox .listTemplate.current").attr('_id');
+            if (!Id) {
+                layer.alert("请选择记录后再操作！", { icon: 5 });
+                return;
+            }
+
+            $.ajax({
+                type: "POST",
+                dataType: "json",
+                data: { Id: Id },
+                url: getUrl("Homework", "Detail", { area: "Adm" }),
+                beforeSend: function () {
+                    layer.load(0, { shade: false });
+                },
+                success: function (data) {
+                    console.log(data);
+                    $.ajax({
+                        url: getUrl("Home", "HomeworkEdit"),
+                        dataType: 'html',
+                        type: 'get',
+                        success: function (html) {
+                            layer.closeAll("loading");
+                            layer.confirm(html, {
+                                title: '<i class="fa fa-pencil"></i> 编辑离线作业',
+                                area: ['900px', '550px'],
+                                btn: ['<i class="fa fa-save"></i>&nbsp;保存', '<i class="fa fa-times"></i>&nbsp;取消'],
+                            }, function (v, box) {
+                                edit();
+                            });                            
+
+                            $("#edit-form .form-control").bindData(data);
+                           
+                            //if (data.Classes) {
+                            //    var classData = [];
+                            //    $(data.Classes).each(function (i, d) {
+                            //        classData.push({ Id: d.Id, Name: d.Name });
+                            //    });
+                            //    $("#edit-form input[name='ClassIds']").select2("data", classData[0]);                               
+                            //}
+                            $("#edit-form input[name='edit.StartDateTime']").val($formatDate(data.StartDateTime, "yyyy年MM月dd日"));
+                            $("#edit-form input[name='edit.EndDateTime']").val($formatDate(data.EndDateTime, "yyyy年MM月dd日"));
+
+                            KindEditor.html('input[name="edit.Request"]', data.Request);
+                        }
+                    });
+                }
+            });
+        }
+
+        //编辑
+        function edit() {
+            if (!$('#edit-form').formValidation("validate").data("formValidation").isValid()) return;
+            if ($("#edit-form input[name='edit.StartDateTime']").val() == null || $("#edit-form input[name='edit.StartDateTime']").val() == "") {
+                //layer.alert("开始时间不能为空！", { icon: 5 });
+                alert("开始时间不能为空！");
+                return;
+            }
+            if ($("#edit-form input[name='edit.EndDateTime']").val() == null || $("#edit-form input[name='edit.EndDateTime']").val() == "") {
+                //layer.alert("结束时间不能为空！", { icon: 5 });
+                alert("结束时间不能为空！");
+                return;
+            }
+            //同步Kindeditor内容
+            for (var i in KindEditor.instances) {
+                if (KindEditor.instances.hasOwnProperty(i)) {
+                    KindEditor.instances[i].sync();
+                }
+            }
+            $.ajax({
+                async: true,
+                type: "post",
+                dataType: "json",
+                data: $('#edit-form').serialize(),
+                url: getUrl("Homework", "Edit", { area: "Adm" }),
+                success: function (data) {
+                    $dialogShow(data);
+                    if (data.Type == "Success") {
+                        $("#pageHomeworkDiv").jqPager("gotoPage");
+                    }
+                }
+            });
+        }
+
+        //删除
+        function del() {
+            layer.confirm("确定要删除记录？", {
+                btn: ['确认', '取消']
+            }, function () {
+                var Id = $("#homeworkPagerBox .listTemplate.current").attr('_id');
+                if (!Id) {
+                    layer.alert("请选择记录后再操作！", { icon: 5 });
+                    return;
+                }
+
+                var ids = [Id];
+                $.ajax({
+                    async: true,
+                    type: "post",
+                    dataType: "json",
+                    data: { ids: ids },
+                    url: getUrl("Homework", "Delete", { area: "Adm" }),
+                    success: function (data) {
+                        $dialogShow(data);
+                        if (data.Type == "Success") {
+                            $("#pageHomeworkDiv").jqPager("gotoPage");
+                        }
+                    }
+                });
+                layer.closeAll();
+            });
+
+
+        }
+
+        //查询
+        function btnStudentSearch() {
+            var queryParams = $("#pageHomeworkDiv").jqPager("getPostData");
+            $($("#studentSearch .form-control").serializeArray()).each(function (i, obj) {
+                queryParams[obj.name] = obj.value;
+            });
+            $("#pageHomeworkDiv").jqPager("gotoPage");
+        }
+
+        //作业成绩
+        function hw_score() {
+            var Id = $("#homeworkPagerBox .listTemplate.current").attr('_id');
+            if (!Id) {
+                layer.alert("请选择记录后再操作！", { icon: 5 });
+                return;
+            }
+            //$.ajax({
+            //    async: true,
+            //    type: "post",
+            //    dataType: "json",
+            //    data: $('#edit-form').serialize(),
+            //    url: getUrl("Home", "HomeworkScore"),
+            //    success: function (data) {
+            //        window.location.href = "homeworkscore.cshtml?id=" + Id;
+
+            //    }
+            //});
+
+            //两种跳转方法都可以   好看到了的
+            //window.location.href = "/jkt/Amd/Home/HomeworkScore?id=" + Id;
+            window.location.href = getUrl("Home", "HomeworkScore?id=" + Id);
+            ViewBag.Id = Id;
+        }
+
+        //打开发布答案窗口
+        function opensubmitanswer() {
+            var Id = $("#homeworkPagerBox .listTemplate.current").attr('_id');
+            if (!Id) {
+                layer.alert("请选择记录后再操作！", { icon: 5 });
+                return;
+            }
+            $.ajax({
+                type: "POST",
+                dataType: "json",
+                data: { Id: Id },
+                url: getUrl("Homework", "Detail", { area: "Adm" }),
+                beforeSend: function () {
+                    layer.load(0, { shade: false });
+                },
+                success: function (data) {
+                    $.ajax({
+                        url: getUrl("Home", "Submitanswer"),
+                        dataType: 'html',
+                        type: 'get',
+                        success: function (html) {
+                            layer.closeAll("loading");
+                            layer.confirm(html, {
+                                title: '<i class="fa fa-pencil"></i> 发布答案',
+                                area: ['600px', '270px'],
+                                btn: ['<i class="fa fa-save"></i>&nbsp;发布', '<i class="fa fa-times"></i>&nbsp;取消'],
+                            }, function (v, box) {
+                                submitanswer();
+                            });
+                            $("#submitanswer-form .form-control").bindData(data);
+                            //$("#submitanswer-form input[name='ClassIds']").select2("data", classData[0]);
+                            //KindEditor.html('input[name="edit.Request"]', data.Request);
+                        }
+                    });
+                }
+            });
+        }
+
+        //发布答案
+        function submitanswer() {
+            if (!$('#submitanswer-form').formValidation("validate").data("formValidation").isValid()) return;
+            $.ajax({
+                async: true,
+                type: "post",
+                dataType: "json",
+                data: $('#submitanswer-form').serialize(),
+                url: getUrl("Homework", "SubmitAnswer", { area: "Adm" }),
+                success: function (data) {
+                    $dialogShow(data);
+                    if (data.Type == "Success") {
+                        $("#pageHomeworkDiv").jqPager("gotoPage");
+                    }
+                }
+            });
+        }
+
+        //发布离线作业
+        function hw_publish() {
+            $dialogShow({
+                Type: "confirm",
+                Title: "发布",
+                Content: "确定要发布条目吗？",
+                SureFn: function (modal) {
+                    $(modal).on('hidden.bs.modal', function () {
+                        //var Id = $("#grid").jqGrid('getGridParam', 'selarrrow');
+                        var Id = $("#homeworkPagerBox .listTemplate.current").attr('_id');
+                        $.ajax({
+                            async: true,
+                            type: "post",
+                            dataType: "json",
+                            data: { Id: Id },
+                            url: getUrl("Homework", "PublisHomeWork"),
+                            success: function (data) {
+                                $dialogShow(data);
+                                if (data.Type == "Success") {
+                                    $("#pageHomeworkDiv").jqPager("gotoPage");
+                                }
+                            }
+                        });
+                    }).modal("hide");
+                }
+            });
+        }
+        //取消发布离线作业
+        function hw_undoPublish() {
+            $dialogShow({
+                Type: "confirm",
+                Title: "取消发布",
+                Content: "确定要取消发布条目吗？",
+                SureFn: function (modal) {
+                    $(modal).on('hidden.bs.modal', function () {
+                        //var Id = $("#grid").jqGrid('getGridParam', 'selarrrow');
+                        var Id = $("#homeworkPagerBox .listTemplate.current").attr('_id');
+                        $.ajax({
+                            async: true,
+                            type: "post",
+                            dataType: "json",
+                            data: { Id: Id },
+                            url: getUrl("Homework", "UndoPublisHomeWork"),
+                            success: function (data) {
+                                $dialogShow(data);
+                                if (data.Type == "Success") {
+                                    $("#pageHomeworkDiv").jqPager("gotoPage");
+                                }
+                            }
+                        });
+                    }).modal("hide");
+                }
+            });
+        }
+    </script>
+}
+
+

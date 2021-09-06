@@ -1,0 +1,34 @@
+﻿<div class="locat-box">
+    <div class="locat">
+        您的位置：<a onclick="goUrl(this, 'Home', 'Index')">首页</a>  &gt; <a class="current" href="">关于我们</a>
+    </div>
+</div>
+<div class="content clr">
+    <div class="boxshadowPlate">
+        <div class="plr70 pb50">
+            <div class="newinfo-box" id="siteAboutUs">
+                <div class="loadding text-align-center" style="line-height:200px;"><img src="/Areas/Front/templates/global/images/loading_5.gif" /></div>
+                <div class="con" style="display:none">
+                    {AboutUs}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+@section  body_js{
+    <script>
+        //初始化
+        $(function () {
+            //母版页
+            frontLayout({
+                title: "关于我们",
+                menuName: "aboutUs"
+            });
+
+            $("#siteAboutUs .loadding").hide();
+            $("#siteAboutUs").replaceFormat(appInfo.site);
+            $("#siteAboutUs .con").fadeIn(500);
+        });
+    </script>
+}
+

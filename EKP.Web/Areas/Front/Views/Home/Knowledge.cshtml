@@ -1,0 +1,166 @@
+﻿<div class="courseKnowledge-top"></div>
+<div class="main">
+    <div class="container">
+        <div class="row margin-bottom-40">
+            <div class="col-md-12 col-sm-12">
+                <div class="content-page">
+                    <div class="col-md-4 col-sm-4" id="projectTreeBox" style="float: left">
+                        <div class="loading" style="line-height: 300px;height: 300px;text-align:center">
+                            <img src="/Areas/Adm/Images/loading_5.gif" />
+                        </div>
+                        <ul class="list-unstyled projectTree" style="display: none">
+                        </ul>
+                    </div>
+                    <div class="col-md-8 col-sm-8" id="knowledgeBox" style="float: right;">
+                        <div class="loading" style="line-height: 300px;height: 300px;text-align:center;display: none">
+                            <img src="/Areas/Adm/Images/loading_5.gif" />
+                        </div>
+                        <div class="content-no" style="display:none;text-align:center;font-size:18px;">
+                            当前不存在数据
+                        </div>
+                        <div class="content-page">
+                            <div class="mix-grid">
+                                <div class="col-md-4 mix" d-id="{Id}" style="padding-right: 0;">
+                                    <div class="mix-inner" title="{Name}">
+                                        <div class="img-box">
+                                            <a class="fancybox" data-fancybox-group="gallery" href="{Picture}" title="{Order}、{Name}"><img class="img-responsive" src="{Picture}" alt="{Name}"></a>
+                                        </div>
+                                        <div class="label">
+                                            <div class="label-bg">{Order}、{Name}</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="mt20" id="pageKnowledgeDiv" style="margin-left:30px;"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+@section head_style{
+    <style>
+         .mix .img-box {
+             text-align: center;
+             overflow: hidden;
+         }
+
+        .mix .mix-inner {
+            border: 3px solid #F2F2F2;
+        }
+
+        .mix.active .mix-inner {
+            border: 3px solid #0da3e2;
+        }
+
+        .mix.used .img-box:after {
+            content: "正在使用";
+            position: absolute;
+            top: 0;
+            left: 0;
+            display: block;
+            padding: 3px 7px;
+            color: #373c42;
+            border: 0px solid #DDDDDD;
+            font-weight: 900;
+            border: 1px solid #e2c0c0;
+            background: #DDDDDD;
+        }
+
+        .mix img {
+            max-width: 100%;
+            height: 210px;
+            position: relative;
+            display: inline;
+            cursor: pointer;
+        }
+
+        .mix .label {
+            position: absolute;
+            width: 100%;
+            height: 40px;
+            bottom: 0;
+            padding: 0;
+        }
+
+        .mix .label-bg {
+            width: 100%;
+            height: 40px;
+            line-height: 40px;
+            top: 0;
+            left: 0;
+            background: #000000;
+            filter:Alpha(opacity=50);/* 只支持IE6、7、8、9 */
+            position:static; /* IE6、7、8只能设置position:static(默认属性) ，否则会导致子元素继承Alpha值 */
+            *zoom:1; /* 激活IE6、7的haslayout属性，让它读懂Alpha */
+            background-color: rgba(0,0,0,0.5);
+        }
+
+        .mix .label-text a {
+            color: #fff;
+        }
+    </style>
+}
+@section body_js{
+    <script src="/Areas/Base/Scripts/Metronicv/assets/global/plugins/jquery-mixitup/jquery.mixitup.min.js"></script>
+    <script>
+        //初始化
+        $(function() {
+            frontLayout({
+                title: "拓展学习",
+                menuName: "Knowledge"
+            });
+
+            //项目列表
+            var kbTempalte = $("#knowledgeBox .mix:first").prop("outerHTML");
+            loadProjectTree({
+                box: "#projectTreeBox",
+                mode: 3,
+                selectNode: function(nodeData) {
+                    $("#pageKnowledgeDiv").jqPager({
+                        url: getUrl("ProjectInfo", "Pager", { area: "Adm" }),
+                        pageNo: 1,
+                        pageSize: 9,
+                        pagerTempalte: "t2",
+                        sortBy: "CreateTime",
+                        sortOrder: "desc",
+                        postData: { Type: "Picture", ProjectId: nodeData.id },
+                        loadBefore: function() {
+                            $("#knowledgeBox .list").hide();
+                            $("#knowledgeBox .loading").show();
+                            $("#knowledgeBox .content-no").hide();
+                            $("#knowledgeBox .mix").remove();
+                        },
+                        loadComplete: function(data) {
+                            $("#knowledgeBox .list").show();
+                            $("#knowledgeBox .loading").hide();
+                            $("#knowledgeBox .content-no").hide();
+                            if (data == null || data.Rows.length <= 0) //没数据时隐藏
+                            {
+                                $("#pageKnowledgeDiv").hide();
+                                $("#knowledgeBox .content-no").show();
+                            }
+
+                            $(data.Rows).each(function(i, row) {
+                                row.Order = i + 1;
+                                var mix = $(kbTempalte.format(row));
+                                $("#knowledgeBox .mix-grid").append($(mix));
+                            });
+
+                            //插件
+                            $("#knowledgeBox .mix-grid").mixitup({
+                                targetSelector: '.mix',
+                                effects: ['fade'],
+                                easing: 'snap',
+                                onMixEnd: (function() {
+                                    $("#knowledgeBox .fancybox").fancybox();
+                                })()
+                            });
+                        }
+                    });
+                }
+            });
+        });
+    </script>
+}

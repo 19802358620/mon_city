@@ -1,0 +1,463 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl" Alias="Self" Namespace="EKP_JSModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2008">
+  <EntityType Name="T_AdmSetting">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Nullable="false" StoreGeneratedPattern="Identity" Type="int" />
+    <Property Name="SiteId" Type="int" />
+    <Property Name="UserId" Type="int" />
+    <Property Name="Layout" MaxLength="20" Type="nvarchar" />
+    <Property Name="Setting" MaxLength="200" Type="nvarchar" />
+    <Property Name="IsWork" MaxLength="20" Type="nvarchar" />
+    <Property Name="CreateIp" Nullable="false" MaxLength="20" Type="nvarchar" />
+    <Property Name="CreateBy" Nullable="false" Type="int" />
+    <Property Name="CreateTime" Nullable="false" Type="datetime" />
+    <Property Name="IsDeleted" Nullable="false" MaxLength="10" Type="nvarchar" />
+  </EntityType>
+  <EntityType Name="T_Authority">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Nullable="false" StoreGeneratedPattern="Identity" Type="int" />
+    <Property Name="Type" MaxLength="20" Type="nvarchar" />
+    <Property Name="Name" MaxLength="100" Type="nvarchar" />
+    <Property Name="RoleId" Type="int" />
+  </EntityType>
+  <EntityType Name="T_Class">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Nullable="false" StoreGeneratedPattern="Identity" Type="int" />
+    <Property Name="Name" MaxLength="50" Type="nvarchar" />
+    <Property Name="Remark" Type="nvarchar(max)" />
+    <Property Name="CreateIp" MaxLength="20" Type="nvarchar" />
+    <Property Name="CreateBy" Type="int" />
+    <Property Name="CreateTime" Type="datetime" />
+    <Property Name="IsDeleted" MaxLength="10" Type="nvarchar" />
+    <Property Name="SiteId" Type="int" />
+  </EntityType>
+  <EntityType Name="T_Detection">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Nullable="false" StoreGeneratedPattern="Identity" Type="int" />
+    <Property Name="ParentId" Type="int" />
+    <Property Name="Name" MaxLength="100" Type="nvarchar" />
+    <Property Name="ProjectId" Type="int" />
+    <Property Name="SortIndex" Type="int" />
+    <Property Name="CreateIp" MaxLength="20" Type="nvarchar" />
+    <Property Name="CreateBy" Type="int" />
+    <Property Name="CreateTime" Nullable="false" Type="datetime" />
+    <Property Name="IsDeleted" Nullable="false" MaxLength="10" Type="nvarchar" />
+    <Property Name="SiteId" Nullable="false" Type="int" />
+  </EntityType>
+  <EntityType Name="T_DetectionHand">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Nullable="false" StoreGeneratedPattern="Identity" Type="int" />
+    <Property Name="DetectiontId" Type="int" />
+    <Property Name="LastSubmitTime" Type="datetime" />
+    <Property Name="Status" MaxLength="20" Type="nvarchar" />
+    <Property Name="CreateBy" Nullable="false" Type="int" />
+    <Property Name="CreateTime" Nullable="false" Type="datetime" />
+    <Property Name="IsDeleted" Nullable="false" MaxLength="10" Type="nvarchar" />
+  </EntityType>
+  <EntityType Name="T_DetectionReply">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Nullable="false" StoreGeneratedPattern="Identity" Type="int" />
+    <Property Name="DetectionHandId" Type="int" />
+    <Property Name="SubjectId" Type="int" />
+    <Property Name="QuestionId" Type="int" />
+    <Property Name="Value" Type="nvarchar(max)" />
+    <Property Name="Score" Type="float" />
+    <Property Name="CreateBy" Nullable="false" Type="int" />
+    <Property Name="CreateTime" Nullable="false" Type="datetime" />
+    <Property Name="IsDeleted" Nullable="false" MaxLength="10" Type="nvarchar" />
+  </EntityType>
+  <EntityType Name="T_DetectionSetting">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Nullable="false" StoreGeneratedPattern="Identity" Type="int" />
+    <Property Name="ViewAnswerMode" MaxLength="50" Type="nvarchar" />
+    <Property Name="DetectionId" Type="int" />
+    <Property Name="UserId" Type="int" />
+    <Property Name="CreateIp" MaxLength="20" Type="nvarchar" />
+    <Property Name="CreateBy" Type="int" />
+    <Property Name="CreateTime" Type="datetime" />
+    <Property Name="IsDeleted" MaxLength="10" Type="nvarchar" />
+    <Property Name="SiteId" Type="int" />
+  </EntityType>
+  <EntityType Name="T_DictKey">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Nullable="false" StoreGeneratedPattern="Identity" Type="int" />
+    <Property Name="Key" Nullable="false" MaxLength="20" Type="nvarchar" />
+    <Property Name="Name" Nullable="false" MaxLength="50" Type="nvarchar" />
+    <Property Name="Note" MaxLength="100" Type="nvarchar" />
+    <Property Name="CreateTime" Nullable="false" Type="datetime" />
+    <Property Name="CreateBy" Type="int" />
+    <Property Name="IsDeleted" Nullable="false" MaxLength="10" Type="nvarchar" />
+    <Property Name="IsLock" MaxLength="10" Type="nvarchar" />
+  </EntityType>
+  <EntityType Name="T_DictValue">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Nullable="false" StoreGeneratedPattern="Identity" Type="int" />
+    <Property Name="ParentId" Type="int" />
+    <Property Name="KeyId" Nullable="false" Type="int" />
+    <Property Name="Value" Nullable="false" MaxLength="20" Type="nvarchar" />
+    <Property Name="ShowValue" MaxLength="100" Type="nvarchar" />
+    <Property Name="Remark" Type="nvarchar(max)" />
+    <Property Name="IsDeleted" Nullable="false" MaxLength="10" Type="nvarchar" />
+    <Property Name="IsWork" MaxLength="10" Type="nvarchar" />
+  </EntityType>
+  <EntityType Name="T_Homework">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Nullable="false" StoreGeneratedPattern="Identity" Type="int" />
+    <Property Name="Name" MaxLength="100" Type="nvarchar" />
+    <Property Name="Request" Type="varchar(max)" />
+    <Property Name="Link" MaxLength="50" Type="nvarchar" />
+    <Property Name="LinkName" MaxLength="50" Type="nvarchar" />
+    <Property Name="Attachment" MaxLength="100" Type="nvarchar" />
+    <Property Name="AttachmentName" MaxLength="100" Type="nvarchar" />
+    <Property Name="AnswerAttachment" MaxLength="100" Type="nvarchar" />
+    <Property Name="AnswerAttachmentName" MaxLength="100" Type="nvarchar" />
+    <Property Name="UserId" Type="int" />
+    <Property Name="DateTime" Type="datetime" />
+    <Property Name="StartDateTime" Type="datetime" />
+    <Property Name="EndDateTime" Type="datetime" />
+    <Property Name="Status" MaxLength="100" Type="nvarchar" />
+    <Property Name="ScoreDegree" MaxLength="50" Type="nvarchar" />
+    <Property Name="Remark" Type="nvarchar(max)" />
+    <Property Name="IsDeleted" MaxLength="50" Type="nvarchar" />
+  </EntityType>
+  <EntityType Name="T_HomeworkClass">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Nullable="false" StoreGeneratedPattern="Identity" Type="int" />
+    <Property Name="HomeworkId" Type="int" />
+    <Property Name="ClassId" MaxLength="50" Type="nvarchar" />
+    <Property Name="Remark" Type="nvarchar(max)" />
+  </EntityType>
+  <EntityType Name="T_HomeworkSubmit">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Nullable="false" StoreGeneratedPattern="Identity" Type="int" />
+    <Property Name="Answer" Type="varchar(max)" />
+    <Property Name="Attachment" MaxLength="100" Type="nvarchar" />
+    <Property Name="AttachmentName" MaxLength="100" Type="nvarchar" />
+    <Property Name="HomeworkId" Type="int" />
+    <Property Name="UserId" Type="int" />
+    <Property Name="SubmitDateTime" Type="datetime" />
+    <Property Name="Status" MaxLength="20" Type="nvarchar" />
+    <Property Name="DealDateTime" Type="datetime" />
+    <Property Name="Score" MaxLength="50" Type="nvarchar" />
+    <Property Name="Remark" Type="nvarchar(max)" />
+  </EntityType>
+  <EntityType Name="T_Info">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Nullable="false" StoreGeneratedPattern="Identity" Type="int" />
+    <Property Name="Type" MaxLength="20" Type="nvarchar" />
+    <Property Name="ContentType" MaxLength="20" Type="nvarchar" />
+    <Property Name="Title" MaxLength="200" Type="nvarchar" />
+    <Property Name="Cover" MaxLength="100" Type="nvarchar" />
+    <Property Name="Abstract" Type="varchar(max)" />
+    <Property Name="Content" Type="varchar(max)" />
+    <Property Name="Resource" MaxLength="50" Type="nvarchar" />
+    <Property Name="Writer" MaxLength="50" Type="nvarchar" />
+    <Property Name="CreateIp" MaxLength="20" Type="nvarchar" />
+    <Property Name="CreateBy" Type="int" />
+    <Property Name="IsDeleted" Nullable="false" MaxLength="10" Type="nvarchar" />
+    <Property Name="CreateTime" Nullable="false" Type="datetime" />
+    <Property Name="SiteId" Nullable="false" Type="int" />
+  </EntityType>
+  <EntityType Name="T_LearningResource">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Nullable="false" StoreGeneratedPattern="Identity" Type="int" />
+    <Property Name="Name" MaxLength="200" Type="nvarchar" />
+    <Property Name="Type" MaxLength="10" Type="nvarchar" />
+    <Property Name="Description" Type="varchar(max)" />
+    <Property Name="Attachment" MaxLength="100" Type="nvarchar" />
+    <Property Name="AttachmentName" MaxLength="100" Type="nvarchar" />
+    <Property Name="DateTime" Type="datetime" />
+    <Property Name="UserId" Nullable="false" Type="int" />
+    <Property Name="MyURL" Type="nvarchar(max)" />
+    <Property Name="MyURLName" MaxLength="50" Type="nvarchar" />
+    <Property Name="DownLoadCount" Type="int" />
+    <Property Name="SharedUserId" Type="int" />
+    <Property Name="SharedResourceId" Type="bigint" />
+    <Property Name="Remark" Type="nvarchar(max)" />
+  </EntityType>
+  <EntityType Name="T_LearningResourceClass">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Nullable="false" StoreGeneratedPattern="Identity" Type="bigint" />
+    <Property Name="ResourceId" Type="bigint" />
+    <Property Name="ClassId" MaxLength="50" Type="varchar" />
+    <Property Name="Remark" Type="nvarchar(max)" />
+  </EntityType>
+  <EntityType Name="T_Notice">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Nullable="false" StoreGeneratedPattern="Identity" Type="bigint" />
+    <Property Name="Title" MaxLength="20" Type="nvarchar" />
+    <Property Name="Content" Type="varchar(max)" />
+    <Property Name="InvalidDateTime" Type="datetime" />
+    <Property Name="DateTime" Type="datetime" />
+    <Property Name="UserId" Type="int" />
+    <Property Name="Type" MaxLength="20" Type="nvarchar" />
+    <Property Name="State" MaxLength="20" Type="nvarchar" />
+    <Property Name="Link" MaxLength="50" Type="nvarchar" />
+    <Property Name="LinkName" MaxLength="50" Type="nvarchar" />
+    <Property Name="Accessory" MaxLength="100" Type="nvarchar" />
+    <Property Name="AccessoryName" MaxLength="50" Type="nvarchar" />
+    <Property Name="Remark" Type="nvarchar(max)" />
+  </EntityType>
+  <EntityType Name="T_NoticeClass">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Nullable="false" StoreGeneratedPattern="Identity" Type="bigint" />
+    <Property Name="NoticeId" Type="bigint" />
+    <Property Name="ClassId" Type="int" />
+    <Property Name="Remark" Type="nvarchar(max)" />
+  </EntityType>
+  <EntityType Name="T_Project">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Nullable="false" StoreGeneratedPattern="Identity" Type="int" />
+    <Property Name="ParentId" Type="int" />
+    <Property Name="Name" Nullable="false" MaxLength="50" Type="nvarchar" />
+    <Property Name="Type" MaxLength="20" Type="nvarchar" />
+    <Property Name="LearningTarget" Type="varchar(max)" />
+    <Property Name="LearningImport" Type="varchar(max)" />
+    <Property Name="TaskDescription" Type="varchar(max)" />
+    <Property Name="TaskPrepare" Type="varchar(max)" />
+    <Property Name="TaskImple" Type="varchar(max)" />
+    <Property Name="ExtendedLearning" Type="varchar(max)" />
+    <Property Name="ProjectGuidance" Type="varchar(max)" />
+    <Property Name="SortIndex" Type="int" />
+    <Property Name="CreateIp" MaxLength="20" Type="nvarchar" />
+    <Property Name="CreateBy" Type="int" />
+    <Property Name="CreateTime" Type="datetime" />
+    <Property Name="IsDeleted" MaxLength="10" Type="nvarchar" />
+    <Property Name="SiteId" Type="int" />
+  </EntityType>
+  <EntityType Name="T_ProjectInfo">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Nullable="false" StoreGeneratedPattern="Identity" Type="int" />
+    <Property Name="Type" MaxLength="20" Type="nvarchar" />
+    <Property Name="Name" MaxLength="200" Type="nvarchar" />
+    <Property Name="Picture" MaxLength="500" Type="nvarchar" />
+    <Property Name="Video" MaxLength="500" Type="nvarchar" />
+    <Property Name="Content" Type="varchar(max)" />
+    <Property Name="ProjectId" Type="int" />
+    <Property Name="CreateBy" Type="int" />
+    <Property Name="CreateTime" Nullable="false" Type="datetime" />
+    <Property Name="IsDeleted" Nullable="false" MaxLength="10" Type="nvarchar" />
+    <Property Name="SiteId" Nullable="false" Type="int" />
+  </EntityType>
+  <EntityType Name="T_Question">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Nullable="false" StoreGeneratedPattern="Identity" Type="int" />
+    <Property Name="Name" Type="nvarchar(max)" />
+    <Property Name="Type" MaxLength="50" Type="nvarchar" />
+    <Property Name="Options" MaxLength="1000" Type="nvarchar" />
+    <Property Name="OptionsColumns" Type="int" />
+    <Property Name="Answer" Type="varchar(max)" />
+    <Property Name="SubjectId" Type="int" />
+    <Property Name="CreateBy" Nullable="false" Type="int" />
+    <Property Name="CreateTime" Nullable="false" Type="datetime" />
+    <Property Name="IsDeleted" Nullable="false" MaxLength="10" Type="nvarchar" />
+  </EntityType>
+  <EntityType Name="T_Role">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Nullable="false" StoreGeneratedPattern="Identity" Type="int" />
+    <Property Name="Name" Nullable="false" MaxLength="50" Type="nvarchar" />
+    <Property Name="Grade" MaxLength="50" Type="nvarchar" />
+    <Property Name="Key" MaxLength="20" Type="nvarchar" />
+    <Property Name="Description" MaxLength="300" Type="nvarchar" />
+    <Property Name="CreateIp" MaxLength="20" Type="nvarchar" />
+    <Property Name="CreateBy" Type="int" />
+    <Property Name="CreateTime" Nullable="false" Type="datetime" />
+    <Property Name="IsDeleted" Nullable="false" MaxLength="10" Type="nvarchar" />
+    <Property Name="SiteId" Nullable="false" Type="int" />
+  </EntityType>
+  <EntityType Name="T_Site">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Nullable="false" StoreGeneratedPattern="Identity" Type="int" />
+    <Property Name="Name" MaxLength="100" Type="nvarchar" />
+    <Property Name="ParentId" Type="int" />
+    <Property Name="Type" MaxLength="50" Type="nvarchar" />
+    <Property Name="Logo" MaxLength="500" Type="nvarchar" />
+    <Property Name="TopBanner" MaxLength="500" Type="nvarchar" />
+    <Property Name="Favicon" MaxLength="500" Type="nvarchar" />
+    <Property Name="Domain" Nullable="false" MaxLength="20" Type="nvarchar" />
+    <Property Name="Status" MaxLength="20" Type="nvarchar" />
+    <Property Name="Province" MaxLength="20" Type="nvarchar" />
+    <Property Name="City" MaxLength="20" Type="nvarchar" />
+    <Property Name="AboutUs" Type="nvarchar(max)" />
+    <Property Name="Helper" Type="nvarchar(max)" />
+    <Property Name="Telephone" MaxLength="50" Type="nvarchar" />
+    <Property Name="Fax" MaxLength="50" Type="nvarchar" />
+    <Property Name="Email" MaxLength="50" Type="nvarchar" />
+    <Property Name="Address" Type="nvarchar(max)" />
+    <Property Name="FundSupport" MaxLength="200" Type="nvarchar" />
+    <Property Name="Technical" MaxLength="200" Type="nvarchar" />
+    <Property Name="Copyright" MaxLength="1000" Type="nvarchar" />
+    <Property Name="Manual" Type="nvarchar(max)" />
+    <Property Name="MetaKeywords" MaxLength="200" Type="nvarchar" />
+    <Property Name="MetaDescription" MaxLength="500" Type="nvarchar" />
+    <Property Name="EnWeChat" MaxLength="500" Type="nvarchar" />
+    <Property Name="CourseIntroduce" Type="varchar(max)" />
+    <Property Name="CreateIp" MaxLength="20" Type="nvarchar" />
+    <Property Name="CreateBy" Nullable="false" Type="int" />
+    <Property Name="CreateTime" Nullable="false" Type="datetime" />
+    <Property Name="IsDeleted" Nullable="false" MaxLength="10" Type="nvarchar" />
+    <Property Name="SiteId" Nullable="false" Type="int" />
+    <Property Name="Title" MaxLength="100" Type="nvarchar" />
+  </EntityType>
+  <EntityType Name="T_Subject">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Nullable="false" StoreGeneratedPattern="Identity" Type="int" />
+    <Property Name="Name" Type="nvarchar(max)" />
+    <Property Name="Type" MaxLength="20" Type="nvarchar" />
+    <Property Name="Analysis" Type="nvarchar(max)" />
+    <Property Name="DetectionId" Type="int" />
+    <Property Name="Score" Type="float" />
+    <Property Name="CreateBy" Nullable="false" Type="int" />
+    <Property Name="CreateTime" Nullable="false" Type="datetime" />
+    <Property Name="IsDeleted" Nullable="false" MaxLength="10" Type="nvarchar" />
+  </EntityType>
+  <EntityType Name="T_User">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Nullable="false" StoreGeneratedPattern="Identity" Type="int" />
+    <Property Name="Account" MaxLength="50" Type="nvarchar" />
+    <Property Name="Status" MaxLength="50" Type="nvarchar" />
+    <Property Name="Type" MaxLength="10" Type="nvarchar" />
+    <Property Name="RealName" MaxLength="50" Type="nvarchar" />
+    <Property Name="PassWord" MaxLength="80" Type="nvarchar" />
+    <Property Name="Ips" MaxLength="500" Type="nvarchar" />
+    <Property Name="RoleId" Type="int" />
+    <Property Name="Email" MaxLength="100" Type="nvarchar" />
+    <Property Name="Photo" MaxLength="300" Type="nvarchar" />
+    <Property Name="Phone" MaxLength="20" Type="nvarchar" />
+    <Property Name="Telephone" MaxLength="50" Type="nvarchar" />
+    <Property Name="IDNumber" MaxLength="50" Type="nvarchar" />
+    <Property Name="Age" Type="int" />
+    <Property Name="Province" MaxLength="50" Type="nvarchar" />
+    <Property Name="City" MaxLength="50" Type="nvarchar" />
+    <Property Name="Sex" MaxLength="10" Type="nvarchar" />
+    <Property Name="DrivingAge" Type="int" />
+    <Property Name="AllowCarType" Type="int" />
+    <Property Name="CarTestType" Type="int" />
+    <Property Name="School" MaxLength="50" Type="nvarchar" />
+    <Property Name="Grade" MaxLength="50" Type="nvarchar" />
+    <Property Name="Major" MaxLength="50" Type="nvarchar" />
+    <Property Name="ClassIds" MaxLength="100" Type="nvarchar" />
+    <Property Name="CreateBy" Type="int" />
+    <Property Name="CreateIp" MaxLength="20" Type="nvarchar" />
+    <Property Name="CreateTime" Nullable="false" Type="datetime" />
+    <Property Name="IsDeleted" Nullable="false" MaxLength="10" Type="nvarchar" />
+    <Property Name="SiteId" Nullable="false" Type="int" />
+    <Property Name="Attribute" MaxLength="10" Type="nvarchar" />
+    <Property Name="Education" MaxLength="50" Type="nvarchar" />
+  </EntityType>
+  <EntityType Name="T_Video">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Nullable="false" StoreGeneratedPattern="Identity" Type="int" />
+    <Property Name="Title" MaxLength="200" Type="nvarchar" />
+    <Property Name="Description" Type="nvarchar(max)" />
+    <Property Name="Pic" Type="nvarchar(max)" />
+    <Property Name="URL" Type="nvarchar(max)" />
+    <Property Name="VideoURL" Type="nvarchar(max)" />
+    <Property Name="AudioURL" Type="nvarchar(max)" />
+    <Property Name="TxtURL" Type="nvarchar(max)" />
+    <Property Name="TxtContent" Type="varchar(max)" />
+    <Property Name="QRCode" Type="nvarchar(max)" />
+    <Property Name="Contents" Type="varchar(max)" />
+    <Property Name="Count" Type="int" />
+    <Property Name="VideoTreeId" Type="int" />
+    <Property Name="Remark" Type="nvarchar(max)" />
+  </EntityType>
+  <EntityType Name="T_VideoTree">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Nullable="false" StoreGeneratedPattern="Identity" Type="int" />
+    <Property Name="Name" MaxLength="50" Type="nvarchar" />
+    <Property Name="ParentId" Type="int" />
+    <Property Name="Remark" Type="nvarchar(max)" />
+  </EntityType>
+  <EntityType Name="V_HomeworkClass">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Nullable="false" Type="int" />
+    <Property Name="HomeworkId" Type="int" />
+    <Property Name="ClassId" MaxLength="50" Type="nvarchar" />
+    <Property Name="Remark" Type="nvarchar(max)" />
+    <Property Name="ClassName" MaxLength="50" Type="nvarchar" />
+  </EntityType>
+  <EntityContainer Name="EKP_JSModelStoreContainer">
+    <EntitySet Name="T_AdmSetting" EntityType="Self.T_AdmSetting" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="T_Authority" EntityType="Self.T_Authority" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="T_Class" EntityType="Self.T_Class" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="T_Detection" EntityType="Self.T_Detection" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="T_DetectionHand" EntityType="Self.T_DetectionHand" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="T_DetectionReply" EntityType="Self.T_DetectionReply" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="T_DetectionSetting" EntityType="Self.T_DetectionSetting" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="T_DictKey" EntityType="Self.T_DictKey" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="T_DictValue" EntityType="Self.T_DictValue" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="T_Homework" EntityType="Self.T_Homework" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="T_HomeworkClass" EntityType="Self.T_HomeworkClass" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="T_HomeworkSubmit" EntityType="Self.T_HomeworkSubmit" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="T_Info" EntityType="Self.T_Info" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="T_LearningResource" EntityType="Self.T_LearningResource" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="T_LearningResourceClass" EntityType="Self.T_LearningResourceClass" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="T_Notice" EntityType="Self.T_Notice" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="T_NoticeClass" EntityType="Self.T_NoticeClass" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="T_Project" EntityType="Self.T_Project" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="T_ProjectInfo" EntityType="Self.T_ProjectInfo" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="T_Question" EntityType="Self.T_Question" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="T_Role" EntityType="Self.T_Role" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="T_Site" EntityType="Self.T_Site" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="T_Subject" EntityType="Self.T_Subject" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="T_User" EntityType="Self.T_User" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="T_Video" EntityType="Self.T_Video" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="T_VideoTree" EntityType="Self.T_VideoTree" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="V_HomeworkClass" EntityType="Self.V_HomeworkClass" Schema="dbo" store:Type="Tables" />
+  </EntityContainer>
+</Schema>

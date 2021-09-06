@@ -1,0 +1,516 @@
+﻿<div class="portlet">
+    <div class="portlet-body form">
+        <div class="tabbable tabbable-custom">
+            <ul class="nav nav-tabs">
+                <li>
+                    <a href="#tab_0" data-toggle="tab">
+                        基本信息
+                    </a>
+                </li>
+                <li id="tabbox_1" style="display: none">
+                    <a href="#tab_1" data-toggle="tab">
+                        相关知识
+                    </a>
+                </li>
+                <li id="tabbox_2" style="display: none">
+                    <a href="#tab_2" data-toggle="tab">
+                        学习导入
+                    </a>
+                </li>
+                <li id="tabbox_3" style="display: none">
+                    <a href="#tab_3" data-toggle="tab">
+                        任务描述
+                    </a>
+                </li>
+                <li id="tabbox_4" style="display: none">
+                    <a href="#tab_4" data-toggle="tab">
+                        任务准备
+                    </a>
+                </li>
+                <li id="tabbox_5" style="display: none">
+                    <a href="#tab_5" data-toggle="tab">
+                        任务实施
+                    </a>
+                </li>
+                <li id="tabbox_6" style="display: none">
+                    <a href="#tab_6" data-toggle="tab">
+                        知识拓展
+                    </a>
+                </li>
+                <li id="tabbox_7" style="display: none">
+                    <a href="#tab_7" data-toggle="tab">
+                        思考与练习
+                    </a>
+                </li>
+                <li id="tabbox_8" style="display: none">
+                    <a href="#tab_8" data-toggle="tab">
+                        知识与技能
+                    </a>
+                </li>
+                <li id="tabbox_9" style="display: none">
+                    <a href="#tab_9" data-toggle="tab">
+                        拓展学习
+                    </a>
+                </li>
+                <li id="tabbox_10" style="display: none">
+                    <a href="#tab_10" data-toggle="tab">
+                        视频微课
+                        
+                    </a>
+                </li>
+            </ul>
+            <div class="tab-content padding-0">
+                <div class="tab-pane" id="tab_0">
+                    <div class="portlet-body">
+                        <div class="portlet-body form">
+                            <form action="javascript:;" class="form-horizontal" id="project_baseInfo_form" role="form">
+                                <input type="text" class="form-control " name="project.Id" style="display: none">
+                                <div class="form-body">
+                                    <div class="form-group">
+                                        <label class="col-md-3 control-label"><span class="required"> * </span>名称</label>
+                                        <div class="col-md-4">
+                                            <input type="text" class="form-control" name="project.Name">
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label class="col-md-3 control-label"><span class="required">* </span>类型</label>
+                                        <div class="col-md-2">
+                                            <select name="project.Type" class="form-control">
+                                                <option value="project" selected="selected">项目</option>
+                                                <option value="task">任务</option>
+                                            </select>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label class="col-md-3 control-label">顺序号</label>
+                                        <div class="col-md-2">
+                                            <input type="text" class="form-control" name="project.SortIndex">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-actions">
+                                    <div class="row">
+                                        <div class="col-md-offset-3 col-md-9">
+                                            <button type="button" class="btn purple" onclick="saveBaseInfo()">
+                                                <i class="fa fa-save"></i>
+                                                保存
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+                <div class="tab-pane" id="tab_1">
+                    <div class="portlet-body form">
+                        <form action="javascript:;" class="form-horizontal" id="project_LearningTarget_form">
+                            <input type="text" class="form-control" name="Id" style="display: none" />
+                            <div class="form-body">
+                                <div class="form-group">
+                                    <label class="control-label col-md-2">相关知识：</label>
+                                    <div class="col-md-8">
+                                        <input class="kindeditor form-control" name="LearningTarget" style="height:600px;" />
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-actions">
+                                <div class="row">
+                                    <div class="col-md-offset-2 col-md-9">
+                                        <button type="button" class="btn blue" onclick="btnSaveField(this, 'LearningTarget')">
+                                            <i class="fa fa-save"></i>
+                                            保存
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+                <div class="tab-pane" id="tab_2">
+                    <div class="portlet-body form">
+                        <form action="javascript:;" class="form-horizontal" id="project_LearningImport_form">
+                            <input type="text" class="form-control" name="Id" style="display: none" />
+                            <div class="form-body">
+                                <div class="form-group">
+                                    <label class="control-label col-md-2">学习导入：</label>
+                                    <div class="col-md-8">
+                                        <input class="kindeditor form-control" name="LearningImport" style="height:600px;" />
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-actions">
+                                <div class="row">
+                                    <div class="col-md-offset-2 col-md-9">
+                                        <button type="button" class="btn blue" onclick="btnSaveField(this, 'LearningImport')">
+                                            <i class="fa fa-save"></i>
+                                            保存
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+                <div class="tab-pane" id="tab_3">
+                    <div class="portlet-body form">
+                        <form action="javascript:;" class="form-horizontal" id="project_TaskDescription_form">
+                            <input type="text" class="form-control" name="Id" style="display: none" />
+                            <div class="form-body">
+                                <div class="form-group">
+                                    <label class="control-label col-md-2">任务描述：</label>
+                                    <div class="col-md-8">
+                                        <input class="kindeditor form-control" name="TaskDescription" style="height:600px;" />
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-actions">
+                                <div class="row">
+                                    <div class="col-md-offset-2 col-md-9">
+                                        <button type="button" class="btn blue" onclick="btnSaveField(this, 'TaskDescription')">
+                                            <i class="fa fa-save"></i>
+                                            保存
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+                <div class="tab-pane" id="tab_4">
+                    <div class="portlet-body form">
+                        <form action="javascript:;" class="form-horizontal" id="project_TaskPrepare_form">
+                            <input type="text" class="form-control" name="Id" style="display: none" />
+                            <div class="form-body">
+                                <div class="form-group">
+                                    <label class="control-label col-md-2">任务准备：</label>
+                                    <div class="col-md-8">
+                                        <input class="kindeditor form-control" name="TaskPrepare" style="height:600px;" />
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-actions">
+                                <div class="row">
+                                    <div class="col-md-offset-2 col-md-9">
+                                        <button type="button" class="btn blue" onclick="btnSaveField(this, 'TaskPrepare')">
+                                            <i class="fa fa-save"></i>
+                                            保存
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+                <div class="tab-pane" id="tab_5">
+                    <div class="portlet-body form">
+                        <form action="javascript:;" class="form-horizontal" id="project_TaskImple_form">
+                            <input type="text" class="form-control" name="Id" style="display: none" />
+                            <div class="form-body">
+                                <div class="form-group">
+                                    <label class="control-label col-md-2">任务实施：</label>
+                                    <div class="col-md-8">
+                                        <input class="kindeditor form-control" name="TaskImple" style="height:600px;" />
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-actions">
+                                <div class="row">
+                                    <div class="col-md-offset-2 col-md-9">
+                                        <button type="button" class="btn blue" onclick="btnSaveField(this, 'TaskImple')">
+                                            <i class="fa fa-save"></i>
+                                            保存
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+                <div class="tab-pane" id="tab_6">
+                    <div class="portlet-body form">
+                        <form action="javascript:;" class="form-horizontal" id="project_ExtendedLearning_form">
+                            <input type="text" class="form-control" name="Id" style="display: none" />
+                            <div class="form-body">
+                                <div class="form-group">
+                                    <label class="control-label col-md-2">知识拓展：</label>
+                                    <div class="col-md-8">
+                                        <input class="kindeditor form-control" name="ExtendedLearning" style="height:600px;" />
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-actions">
+                                <div class="row">
+                                    <div class="col-md-offset-2 col-md-9">
+                                        <button type="button" class="btn blue" onclick="btnSaveField(this, 'ExtendedLearning')">
+                                            <i class="fa fa-save"></i>
+                                            保存
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+                <div class="tab-pane" id="tab_7">
+                    
+                </div>
+                <div class="tab-pane" id="tab_8">
+                    <div class="portlet-body form">
+                        <form action="javascript:;" class="form-horizontal" id="project_ProjectGuidance_form">
+                            <input type="text" class="form-control" name="Id" style="display: none" />
+                            <div class="form-body">
+                                <div class="form-group">
+                                    <label class="control-label col-md-2">知识与技能：</label>
+                                    <div class="col-md-8">
+                                        <input class="kindeditor form-control" name="ProjectGuidance" style="height:600px;" />
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-actions">
+                                <div class="row">
+                                    <div class="col-md-offset-2 col-md-9">
+                                        <button type="button" class="btn blue" onclick="btnSaveField(this, 'ProjectGuidance')">
+                                            <i class="fa fa-save"></i>
+                                            保存
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+                <div class="tab-pane" id="tab_9">
+                    
+                </div>
+                <div class="tab-pane" id="tab_10">
+                    
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="clearfix"></div>
+<style>
+    #tab_subject .btn-box {
+        line-height: 100px;
+        margin-top: 90px;
+    }
+
+    #subject_chobox .label {
+        float: left;
+    }
+
+        #subject_chobox .label:empty {
+            display: inline-block;
+        }
+
+    #subject_chobox h3.empty {
+        text-align: center;
+        line-height: 230px;
+        color: #B3B3B3;
+    }
+
+    .ui-sortable-placeholder {
+        visibility: visible !important;
+        background-color: white !important;
+        border: 1px dashed #B3B3B3 !important;
+    }
+</style>
+<script>
+    var project = getProject(selectNode.id);
+    var currentTab = gloQs.tab || "#tab_0";
+
+    /*********************** 全局 *********************************/
+    $(function () {
+        //插件
+        KeHelper.create('.kindeditor');
+        $("#project_baseInfo_form select").select2();
+
+        //UI显示
+        if (project.Type == "project") {
+            $("#tabbox_8").show();
+        }
+        else if (project.Type == "task") {
+            @*$("#tabbox_1, #tabbox_2, #tabbox_3, #tabbox_4, #tabbox_5, #tabbox_6, #tabbox_7, #tabbox_9, #tabbox_10").show();*@
+            $("#tabbox_1,#tabbox_6, #tabbox_7, #tabbox_9, #tabbox_10").show();
+        }
+
+        //tab切换
+        $('a[data-toggle="tab"]').on('shown.bs.tab', function (e) {
+            currentTab = $(e.target).attr("href");
+            $(window).trigger("resize");
+            if (currentTab == "#tab_0") {
+                if ($("#tab_0").hasClass("loaded")) return;
+                $("#tab_0").addClass("loaded"); 
+                initBase();
+            }
+            else if (currentTab == "#tab_1") {
+                if ($("#tab_1").hasClass("loaded")) return;
+                $("#tab_1").addClass("loaded");
+                initField("#project_LearningTarget_form");
+            }
+            else if (currentTab == "#tab_2") {
+                if ($("#tab_2").hasClass("loaded")) return;
+                $("#tab_2").addClass("loaded");
+                initField("#project_LearningImport_form");
+            }
+            else if (currentTab == "#tab_3") {
+                if ($("#tab_3").hasClass("loaded")) return;
+                $("#tab_3").addClass("loaded");
+                initField("#project_TaskDescription_form");
+            }
+            else if (currentTab == "#tab_4") {
+                if ($("#tab_4").hasClass("loaded")) return;
+                $("#tab_4").addClass("loaded");
+                initField("#project_TaskPrepare_form");
+            }
+            else if (currentTab == "#tab_5") {
+                if ($("#tab_5").hasClass("loaded")) return;
+                $("#tab_5").addClass("loaded");
+                initField("#project_TaskImple_form");
+            }
+            else if (currentTab == "#tab_6") {
+                if ($("#tab_6").hasClass("loaded")) return;
+                $("#tab_6").addClass("loaded");
+                initField("#project_ExtendedLearning_form");
+            }
+            else if (currentTab == "#tab_7") {
+                if ($("#tab_7").hasClass("loaded")) return;
+                $("#tab_7").addClass("loaded");
+                initDetection();
+            }
+            else if (currentTab == "#tab_8") {
+                if ($("#tab_8").hasClass("loaded")) return;
+                $("#tab_8").addClass("loaded");
+                initField("#project_ProjectGuidance_form");
+            }
+            else if (currentTab == "#tab_9") {
+                if ($("#tab_9").hasClass("loaded")) return;
+                $("#tab_9").addClass("loaded");
+                initKnowledge();
+            }
+            else if (currentTab == "#tab_10") {
+                if ($("#tab_10").hasClass("loaded")) return;
+                $("#tab_10").addClass("loaded");
+                initVideo();
+            }
+        });
+        $(".nav-tabs li a[href='{0}']".format(currentTab)).tab('show');
+    });
+
+    /********************* 基本信息 ******************************/
+    //初始化基本信息
+    function initBase() {
+        //初始化值
+        $("#project_baseInfo_form .form-control").bindData(project);
+
+        //表单验证
+        $('#project_baseInfo_form').formValidation({
+            fields: {
+                "project.Name": {
+                    validators: {
+                        notEmpty: {
+                            message: '名称不能为空.'
+                        }
+                    }
+                }
+            }
+        });
+    }
+
+    //获取模块
+    function getProject(id) {
+        var detail = null;
+        $.ajax({
+            async: false,
+            type: "POST",
+            dataType: "json",
+            url: getUrl("Project", "Detail", { id: id }),
+            success: function (data) {
+                detail = data;
+            }
+        }); 
+        return detail;
+    }
+
+    //保存
+    function saveBaseInfo() {
+        if (!$('#project_baseInfo_form').formValidation("validate").data("formValidation").isValid()) return;
+
+        $.ajax({
+            type: "post",
+            dataType: "json",
+            data: $('#project_baseInfo_form').serialize(),
+            url: getUrl("Project", "Edit"),
+            success: function (data) {
+                $dialogShow(data);
+
+                if (data.Type == "Success") {
+                    setTimeout(function () {
+                        window.location.href = urlhelper.setParams({ tab: escape(currentTab) });
+                    }, 500);
+                }
+            }
+        });
+    }
+
+    /******************** 相关知识-扩展训练 ***********************/
+    //初始化
+    function initField(from) {
+        //初始化表单值
+        $(from).find(".form-control").bindData(project);
+        $(from).find(".kindeditor").each(function(i, ke) {
+            var filedName = $(ke).attr("name");
+            KindEditor.html(ke, project[filedName]);
+        });
+    }
+
+    //保存
+    function btnSaveField(btn, field) {
+        //同步Kindeditor内容
+        for (var i in KindEditor.instances) {
+            if (KindEditor.instances.hasOwnProperty(i)) {
+                KindEditor.instances[i].sync();
+            }
+        }
+
+        var form = $(btn).closest("form");
+        var model = {
+            model: $(form).serializeObject(),
+            fields: [field]
+        };
+        $.ajax({
+            type: "post",
+            dataType: "json",
+            data: model,
+            url: getUrl("Project", "EditField"),
+            success: function (data) {
+                $dialogShow(data);
+
+                //if (data.Type == "Success") {
+                //    setTimeout(function () {
+                //        window.location.href = urlhelper.setParams({ tab: escape(currentTab) });
+                //    }, 500);
+                //}
+            }
+        });
+    }
+
+    /******************** 自我检测 *******************************/
+    function initDetection() {
+        loadView("#tab_7", getUrl("Detection", "Tree"));
+    }
+
+    /******************** 知识拓展 *******************************/
+    function initKnowledge() {
+        loadView("#tab_9", getUrl("ProjectInfo", "KnowledgePager"));
+    }
+
+    /******************** 动画演示 *******************************/
+    function initVideo() {
+        loadView("#tab_10", getUrl("ProjectInfo", "VideoPager"));
+    }
+</script>

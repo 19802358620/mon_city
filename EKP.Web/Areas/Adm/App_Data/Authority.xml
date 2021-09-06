@@ -1,0 +1,37 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Authority>
+  <System title="中心站">
+	  <Menu name="App" title="系统信息" class="icon-settings" href="javascript:;">
+		  <Menu name="Adm.Site.Edit" title="编辑站点" class="" href="/Site/Edit">
+		  </Menu>
+		  <Menu name="Adm.Role.Pager" title="角色管理" class="" href="/Role/Pager">
+		  </Menu>
+	      <Menu name="Adm.Class.Pager" title="班级管理" class="" href="/Class/Pager">
+		  </Menu>
+	      <Menu name="Adm.Project.Tree" title="项目管理" class="" href="/Project/Tree">
+		  </Menu>
+	  </Menu>
+	  <Menu name="User" title="用户管理" class="icon-user" href="javascript:;">
+		  <Menu name="Adm.User.Pager" title="管理员" class="" href="/User/Pager">
+		  </Menu>
+	      <Menu name="Adm.User.TeacherPager" title="教师管理" class="" href="/User/TeacherPager">
+		  </Menu>
+	      <Menu name="Adm.User.StudentPager" title="学生管理" class="" href="/User/StudentPager">
+		  </Menu>
+	  </Menu>
+    <Menu name="Business" title="业务数据" class="icon-user" href="javascript:;">
+      <Menu name="Adm.Homework.Pager" title="作业管理" class="" href="/Homework/Pager">
+      </Menu>
+      <Menu name="Adm.Notice.Pager" title="通知管理" class="" href="/Notice/Pager">
+      </Menu>
+      <Menu name="Adm.Resource.Pager" title="资源管理" class="" href="/Resource/Pager">
+      </Menu>
+    </Menu>
+	  <Menu name="DictKey" title="数据字典" class="icon-notebook" href="javascript:;">
+		  <Menu name="Adm.DictValue.Pager.AllowCarType" title="准驾车型" class="" href="/DictValue/Pager?key=AllowCarType">
+		  </Menu>
+		  <Menu name="Adm.DictValue.Pager.CarTestType" title="考试类型" class="" href="/DictValue/Pager?key=CarTestType">
+		  </Menu>
+	  </Menu>
+  </System>
+</Authority>

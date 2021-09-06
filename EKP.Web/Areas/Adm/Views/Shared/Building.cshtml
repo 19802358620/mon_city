@@ -1,0 +1,25 @@
+﻿<div class="row">
+    <div class="col-md-12">
+        建设中...
+    </div>
+</div>
+@section  body_js{
+    <script>
+        jQuery(document).ready(function () {
+            Metronic.init();
+            Layout.init();
+            QuickSidebar.init();
+            Demo.init();
+            Index.init();
+            Index.initDashboardDaterange();
+            Index.initJQVMAP();
+            Index.initCalendar();
+            Index.initCharts();
+            Index.initChat();
+            Index.initMiniCharts();
+
+            var p = $getQueryString("p");
+            zsa_initlay(p);
+        });
+    </script>
+}

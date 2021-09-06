@@ -1,0 +1,219 @@
+﻿<div class="row">
+    <div class="col-md-6">
+        <div class="portlet blue box">
+            <div class="portlet-title">
+                <div class="caption">
+                    <i class="fa fa-cogs"></i>访问权限
+                </div>
+                <div class="tools">
+                    <button type="button" class="btn btn-sm blue" onclick="btnBack()">
+                        <i class="fa fa-mail-reply"></i>
+                        返回
+                    </button>
+                    <button type="button" class="btn btn-sm blue" onclick="btnSave('System')">
+                        <i class="fa fa-save"></i>
+                        保存
+                    </button>
+                </div>
+            </div>
+            <div class="portlet-body treeBox">
+                <div id="authorityJsTree">
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-6">
+        <div class="portlet green-meadow box">
+            <div class="portlet-title">
+                <div class="caption">
+                    <i class="fa fa-cogs"></i>资源权限
+                </div>
+                <div class="tools">
+                    <button type="button" class="btn btn-sm green-meadow" onclick="btnSave('Resource')">
+                        <i class="fa fa-save"></i>
+                        保存
+                    </button>
+                </div>
+            </div>
+            <div class="portlet-body treeBox">
+                <div id="resourceTree" class="tree-demo">
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-6">
+        <div class="portlet red-pink box">
+            <div class="portlet-title">
+                <div class="caption">
+                    <i class="fa fa-cogs"></i>数据库权限
+                </div>
+            </div>
+            <div class="portlet-body">
+                <div id="tree_3" class="tree-demo">
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+@section head_style{
+    <style>
+        .treeBox{
+            height:400px;
+            overflow:auto;
+        }
+    </style>
+}
+@section  body_js{
+    <script src="~/Areas/Base/Scripts/Metronicv/assets/global/plugins/jstree/dist/jstree.min.js"></script>
+    <script>
+        //初始化
+        $(function () {
+            Metronic.init();
+            Layout.init();
+            admLayout({ menuName: gloQs.menuName, title: "设置权限" });
+
+            //访问权限
+            $.ajax({
+                type: "post",
+                dataType: "json",
+                data: {
+                    RoleId: gloQs.id,
+                    Type: "System",
+                    PageSize: 99999,
+                    Page: 1
+                },
+                url: getUrl("Authority", "Pager"),
+                success: function (data) {
+                    var selects = data.Rows;
+                    
+                    //加载树
+                    $("#authorityJsTree").jstree({
+                        core: {
+                            themes: {
+                                "responsive": false
+                            },
+                            check_callback: true,
+                            data: {
+                                url: getUrl("Authority", "AuthorityTree", { roleId: gloQs.id, type: "System" }),
+                                dataType: "json",
+                                type: "POST"
+                            }
+                        },
+                        types: {
+                            "default": {
+                                "icon": "fa fa-folder icon-state-warning icon-lg"
+                            },
+                            "file": {
+                                "icon": "fa fa-file icon-state-warning icon-lg"
+                            }
+                        },
+                        plugins: ["types", "checkbox"]
+                    }).bind("loaded.jstree", function (e, data) {
+                        data.instance.open_all();
+                        if (selects && selects.length) {
+                            $(selects).each(function (i, s) {
+                                var id = s.Name;
+                                var node = $("#authorityJsTree").jstree("get_node", id);
+                                if (node) {
+                                    $("#authorityJsTree").jstree("select_node", node);
+                                }
+                            });
+                        }
+                    });
+                }
+            });
+
+            //资源权限
+            $.ajax({
+                type: "post",
+                dataType: "json",
+                data: {
+                    RoleId: gloQs.id,
+                    Type: "Resource",
+                    PageSize: 99999,
+                    Page: 1
+                },
+                url: getUrl("Authority", "Pager"),
+                success: function (data) {
+                    var selects = data.Rows;
+
+                    //加载树
+                    $("#resourceTree").jstree({
+                        core: {
+                            themes: {
+                                "responsive": false
+                            },
+                            check_callback: true,
+                            data: {
+                                url: getUrl("Authority", "AuthorityTree", { siteId: gloQs.id, type: "Resource" }),
+                                dataType: "json",
+                                type: "POST"
+                            }
+                        },
+                        types: {
+                            "default": {
+                                "icon": "fa fa-folder icon-state-warning icon-lg"
+                            },
+                            "file": {
+                                "icon": "fa fa-file icon-state-warning icon-lg"
+                            }
+                        },
+                        plugins: ["types", "checkbox"]
+                    }).bind("loaded.jstree", function (e, data) {
+                        data.instance.open_all();
+
+                        if (selects && selects.length) {
+                            $(selects).each(function (i, s) {
+                                var id = s.Name;
+                                var node = $("#resourceTree").jstree("get_node", id);
+                                if (node) {
+                                    $("#resourceTree").jstree("select_node", node);
+                                }
+                            });
+                        }
+                    });
+                }
+            });
+        });
+
+        //保存
+        function btnSave(type) {
+            var nodes = null;
+            if (type == "System") {
+                nodes = $('#authorityJsTree').jstree().get_checked(true);
+            } else if (type == "Resource") {
+                nodes = $('#resourceTree').jstree().get_checked(true);
+            }
+            var models = new Array();
+            $(nodes).each(function () {
+                if (!this.children || this.children.length == 0) {
+                    models.push({
+                        Type: type,
+                        Name: this.id,
+                        RoleId: gloQs.id
+                    });
+                }
+            });
+            $.ajax({
+                type: "post",
+                dataType: "json",
+                data: {
+                    roleId: gloQs.id,
+                    type: type,
+                    models: models
+                },
+                url: getUrl("Authority", "CreateAuthoritys"),
+                success: function (data) {
+                    $dialogShow(data);
+                }
+            });
+        }
+
+        //返回
+        function btnBack() {
+            window.location.href = gloQs.returnUrl;
+        }
+    </script>
+}

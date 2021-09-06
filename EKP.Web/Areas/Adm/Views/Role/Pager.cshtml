@@ -1,0 +1,232 @@
+﻿<div class="portlet light">
+    <div class="portlet-body">
+        <div class="row">
+            <div class="btn-group col-md-12">
+                <ul class="nav nav-pills col-md-8 no-margin-bottom" id="grid-toolbar">
+                    <li>
+                        <button class="btn blue" onclick="open_create()">
+                            <i class="fa fa-plus"></i>
+                            新增
+                        </button>
+                    </li>
+                    <li>
+                        <button class="btn blue toolbar-data" disabled="disabled" onclick="open_edit()">
+                            <i class="fa fa-pencil"></i>
+                            编辑
+                        </button>
+                    </li>
+                    <li>
+                        <button class="btn blue toolbar-datas" disabled="disabled" onclick="del()">
+                            <i class="fa fa-trash"></i>
+                            删除
+                        </button>
+                    </li>
+                    <li class="search-split">
+                        |
+                    </li>
+                    <li>
+                        <button class="btn blue toolbar-datas" disabled="disabled" onclick="auth()">
+                            <i class="fa fa-gear"></i>
+                            设置权限
+                        </button>
+                    </li>
+                </ul>
+                <div class="form-group col-md-4 margin-bottom-0" id="search">
+                    <div class="col-md-offset-2 col-md-10 padding-right-0">
+                        <div class="input-group">
+                            <input type="text" class="form-control input input-left" name="KeyWord" placeholder="关键字">
+                            <span class="input-group-btn">
+                                <a href="javascript:;" class="btn btn blue input-right" onclick="btnSearch()">
+                                    <i class="fa fa-search"></i> 检索
+                                </a>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-12">
+                <div class="table-scrollable col-md-12">
+                    <table id="grid"></table>
+                    <table id="gridPager"></table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+@section  body_js{
+    <script>
+        var menuName = "Adm.Role.Pager";
+        //初始化
+        $(function () {
+            Metronic.init();
+            Layout.init();
+            admLayout({ menuName: menuName });
+            //列表
+            $("#grid").jqGrid({
+                url: getUrl("Role", "Pager"),
+                pager: "#gridPager",
+                toolbar: "#grid-toolbar",
+                sortname: "CreateTime",
+                sortorder: "desc",
+                postData: { SiteId: appInfo.site.Id },
+                colModel: [
+                    { name: 'Id', label: 'Id', key: true, hidden: true },
+                    {name: 'Name', label: '角色名'},
+                    { name: 'Grade', label: '角色等级' },
+                    { name: 'SiteName', index: "T_Site.Name", label: '所属站点' },
+                    { name: 'CreateTime', label: '创建时间', formatter: 'date', formatoptions: { newformat: 'Y-m-d' } }
+                ],
+                onSelectRow: function (rowId) {
+                    $("#grid").jqGrid('getGridParam', 'updateToolbar')(this);
+                },
+                onSelectAll: function () {
+                    $("#grid").jqGrid('getGridParam', 'updateToolbar')(this);
+                },
+                loadComplete: function () {
+                    $("#grid").jqGrid('getGridParam', 'updateToolbar')(this);
+                    $("#grid").jqGrid('getGridParam', 'loadCompleteExt')(this);
+                }
+            });
+        });
+
+        //打开添加窗口
+        function open_create() {
+            $.ajax({
+                url: getUrl("Role", "Create"),
+                dataType: 'html',
+                type: 'get',
+                beforeSend: function () {
+                    layer.load(0, { shade: false });
+                },
+                success: function (html) {
+                    layer.closeAll("loading");
+                    layer.confirm(html, {
+                        title: '<i class="fa fa-plus"></i> 新增角色',
+                        area: ['700px'],
+                        btn: ['<i class="fa fa-save"></i>&nbsp;保存', '<i class="fa fa-times"></i>&nbsp;取消']
+                    }, function (v, box) {
+                        create();
+                    });
+                }
+            });
+        }
+
+        //打开编辑窗口
+        function open_edit() {
+            var id = $("#grid").jqGrid('getGridParam', 'selrow');
+            $.ajax({
+                type: "POST",
+                dataType: "json",
+                data: { id: id },
+                url: getUrl("Role", "Detail"),
+                beforeSend: function () {
+                    layer.load(0, { shade: false });
+                },
+                success: function (data) {
+                    $.ajax({
+                        url: getUrl("Role", "Edit"),
+                        dataType: 'html',
+                        type: 'get',
+                        success: function (html) {
+                            layer.closeAll("loading");
+                            layer.confirm(html, {
+                                title: '<i class="fa fa-pencil"></i> 编辑角色',
+                                area: ['700px'],
+                                btn: ['<i class="fa fa-save"></i>&nbsp;保存', '<i class="fa fa-times"></i>&nbsp;取消'],
+                            }, function (v, box) {
+                                edit();
+                            });
+                            $("#edit-form .form-control").bindData(data);
+                            $("#edit-form input[name='SiteId']").select2("data", { id: data.SiteId, Name: data.SiteName });
+                        }
+                    });
+                }
+            });
+        }
+
+        //添加
+        function create() {
+            if (!$('#create-form').formValidation("validate").data("formValidation").isValid()) return;
+            $.ajax({
+                async: true,
+                type: "post",
+                dataType: "json",
+                data: $('#create-form').serialize(),
+                url: getUrl("Role", "Create"),
+                success: function (data) {
+                    $dialogShow(data);
+                    if (data.Type == "Success") {
+                        $("#grid").trigger('reloadGrid');
+                    }
+                }
+            });
+        }
+
+        //编辑
+        function edit() {
+            if (!$('#edit-form').formValidation("validate").data("formValidation").isValid()) return;
+            $.ajax({
+                async: true,
+                type: "post",
+                dataType: "json",
+                data: $('#edit-form').serialize(),
+                url: getUrl("Role", "Edit"),
+                success: function (data) {
+                    $dialogShow(data);
+                    if (data.Type == "Success") {
+                        $("#grid").trigger('reloadGrid');
+                    }
+                }
+            });
+        }
+
+        //删除
+        function del() {
+            $dialogShow({
+                Type: "confirm",
+                Title: "删除",
+                Content: "确定要删除所选条目吗？",
+                SureFn: function (modal) {
+                    $(modal).on('hidden.bs.modal', function () {
+                        var ids = $("#grid").jqGrid('getGridParam', 'selarrrow');
+                        $.ajax({
+                            async: true,
+                            type: "post",
+                            dataType: "json",
+                            data: { ids: ids },
+                            url: getUrl("Role", "Delete"),
+                            success: function (data) {
+                                $dialogShow(data);
+                                if (data.Type == "Success") {
+                                    $("#grid").trigger('reloadGrid');
+                                }
+                            }
+                        });
+                    }).modal("hide");
+                }
+            });
+        }
+
+        //打开设置权限
+        function auth() {
+            var id = $("#grid").jqGrid('getGridParam', 'selrow');
+            window.location.href = getUrl("Authority", "RoleAuthority", {
+                id: id,
+                returnUrl: escape(window.location.href),
+                menuName: menuName
+            });
+        }
+
+        //查询
+        function btnSearch() {
+            var queryParams = $("#grid").jqGrid("getGridParam", "postData");
+            $($("#search .form-control").serializeArray()).each(function (i, obj) {
+                queryParams[obj.name] = obj.value;
+            });
+
+            $("#grid").jqGrid("setGridParam", { postData: queryParams }).trigger("reloadGrid");
+        }
+    </script>
+}
+
+

@@ -1,0 +1,41 @@
+﻿<form action="#" id="importExcel-form" class="form-horizontal" novalidate="novalidate" >
+    <div class="form-body">
+        <div class="form-group">
+            <label class="control-label col-md-2">
+                <span class="required">* </span>Excel 
+            </label>
+            <div class="col-md-10">
+                <div class="input-group">
+                    <div>
+                        <input class="form-control" name="Excel" />
+                    </div>
+                    <div class="input-group-btn" >
+                        <button type="button" class="btn blue" onclick="importExcelFile()"><i class="fa fa-upload"></i> 上传</button>
+                        <a style="border-radius:0;margin-left:10px;" class="btn blue" target="_blank" href="~/Areas/Adm/Temp/Resource/学生上传模板.xls"><i class="fa fa-download"></i> 下载模板</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>
+
+<script>
+    //导入excel
+    function importExcelFile() {
+        KindEditor.basePath = '/Areas/Base/Scripts/kindeditor-4.1.10/';
+        var editor = KindEditor.editor({
+                cssPath: '/Areas/Base/Scripts/kindeditor-4.1.10/plugins/code/prettify.css',
+                uploadJson: '/Areas/Base/Scripts/kindeditor-4.1.10/asp.net/upload_json.ashx',
+                fileManagerJson: '/Areas/Base/Scripts/kindeditor-4.1.10/asp.net/file_manager_json.ashx'
+            });
+            editor.loadPlugin('insertfile',
+                function () {
+                    editor.plugin.fileDialog({
+                        clickFn: function (url, title) {
+                            $("#importExcel-form [name='Excel']").val(url);
+                            editor.hideDialog();
+                        }
+                    });
+                });
+    }
+</script>

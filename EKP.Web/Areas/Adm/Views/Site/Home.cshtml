@@ -1,0 +1,99 @@
+﻿<div class="row">
+    <div class="col-md-12">
+        <div class="portlet light">
+            <div class="portlet-title">
+                <div class="caption">
+                    <i class="icon-home font-green-sharp"></i>
+                    <span class="caption-subject font-green-sharp bold uppercase">
+                        网站首页
+                    </span>
+                    <span class="caption-helper">编辑</span>
+                </div>
+                <div class="actions btn-set">
+                    <button type="button" name="back" class="btn btn-default btn-circle btnBack" onclick="btnBack()" style="display:none"><i class="fa fa-angle-left"></i> 返回</button>
+                </div>
+            </div>
+            <div class="tabbable tabbable-custom boxless tabbable-reversed">
+                <ul class="nav nav-tabs">
+                    <li>
+                        <a href="#tab_0" data-toggle="tab">
+                            选择模板
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#tab_2" data-toggle="tab">
+                            布局设计
+                        </a>
+                    </li>
+                </ul>
+                <div class="tab-content">
+                    <div class="tab-pane" id="tab_0">
+                        <div class="form-actions margin-bottom-20">
+                            <div class="row">
+                                <div class="col-md-9">
+                                    <button type="button" class="btn blue" onclick="btnSaveShareTemplate('#homeViewTemplateView .mix-grid', 'HomeIndex')">
+                                        <i class="fa fa-save"></i>
+                                        保存模板
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                        <div id="homeViewTemplateView">
+
+                        </div>
+                    </div>
+                    <div class="tab-pane" id="tab_2">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+@section  head_style{
+}
+@section  body_js{
+    <script>
+        var menu = gloQs.menu || "Adm.Site.Home";
+        var site = gloQs.id ? getSite(gloQs.id) : appInfo.site;
+        var currentTab = gloQs.tab || "#tab_0";
+
+        //初始化
+        $(function () {
+            Metronic.init();
+            Layout.init();
+            admLayout({ menuName: menu });
+
+            //UI显示
+            if (gloQs.returnUrl) {
+                $(".btnBack").show();
+            }
+
+            //tab切换
+            $('a[data-toggle="tab"]').on('shown.bs.tab', function (e) {
+                currentTab = $(e.target).attr("href");
+                if (currentTab == "#tab_0") {
+                    $("#tab_0").addClass("loaded");
+                    loadView("#homeViewTemplateView", getUrl("SiteViewTemplate", "UseViewTemplate"), {
+                        success: function () {
+                            initViewTemplate({
+                                box: "#homeViewTemplateView",
+                                siteId: site.Id,
+                                viewTemplateType: "HomeIndex"
+                            });
+                        }
+                    });
+                }
+                else if (currentTab == "#tab_2") {
+                    $("#tab_2").addClass("loaded");
+                    loadView("#tab_2", getUrl("HomeLayout", "Design"), {
+                        success: function () {
+
+                        }
+                    });
+                }
+            });
+            $(".nav-tabs li a[href='{0}']".format(currentTab)).tab('show');
+        });
+    </script>
+}
+

@@ -1,0 +1,122 @@
+﻿<link href="~/Areas/Base/Scripts/bootstrap/datetimepicker/css/bootstrap-datetimepicker.css" rel="stylesheet" />
+<link href="~/Areas/Base/Scripts/bootstrap/datetimepicker/css/bootstrap-datetimepicker.min.css" rel="stylesheet" />
+<script src="~/Areas/Base/Scripts/bootstrap/datetimepicker/js/bootstrap-datetimepicker.js"></script>
+<script src="~/Areas/Base/Scripts/bootstrap/datetimepicker/js/bootstrap-datetimepicker.min.js"></script>
+<script src="~/Areas/Base/Scripts/bootstrap/datetimepicker/js/locales/bootstrap-datetimepicker.zh-CN.js"></script>
+<form id="create-form" class="form-horizontal" novalidate="novalidate">
+    <div class="form-body">
+        <div class="col-md-12">
+            <div class="form-group">
+                <label class="col-md-2 control-label"><span class="required"> * </span>资源名称</label>
+                <div class="col-md-10">
+                    <input type="text" class="form-control" name="create.Name">
+                </div>
+            </div>
+        </div>
+        <div class="col-md-12">
+            <div class="form-group">
+                <label class="control-label col-md-4">
+                    <span class="required" aria-required="true">* </span>资源类型
+                </label>
+                <div class="col-md-8">
+                    <select name="Type" class="form-control">
+                        <option value="课件">课件</option>
+                        <option value="教学大纲" selected="selected">教学大纲/option>
+                        <option value="讲义">讲义</option>
+                        <option value="其他">其他</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-12">
+            <div class="form-group">
+                <label class="control-label col-md-4">
+                    <span class="required" aria-required="true">* </span>附件
+                </label>
+                <div class="col-md-8">
+                    <input id="Attachment" type="text" name="create.Attachment" class="form-control">
+                </div>
+            </div>
+        </div>
+        <div class="col-md-12">
+            <div class="form-group">
+                <label class="control-label col-md-4">
+                    <span class="required" aria-required="true">* </span>链接
+                </label>
+                <div class="col-md-8">
+                    <input type="text" class="form-control" id="MyURL"  placeholder="请输入名称">
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="form-group">
+                <label class="control-label col-md-4">
+                    班级 <span class="required" aria-required="true">
+                    </span>
+                </label>
+                <div class="col-md-8">
+                    <input type="text" name="SharedUserId" data-required="1" class="form-control">
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-12">
+            <div class="form-group">
+                <label class="col-md-2 control-label">描述</label>
+                <div class="col-md-10">
+                    <textarea class="form-control" name="create.Remark" rows="3"></textarea>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>
+
+<script>
+    //初始化
+    $(function () {
+        //初始化插件
+        $("#create-form input[name='SiteId']").select2({
+            placeholder: "-请选择-",
+            allowClear: true,
+            formatSelection: function (item) { return item.Name; },
+            formatResult: function (item) { return item.Name; },
+            ajax: {
+                url: getUrl("Site", "Pager"),
+                dataType: "json",
+                type: 'post',
+                data: function (term, page) {
+                    return {
+                        Page: page, PageSize: 30, sortBy: 'Name', sortOrder: 'asc', Name: term,
+                        SiteId: appInfo.site.Id
+                    };
+                },
+                results: function (data, page) {
+                    var items = data.Rows;
+                    var more = (page * 30) < data.TotalRecords;
+                    $(items).each(function (i, item) {
+                        item.id = item.Id.toString();
+                        item.Name = item.Name;
+                    });
+                    if (page == 1) {
+                        items.unshift({ id: "", Name: "-请选择-" });
+                    }
+                    return { results: items, more: more };
+                }
+            }
+        });
+
+        //表单验证
+        $('#create-form').formValidation({
+            verbose: false,
+            fields: {
+                "create.Name": {
+                    validators: {
+                        notEmpty: {
+                            message: '角色名不能为空.'
+                        }
+                    }
+                }
+            }
+        });
+    });
+</script>
